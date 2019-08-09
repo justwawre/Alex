@@ -3,26 +3,11 @@ A developer in telecom industry now.
 
 
 ### published
-
+[Link](published) 
 
 ### workshop
+[Link](workshop) 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+**Contact:**  _xuyc@sina.com_ 
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Contact:**  _xuyc@sina.com_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
