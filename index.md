@@ -50,18 +50,16 @@ Innovated some feature besides the product line, e.g.:
     a cash flow statement function via book keeping tag.
 
 ## Education:
-Beijing University of Posts and Telecoms  master of CS                         2002 – 2005                                          
-Xi’an Jiaotong university                 Bachelor of CS                       1990-1994
-
+* Beijing University of Posts&Telecoms  master of CS    2002 – 2005
+* Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## ref
-[code demo in daily work or just for fu](demo) 
-
-[article published](published) 
-[workshop hold during work](workshop)
-[LTE troubleshooting](LTE_troubleshooting)
-[Innovation](Innovation) 
-[Honor](Honor) 
+* [code demo in daily work or just for fu](demo) 
+* [article published](published) 
+* [workshop hold during work](workshop)
+* [LTE troubleshooting](LTE_troubleshooting)
+* [Innovation](Innovation) 
+* [Honor](Honor) 
 ## **Contact:**  
 _xuyc@sina.com_ 
 
