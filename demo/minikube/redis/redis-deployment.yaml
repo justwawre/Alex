@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: redis
+        image: redis:5.0.0
+        env:
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: "0.1"
+        volumeMounts:
+        - name: redis-storage
+          mountPath: /data/
+        - mountPath: /redis-master
+          name: config
+      volumes:
+      - name: redis-storage
+        hostPath:
+        # directory location on host
+          path: /home/alex/k8s/redis
+      - name: config
+        configMap:
+          name: redis-config
+          items:
+          - key: redis-config
+            path: redis.conf
+

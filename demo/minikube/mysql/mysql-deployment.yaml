@@ -1,0 +1,35 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: "mysql-app"
+spec:
+  selector:
+    matchLabels:
+      app: "mysql-app"
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: "mysql-app"
+    spec:
+      containers:
+      - image: mysql:5.7.23
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password      
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:  
+          claimName: mysql-pv-claim 

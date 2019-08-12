@@ -1,0 +1,30 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  selector: 
+    matchLabels: 
+      app: mongo 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name:  mongo-container
+        image: docker.io/mongo:4.1.4
+        volumeMounts:
+        - mountPath: /mongo
+          name: mongo-volume
+      volumes:
+      - name: mongo-volume
+        hostPath:
+        # directory location on host
+          path: /home/alex/k8s/mongo
+
+
