@@ -1,0 +1,22 @@
+enb(10.68.173.75)-------sg eth0 (10.68.173.155) eth1 (11.68.173.1)
+
+
+
+
+
+
+
+列出可以 monitor的interface
+
+[root@localhost alex]# tcpdump -D
+1.eth0
+2.eth1
+
+tcpdump -i 1 -s 1000 -w eth0.pcap  -tt
+tcpdump -i 2 -s 1000 -w eth1.pcap  -tt
+
+
+结果：
+eth1.pcap 为空，对于 switch 抓到的4个esp（ping ）包，eth0 可以看到  packet 145  实际上是逐个解开esp 包： 
+
+

@@ -1,0 +1,184 @@
+﻿
+[root@localhost etc]# ipsec start
+Starting strongSwan 4.5.3 IPsec [starter]...
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/key/af_key.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/ipv4/ah4.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/ipv4/esp4.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/xfrm/xfrm_ipcomp.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/ipv4/ipcomp.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/ipv4/tunnel4.ko
+insmod /lib/modules/2.6.32-71.el6.i686/kernel/net/ipv4/xfrm4_tunnel.ko
+
+
+[root@localhost etc]# ipsec listall
+000
+000 List of Public Keys:
+000
+000   identity: 'C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78'
+000   pubkey:    RSA 2048 bits, until Jan 26 08:32:16 2014 ok
+000   keyid:     52:ea:f0:91:f1:27:0d:93:7a:3b:80:cf:8a:d4:5b:ff:12:b9:9b:5a
+000   issuer:   "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+000   serial:    03:01:84
+000
+000 List of X.509 End Entity Certificates:          //这个跟 public key 的关系？？
+000
+000   subject:  "C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78"
+000   issuer:   "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+000   serial:    03:01:84
+000   validity:  not before Jan 27 08:32:16 2009 ok
+000              not after  Jan 26 08:32:16 2014 ok
+000   pubkey:    RSA 2048 bits, has private key
+000   keyid:     52:ea:f0:91:f1:27:0d:93:7a:3b:80:cf:8a:d4:5b:ff:12:b9:9b:5a
+000   subjkey:   d0:3c:b6:c6:07:c9:31:09:56:01:b6:9a:ac:1f:35:35:41:c5:2c:0b
+000   authkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+000
+000 List of X.509 CA Certificates:
+000
+000   subject:  "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+000   issuer:   "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"    //自签署
+000   serial:    35:5d
+000   validity:  not before May 14 06:06:34 2008 ok
+000              not after  May 12 06:06:34 2018 ok
+000   pubkey:    RSA 1024 bits
+000   keyid:     cf:26:dd:0d:27:3c:19:f9:03:0e:45:2f:82:ee:18:2a:93:6d:31:86
+000   subjkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+000   authkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+000   pathlen:   1
+000
+000 List of registered IKEv1 Algorithms:
+000
+000   encryption: 3DES_CBC[des] AES_CBC[aes]
+000   integrity:  HMAC_MD5[md5] HMAC_SHA1[sha1] HMAC_SHA2_256[sha2] HMAC_SHA2_38                                                                              4[sha2] HMAC_SHA2_512[sha2]
+000   dh-group:   MODP_1024[gmp] MODP_1536[gmp] MODP_2048[gmp] MODP_3072[gmp] MO                                                                              DP_4096[gmp] MODP_6144[gmp] MODP_8192[gmp]
+000               MODP_1024_160[gmp] MODP_2048_224[gmp] MODP_2048_256[gmp]
+000   random-gen: RNG_STRONG[random] RNG_TRUE[random]
+000
+000 List of registered ESP Algorithms:
+000
+000   encryption: DES_CBC 3DES_CBC CAST_CBC BLOWFISH_CBC NULL AES_CBC AES_CTR AE                                                                              S_CCM_8 AES_CCM_12 AES_CCM_16 AES_GCM_8
+000               AES_GCM_12 AES_GCM_16 CAMELLIA_CBC AES_GMAC SERPENT_CBC TWOFIS                                                                              H_CBC
+000   integrity:  HMAC_MD5 HMAC_SHA1 HMAC_SHA2_256 HMAC_RIPEMD AES_XCBC_96 NULL                                                                               HMAC_SHA2_256_96
+
+List of X.509 End Entity Certificates:
+
+  subject:  "C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78"
+  issuer:   "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+  serial:    03:01:84
+  validity:  not before Jan 27 08:32:16 2009, ok
+             not after  Jan 26 08:32:16 2014, ok
+  pubkey:    RSA 2048 bits, has private key
+  keyid:     52:ea:f0:91:f1:27:0d:93:7a:3b:80:cf:8a:d4:5b:ff:12:b9:9b:5a
+  subjkey:   d0:3c:b6:c6:07:c9:31:09:56:01:b6:9a:ac:1f:35:35:41:c5:2c:0b
+  authkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+
+List of X.509 CA Certificates:
+
+  subject:  "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+  issuer:   "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"
+  serial:    35:5d
+  validity:  not before May 14 06:06:34 2008, ok
+             not after  May 12 06:06:34 2018, ok
+  pubkey:    RSA 1024 bits
+  keyid:     cf:26:dd:0d:27:3c:19:f9:03:0e:45:2f:82:ee:18:2a:93:6d:31:86
+  subjkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+  authkey:   d6:7c:67:31:9c:9f:7c:c8:fb:40:60:c0:94:53:86:28:48:18:f9:0d
+  pathlen:   1
+
+List of registered IKEv2 Algorithms:
+
+  encryption: AES_CBC[aes] 3DES_CBC[des] DES_CBC[des] DES_ECB[des]
+  integrity:  AES_XCBC_96[xcbc] HMAC_SHA1_96[hmac] HMAC_SHA1_128[hmac] HMAC_SHA1                                                                              _160[hmac] HMAC_SHA2_256_128[hmac]
+              HMAC_SHA2_256_256[hmac] HMAC_MD5_96[hmac] HMAC_MD5_128[hmac] HMAC_                                                                              SHA2_384_192[hmac]
+              HMAC_SHA2_384_384[hmac] HMAC_SHA2_512_256[hmac]
+  aead:
+  hasher:     HASH_SHA1[sha1] HASH_SHA224[sha2] HASH_SHA256[sha2] HASH_SHA384[sh                                                                              a2] HASH_SHA512[sha2] HASH_MD5[md5]
+  prf:        PRF_KEYED_SHA1[sha1] PRF_FIPS_SHA1_160[fips-prf] PRF_AES128_XCBC[x                                                                              cbc] PRF_HMAC_SHA1[hmac]
+              PRF_HMAC_SHA2_256[hmac] PRF_HMAC_MD5[hmac] PRF_HMAC_SHA2_384[hmac]                                                                               PRF_HMAC_SHA2_512[hmac]
+  dh-group:   MODP_2048[gmp] MODP_2048_224[gmp] MODP_2048_256[gmp] MODP_1536[gmp                                                                              ] MODP_3072[gmp] MODP_4096[gmp]
+              MODP_6144[gmp] MODP_8192[gmp] MODP_1024[gmp] MODP_1024_160[gmp] MO                                                                              DP_768[gmp] MODP_CUSTOM[gmp]
+  random-gen: RNG_STRONG[random] RNG_TRUE[random]
+  
+  
+  
+[root@localhost etc]# ipsec statusall   //用ikev2 来连接的时候
+000 Status of IKEv1 pluto daemon (strongSwan 4.5.3):
+000 interface lo/lo ::1:500
+000 interface lo/lo 127.0.0.1:500
+000 interface eth0/eth0 10.68.173.155:500
+000 interface umlbr1/umlbr1 10.1.0.254:500
+000 interface umlbr0/umlbr0 192.168.0.254:500
+000 interface umlbr2/umlbr2 10.2.0.254:500
+000 %myid = '%any'
+000 loaded plugins: aes des sha1 sha2 md5 random x509 pkcs1 pgp dnskey pem gmp h                                                                              mac xauth attr kernel-netlink resolve
+000 debug options: control
+000
+000 "enb": 11.68.173.0/24===10.68.173.155[C=FI, ST=Tampere, L=Tampere, O=NSN, OU                                                                              =RA, CN=10.8.165.78]...%any[%any]; unrouted; eroute owner: #0
+000 "enb":   CAs: "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"...%any
+000 "enb":   ike_life: 3600s; ipsec_life: 1200s; rekey_margin: 180s; rekey_fuzz:                                                                               100%; keyingtries: 1
+000 "enb":   policy: PUBKEY+ENCRYPT+TUNNEL+PFS; prio: 24,32; interface: eth0;
+000 "enb":   newest ISAKMP SA: #0; newest IPsec SA: #0;
+000
+Status of IKEv2 charon daemon (strongSwan 4.5.3):
+  uptime: 40 seconds, since Sep 21 17:04:09 2011
+  malloc: sbrk 135168, mmap 0, used 74576, free 60592
+  worker threads: 9 of 16 idle, 6/1/0/0 working, job queue: 0/0/0/0, scheduled:                                                                               3
+  loaded plugins: aes des sha1 sha2 md5 random x509 revocation constraints pubke                                                                              y pkcs1 pgp pem fips-prf gmp xcbc hmac attr kernel-netlink resolve socket-raw st                                                                              roke updown
+
+
+Listening IP addresses:    
+  10.68.173.155
+  10.1.0.254
+  192.168.0.254
+  10.2.0.254
+Connections:
+Security Associations (1 up, 0 connecting):
+         enb[1]: ESTABLISHED 15 seconds ago, 10.68.173.155[C=FI, ST=Tampere, L=T                                                                              ampere, O=NSN, OU=RA, CN=10.8.165.78]...10.68.173.75[C=FI, ST=Tampere, L=Tampere                                                                              , O=NSN, OU=RA, CN=10.8.165.78]
+         enb[1]: IKE SPIs: 208e06576b7aad66_i 2743fe70253b86b8_r*, public key re                                                                              authentication in 55 minutes
+         enb[1]: IKE proposal: AES_CBC_128/HMAC_SHA1_96/PRF_HMAC_SHA1/MODP_1024
+         enb{1}:  INSTALLED, TUNNEL, ESP SPIs: ca4bafba_i ca3356b9_o
+         enb{1}:  AES_CBC_128/HMAC_SHA1_96, 0 bytes_i, 0 bytes_o, rekeying in 16                                                                               minutes
+         enb{1}:   11.68.173.0/24 === 10.68.173.75/32
+
+
+
+
+[root@localhost etc]# ipsec statusall  //用ikev1 来连接的时候
+000 Status of IKEv1 pluto daemon (strongSwan 4.5.3):
+000 interface lo/lo ::1:500
+000 interface lo/lo 127.0.0.1:500
+000 interface eth0/eth0 10.68.173.155:500
+000 interface umlbr1/umlbr1 10.1.0.254:500
+000 interface umlbr0/umlbr0 192.168.0.254:500
+000 interface umlbr2/umlbr2 10.2.0.254:500
+000 %myid = '%any'
+000 loaded plugins: aes des sha1 sha2 md5 random x509 pkcs1 pgp dnskey pem gmp hmac xauth attr kernel-netlink resolve
+000 debug options: control
+000
+000 "enb": 11.68.173.0/24===10.68.173.155[C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78]...%any[%any]; unrouted; eroute owner: #0//错误
+000 "enb":   CAs: "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"...%any
+000 "enb":   ike_life: 3600s; ipsec_life: 1200s; rekey_margin: 180s; rekey_fuzz: 100%; keyingtries: 1
+000 "enb":   policy: PUBKEY+ENCRYPT+TUNNEL+PFS; prio: 24,32; interface: eth0;
+000 "enb":   newest ISAKMP SA: #0; newest IPsec SA: #0;
+000 "enb"[2]: 11.68.173.0/24===10.68.173.155[C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78]...10.68.173.75[C=FI, ST=Tampere, L=Tampere, O=NSN, OU=RA, CN=10.8.165.78]; unrouted; eroute owner: #0
+000 "enb"[2]:   CAs: "C=fi, O=WCDMA, CN=NSN Tre WCDMA Root CA"...%any
+000 "enb"[2]:   ike_life: 3600s; ipsec_life: 1200s; rekey_margin: 180s; rekey_fuzz: 100%; keyingtries: 1
+000 "enb"[2]:   policy: PUBKEY+ENCRYPT+TUNNEL+PFS; prio: 24,32; interface: eth0;
+000 "enb"[2]:   newest ISAKMP SA: #1; newest IPsec SA: #0;
+000 "enb"[2]:   IKE proposal: AES_CBC_128/HMAC_SHA1/MODP_1024
+000
+000 #1: "enb"[2] 10.68.173.75 STATE_MAIN_R3 (sent MR3, ISAKMP SA established); EVENT_SA_REPLACE in 3330s; newest ISAKMP
+000
+Status of IKEv2 charon daemon (strongSwan 4.5.3):
+  uptime: 5 minutes, since Sep 21 17:04:10 2011
+  malloc: sbrk 135168, mmap 0, used 74576, free 60592
+  worker threads: 9 of 16 idle, 6/1/0/0 working, job queue: 0/0/0/0, scheduled: 2
+  loaded plugins: aes des sha1 sha2 md5 random x509 revocation constraints pubkey pkcs1 pgp pem fips-prf gmp xcbc hmac attr kernel-netlink resolve socket-raw stroke updown
+Listening IP addresses: //监听的端口多
+  10.68.173.155
+  10.1.0.254
+  192.168.0.254
+  10.2.0.254
+Connections:
+Security Associations (0 up, 0 connecting):
+  none
+[root@localhost etc]#  

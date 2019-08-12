@@ -1,0 +1,78 @@
+TCPDUMP
+
+sun# tcpdump -i eth0 not port ssh and not port domain > /tmp/tcpdump.log 2>&1 &
+
+PRE-TEST
+
+moon# /etc/init.d/iptables start 2> /dev/null
+ * Caching service dependencies ...                                       [ ok ]
+ * Starting firewall ...                                                  [ ok ]
+
+sun# /etc/init.d/iptables start 2> /dev/null
+ * Caching service dependencies ...                                       [ ok ]
+ * Starting firewall ...                                                  [ ok ]
+
+moon# ipsec start
+Starting strongSwan 4.6.4 IPsec [starter]...
+No leaks detected, 5 suppressed by whitelist
+
+sun# ipsec start
+Starting strongSwan 4.6.4 IPsec [starter]...
+No leaks detected, 5 suppressed by whitelist
+
+moon# sleep 2
+
+moon# ipsec up net-net
+002 "net-net" #1: initiating Main Mode
+102 "net-net" #1: STATE_MAIN_I1: initiate
+003 "net-net" #1: received Vendor ID payload [strongSwan]
+003 "net-net" #1: received Vendor ID payload [XAUTH]
+003 "net-net" #1: received Vendor ID payload [Dead Peer Detection]
+104 "net-net" #1: STATE_MAIN_I2: sent MI2, expecting MR2
+002 "net-net" #1: we have a cert and are sending it upon request
+106 "net-net" #1: STATE_MAIN_I3: sent MI3, expecting MR3
+002 "net-net" #1: Peer ID is ID_FQDN: 'sun.strongswan.org'
+002 "net-net" #1: crl not found
+002 "net-net" #1: certificate status unknown
+002 "net-net" #1: ISAKMP SA established
+004 "net-net" #1: STATE_MAIN_I4: ISAKMP SA established
+002 "net-net" #2: initiating Quick Mode PUBKEY+ENCRYPT+TUNNEL+PFS+UP {using isakmp#1}
+110 "net-net" #2: STATE_QUICK_I1: initiate
+002 "net-net" #2: sent QI2, IPsec SA established {ESP=>0xcd467f72 <0xcc56666d}
+004 "net-net" #2: STATE_QUICK_I2: sent QI2, IPsec SA established {ESP=>0xcd467f72 <0xcc56666d}
+
+
+TEST
+
+moon# ipsec status | grep 'net-net.*STATE_QUICK_I2.*IPsec SA established' [YES]
+000 #2: "net-net" STATE_QUICK_I2 (sent QI2, IPsec SA established); EVENT_SA_REPLACE in 948s; newest IPSEC; eroute owner
+
+sun# ipsec status | grep 'net-net.*STATE_QUICK_R2.*IPsec SA established' [YES]
+000 #2: "net-net" STATE_QUICK_R2 (IPsec SA established); EVENT_SA_REPLACE in 1110s; newest IPSEC; eroute owner
+
+alice# ping -c 1 10.2.0.10 | grep '64 bytes from 10.2.0.10: icmp_seq=1' [YES]
+64 bytes from 10.2.0.10: icmp_seq=1 ttl=62 time=1.05 ms
+
+sun# killall tcpdump
+
+sun# cat /tmp/tcpdump.log | grep 'IP moon.strongswan.org > sun.strongswan.org: ESP' [YES]
+19:23:29.232104 IP moon.strongswan.org > sun.strongswan.org: ESP(spi=0xcd467f72,seq=0x1), length 132
+
+sun# cat /tmp/tcpdump.log | grep 'IP sun.strongswan.org > moon.strongswan.org: ESP' [YES]
+19:23:29.232523 IP sun.strongswan.org > moon.strongswan.org: ESP(spi=0xcc56666d,seq=0x1), length 132
+
+
+POST-TEST
+
+moon# ipsec stop
+Stopping strongSwan IPsec...
+
+sun# ipsec stop
+Stopping strongSwan IPsec...
+
+moon# /etc/init.d/iptables stop 2> /dev/null
+ * Stopping firewall ...                                                  [ ok ]
+
+sun# /etc/init.d/iptables stop 2> /dev/null
+ * Stopping firewall ...                                                  [ ok ]
+
