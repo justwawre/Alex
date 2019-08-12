@@ -54,12 +54,13 @@ Innovated some feature besides the product line, e.g.:
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## ref
-* [code demo](demo) 
-* [article published](published) 
-* [workshop hold during work](workshop)
-* [LTE troubleshooting](LTE_troubleshooting)
-* [Innovation](Innovation) 
+* [code demo](https://github.com/justwawre/about/tree/master/demo) 
+* [article published](https://github.com/justwawre/about/tree/master/published) 
+* [workshop](https://github.com/justwawre/about/tree/master/workshop)
+* [LTE troubleshooting](https://github.com/justwawre/about/tree/master/LTE_troubleshooting)
+* [Innovation](https://github.com/justwawre/about/tree/master/Innovation) 
 * [Honor](https://github.com/justwawre/about/tree/master/Honor) 
+
 ## **Contact:**  
 _xuyc@sina.com_ 
 
