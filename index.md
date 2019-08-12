@@ -54,7 +54,7 @@ Innovated some feature besides the product line, e.g.:
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## ref
-* [code demo in daily work or just for fu](demo) 
+* [code for daily work or fun](demo) 
 * [article published](published) 
 * [workshop hold during work](workshop)
 * [LTE troubleshooting](LTE_troubleshooting)
