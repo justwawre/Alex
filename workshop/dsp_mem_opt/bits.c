@@ -36,19 +36,16 @@ main:
 */
 struct bits
 {
-    unsigned int low : 2;
-    unsigned int mid : 10;
-    unsigned int high: 20;
+	unsigned int low : 2;
+	unsigned int mid : 10;
+	unsigned int high : 20;
 };
 
 int main()
 {
-    struct bits b = {-1};
-    unsigned int xxx;
-    b.mid  = 33;
-    xxx = b.mid;
-    return 0;
+	struct bits b = {-1};
+	unsigned int xxx;
+	b.mid = 33;
+	xxx = b.mid;
+	return 0;
 }
-
-
-

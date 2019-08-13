@@ -30,6 +30,7 @@ During the maintenance phase, you may met the memory run out issue. If unfortuna
 ### Pros & cons
 * direct, easy to understand
 * performance penalty
+[asm code](https://github.com/justwawre/about/blob/master/workshop/dsp_mem_opt/bits.c)
 * few left to optimize
 e.g 
  csiRequestBits  actually  need 3 bits only
