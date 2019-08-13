@@ -1,0 +1,12 @@
+LTE_3560#copy vlan.dat  ftp://oper:vodafone@10.68.173.253
+Address or name of remote host [10.68.173.253]?
+Destination filename [vlan.dat]?
+Writing vlan.dat !
+676 bytes copied in 0.151 secs (4477 bytes/sec)
+LTE_3560#
+
+
+copy nvram:startup-config  ftp://oper:vodafone@10.68.173.253
+copy system:running-config  ftp://oper:vodafone@10.68.173.253
+copy config.text ftp://oper:vodafone@10.68.173.253
+copy private-config.text  ftp://oper:vodafone@10.68.173.253  

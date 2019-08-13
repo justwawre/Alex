@@ -1,0 +1,65 @@
+﻿
+实际CNA 中有这个功能
+
+//////////command
+
+LTE_3750#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+LTE_3750(config)#cluster enable CorpLAN
+LTE_3750(config)#cluster discovery  hop-count 1
+LTE_3750(config)#end
+LTE_3750#show cluster candidates
+                                                             |---Upstream---|
+MAC Address    Name         Device Type      PortIf  FEC Hops SN PortIf  FEC
+6416.8db2.2300 LTE_3560.lte WS-C3560G-48TS   Gi0/27    1   1   0  Gi1/0/4   1
+LTE_3750#show cluster members
+                                                |---Upstream---|
+SN MAC Address    Name         PortIf FEC Hops   SN PortIf  FEC  State
+0  0013.1930.1a00 LTE_3750                  0                     Up   (Cmdr)
+LTE_3750(config)#
+
+
+此时按一般的做法，执行
+LTE_3750(config)#cluster member 1 mac-address 6416.8db2.2300
+报错，说 not accessible
+
+
+
+///////member
+LTE_3560#show cluster
+% Not a management cluster member
+
+
+LTE_3560(config)#clust commander-address 0013.1930.1a00
+LTE_3560(config)#cluster run
+LTE_3560(config)#end
+LTE_3560#show cluster
+Member switch for cluster ""
+        Member number:                  <UNKNOWN>
+        Management IP address:          0.0.0.0
+        Command switch mac address:     0013.1930.1a00
+        Heartbeat interval:             8
+        Heartbeat hold-time:            80
+LTE_3560#
+
+
+
+//////////////此后
+
+LTE_3750#show cluster members
+                                                |---Upstream---|
+SN MAC Address    Name         PortIf FEC Hops   SN PortIf  FEC  State
+0  0013.1930.1a00 LTE_3750                  0                     Up   (Cmdr)
+1  6416.8db2.2300 LTE_3560.lte Gi0/27   1   1     0  Gi1/0/4  1   Up
+LTE_3750#
+
+
+LTE_3750#rcommand 1
+You're accessing HangZhou LTE TS Switch now. If you're not authorized, please lo
+g off ASAP!
+LTE_3560#  <进入了cluster member>
+
+............
+LTE_3560#exit
+
+LTE_3750# <返回了cluster command>

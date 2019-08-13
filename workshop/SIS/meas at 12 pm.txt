@@ -1,0 +1,9 @@
+problem:
+meas can't generated exact 12:00 pm
+
+before:
+work 6 months without progress
+
+my solution:
+
+checking the event machine, soluition it
