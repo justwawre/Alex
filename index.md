@@ -6,8 +6,9 @@ interested in distributed computing,e.g. K8s
 
 ## work experience:
 ### Sr SW engineer                                                                                                  Tieto   2018.12- present
-Developing the MAC layer SW of Ericsson 4G/5G base station, focused on uplink scheduler.<br>
-Language:  dsp c under EMCA platform,  source control/review system : git/gerrit
+Developing the MAC layer SW of Ericsson 4G/5G base station
+* dsp c under EMCA platform  
+* source control/review system : git/gerrit
 
 ### LTE tech support:      Nokia   2009-2018.7
 Handle the cases which isLTE e2e issue or design defect. A
