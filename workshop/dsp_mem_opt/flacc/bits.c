@@ -1,3 +1,19 @@
+struct bits
+{
+	unsigned short low : 2;
+	unsigned short mid: 10;
+	signed short : 4;
+};
+unsigned short i = 0x12;
+int main()
+{
+	struct bits b = {-1};
+	unsigned short xxx;
+	xxx = i;
+	b.mid = 33;
+	xxx = b.mid;
+	return 0;
+}
 /*
 esekilxv9236 [11:22] [/home/exxxngc] -> flacc -S -O0 bits.c
 esekilxv9236 [11:22] [/home/exxxngc] -> cat bits.s
@@ -40,19 +56,3 @@ __END_main:
 */
 
 
-struct bits
-{
-	unsigned short low : 2;
-	unsigned short mid: 10;
-	signed short : 4;
-};
-unsigned short i = 0x12;
-int main()
-{
-	struct bits b = {-1};
-	unsigned short xxx;
-	xxx = i;
-	b.mid = 33;
-	xxx = b.mid;
-	return 0;
-}
