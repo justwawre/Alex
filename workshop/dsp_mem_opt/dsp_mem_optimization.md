@@ -13,11 +13,12 @@ During the maintenance phase, you may met the memory run out issue. If unfortuna
 ## the issue
 * error reported when building
 ![error](error.PNG)
-* memory map illustrated
+* memory map when unit test
 ![plot_map](plot_map.png)
-
+* memory map when deployed (issue solved)
+![plot_map](dsp_map_2.png)
 <!-- pagebreak -->
-## global variables refactor
+## global variables refactoring
 ***main approach is reducing its data type's size***
 
 ![global_vars](global_vars.PNG)
@@ -80,12 +81,12 @@ int main()
 
 
 <!-- pagebreak -->
-## local variables refactor
+## local variables refactoring
 ***stack resue is an edge tool***
 
 ![stack_layout](stack_layout.PNG)
 
-### a simple example in outline
+### what happen when compiled
 ```c
 #include <stdlib.h>
 int s;
@@ -166,7 +167,7 @@ int main()
 */
 ```
 
-### another example
+### example
 ***original code***
 ```c
 void SESCHEDFO_main()//500+ loc
@@ -195,7 +196,7 @@ void SESCHEDFO_main()//500+ loc
   }
 }
 ```
-***after refactor***
+***after refactoring***
 ```c
 void SESCHEDFO_main()//500+ loc
 {
@@ -237,7 +238,7 @@ Decreased stack use in test_ULMACCE_SCHEDFO: by 26 words or 1.0%; new stack 2668
 
 
 <!-- pagebreak -->
-## data structure refactor 
+## data structure refactoring 
 **e.g. any duplicate?**
 ```c
 typedef struct ULMACCE_SESCHEDFO_seListS
@@ -303,7 +304,7 @@ can the array only store the common field which used in scheudling algorith (wei
 the less important field just put a linked list implement via array?
 
 <!-- pagebreak -->
-## code refactor 
+## code refactoring 
 e.g. algorithm 
 
 
