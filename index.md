@@ -62,7 +62,7 @@ The project management experience helps me achieve the top 50 in the national sy
 * [code demo](https://github.com/justwawre/about/tree/master/demo) 
 * [article published](https://github.com/justwawre/about/tree/master/published) 
 * [workshop](https://github.com/justwawre/about/tree/master/workshop)
-* [LTE troubleshooting](https://github.com/justwawre/about/tree/master/LTE_troubleshooting)
+* [LTE system analysis](https://github.com/justwawre/about/tree/master/LTE)
 * [Innovation](https://github.com/justwawre/about/tree/master/Innovation) 
 * [Honor](https://github.com/justwawre/about/tree/master/Honor) 
 
