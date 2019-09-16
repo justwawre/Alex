@@ -1,9 +1,7 @@
 /*
 for  gcc version 4.9.2 
 g++ -Wall -std=c++14  -lpthread
-
 */
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -49,8 +47,7 @@ int progress_udpate()
   {
     if (!bPrompt)
     {
-      cerr << "\b"
-           << "Done!"; //overwrite
+      cerr << "\bDone!"; //overwrite
       break;
     }
     cerr << "\b" << spin[count++ % 4];
@@ -59,7 +56,7 @@ int progress_udpate()
   return 0;
 }
 
-//return a copy
+//return xvalue(expiring value)
 string scan_item(string &line, string pat, string ending = " ")
 {
   string::size_type n1, n2;
@@ -108,9 +105,9 @@ bool trace_matched(SE_IUA &se, UPCUL_107 &trace)
 }
 
 /*
-comapre the trace with golden
-if matched return 0;
-else if preceeding trace missing return >0
+comapre the trace with SE
+return 0 if matched ;
+return >0 if preceeding trace missing 
 else <0
 */
 inline int compare_trace(string &str_se_info, map<int, string> &map_trace)
@@ -227,7 +224,6 @@ int main(int argc, char *argv[])
     cout << endl
          << count << " se verified,all matched" << endl;
   cout << "please double check via " << fn << endl;
-
   fs_in.close();
   fs_out.close();
   return 0;
