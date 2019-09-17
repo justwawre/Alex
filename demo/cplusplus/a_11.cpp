@@ -1,13 +1,11 @@
 /*
 for  gcc version 4.9.2 
-g++ -Wall -std=c++14  -lpthread
+g++ -Wall -std=c++11
 */
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <map>
-#include <chrono>
-#include <thread>
 using namespace std;
 
 /*data type
@@ -36,25 +34,6 @@ struct SE_IUA
 */
 ifstream fs_in;
 ofstream fs_out;
-bool bPrompt = true;
-
-int progress_udpate()
-{
-  int count = 0;
-  const char spin[] = "|/-\\";
-  cerr << "running: ";
-  for (;;)
-  {
-    if (!bPrompt)
-    {
-      cerr << "\bDone!"; //overwrite
-      break;
-    }
-    cerr << "\b" << spin[count++ % 4];
-    this_thread::sleep_for(40ms); // 25 frames per second
-  }
-  return 0;
-}
 
 //return xvalue(expiring value)
 string scan_item(string &line, string pat, string ending = " ")
@@ -165,7 +144,6 @@ int checklog(long &count)
   map<int, string> map_trace;
   int status = 0;
 
-  thread t{progress_udpate};
   for (string line; (status >= 0) && getline(fs_in, line);)
   {
     ++lineno;
@@ -189,8 +167,6 @@ int checklog(long &count)
     }
   }
   map_trace.clear();
-  bPrompt = false;
-  t.join();
   return status;
 }
 

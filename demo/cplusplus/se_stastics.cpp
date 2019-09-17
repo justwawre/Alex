@@ -11,23 +11,26 @@ using namespace std;
 
 /* data type
 */
-using MAP = map<int, int>;
+using MAP_INT_INT = map<int, int>;
 
 /* global variable
 */
-bool bPrompt = true;
+bool bRunning = true;
 
-int progress_udpate()
+int spin()
 {
-    int count = 0;
-    const char spin[] = "|/-\\";
-    cerr << "progress: ";
+    int i = 0;
+    const char chars[] = "|/-\\";
+    cerr << "running: ";
     for (;;)
     {
-        if (!bPrompt)
+        if (!bRunning)
+        {
+            cerr << "\bDone!\n";
             break;
-        cerr << "\b" << spin[count++ % 4];
-        this_thread::sleep_for(40ms); // 25 frames per second
+        }
+        cerr << "\b" << chars[i++ % 4];
+        this_thread::sleep_for(40ms); // 25 frames/second
     }
     return 0;
 }
@@ -40,8 +43,7 @@ ostream &operator<<(ostream &os, const map<T1, T2> &m)
     return os;
 }
 
-//return xvalue(expiring value), not a copy
-string scan_item(string &line, string pat)
+string scan_item(string &line, string pat) //return xvalue(expiring value)
 {
     auto n1 = line.find(pat);
     if (n1 == string::npos)
@@ -53,17 +55,17 @@ void checklog(ifstream &fs_in)
 {
     unsigned long lineno = 0;
     bool b_UpcDlMacCeFiUlValidationInfoInd = false;
-    MAP count_UpcDlMacCeFiUlValidationInfoInd;
-    MAP count_validation_passed;
-    MAP count_validation_failed;
+    MAP_INT_INT count_UpcDlMacCeFiUlValidationInfoInd;
+    MAP_INT_INT count_validation_passed;
+    MAP_INT_INT count_validation_failed;
     bool b_UpcDlMacCeFiUlSchedInfoInd = false;
-    MAP count_UpcDlMacCeFiUlSchedInfoInd;
-    MAP count_newTxSeData;
-    MAP count_nonAdaptReTxSeData;
-    MAP count_adaptReTxSeData;
+    MAP_INT_INT count_UpcDlMacCeFiUlSchedInfoInd;
+    MAP_INT_INT count_newTxSeData;
+    MAP_INT_INT count_nonAdaptReTxSeData;
+    MAP_INT_INT count_adaptReTxSeData;
     int cellId;
 
-    thread t{progress_udpate};
+    thread t{spin};
     for (string line; getline(fs_in, line);)
     {
         ++lineno;
@@ -90,7 +92,7 @@ void checklog(ifstream &fs_in)
             }
             else
             {
-                bPrompt = false;
+                bRunning = false;
                 t.join();
                 cerr << "lineno\t" << lineno << endl
                      << "cellId: appeared in unexpected place" << endl;
@@ -122,35 +124,32 @@ void checklog(ifstream &fs_in)
         }
     } //for
 
-    bPrompt = false;
+    bRunning = false;
     t.join();
-    cout << endl
-         << "UpcDlMacCeFiUlSchedInfoInd \t" << endl
-         << count_UpcDlMacCeFiUlSchedInfoInd << endl
-         << "se scheduled\t" << endl
+    cout << "\nUpcDlMacCeFiUlSchedInfoInd\n"
+         << count_UpcDlMacCeFiUlSchedInfoInd
          << "\tnewTxSeData\n"
-         << count_newTxSeData << endl
+         << count_newTxSeData
          << "\tnonAdaptReTxSeData\n"
-         << count_nonAdaptReTxSeData << endl
+         << count_nonAdaptReTxSeData
          << "\tadaptReTxSeData\n"
-         << count_adaptReTxSeData << endl
-         << "UpcDlMacCeFiUlValidationInfoInd\t" << endl
-         << count_UpcDlMacCeFiUlValidationInfoInd << endl
-         << "se validated\t" << endl
-         << "\tvalidation_passed validResultBitmap>=256\n"
-         << count_validation_passed << endl
-         << "\tvalidation_failed\n"
-         << count_validation_failed << endl;
+         << count_adaptReTxSeData
+         << "\nUpcDlMacCeFiUlValidationInfoInd\t\n"
+         << count_UpcDlMacCeFiUlValidationInfoInd
+         << "\tpassed\n"
+         << count_validation_passed
+         << "\tfailed\n"
+         << count_validation_failed;
 }
 
 int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        cerr << "Usage:" << argv[0] << " [dec file]" << endl
-             << "used for statistics for Signal UpcDlMacCeFiUlValidationInfoInd & UpcDlMacCeFiUlSchedInfoInd only" << endl
-             << "developed  by Xu YangChun" << endl;
-        exit(-1);
+        cerr << "Usage:" << argv[0] << " [dec file]\n"
+             << "used for statistics for Signal UpcDlMacCeFiUlValidationInfoInd & UpcDlMacCeFiUlSchedInfoInd only\n"
+             << "developed  by Xu YangChun\n";
+        return -1;
     }
     ifstream fs_in(argv[1]);
     if (!fs_in)
