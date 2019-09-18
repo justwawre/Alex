@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     {
         cerr << "Usage:" << argv[0] << " [dec file]\n"
              << "used for statistics for Signal UpcDlMacCeFiUlValidationInfoInd & UpcDlMacCeFiUlSchedInfoInd only\n"
-             << "developed  by Xu YangChun\n";
+             << "ver 1.1 \ndeveloped  by Xu YangChun\n";
         return -1;
     }
     ifstream fs_in(argv[1]);
