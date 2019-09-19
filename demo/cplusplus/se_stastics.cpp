@@ -11,7 +11,7 @@ using namespace std;
 
 /* data type
 */
-using MAP_INT_INT = map<int, int>;
+using MAP_CELLID_COUNTER = map<int, int>;
 
 /* global variable
 */
@@ -55,15 +55,17 @@ void checklog(ifstream &fs_in)
 {
     unsigned long lineno = 0;
     bool b_UpcDlMacCeFiUlValidationInfoInd = false;
-    MAP_INT_INT count_UpcDlMacCeFiUlValidationInfoInd;
-    MAP_INT_INT count_validation_passed;
-    MAP_INT_INT count_validation_failed;
+    MAP_CELLID_COUNTER count_UpcDlMacCeFiUlValidationInfoInd;
+    MAP_CELLID_COUNTER count_validation_passed;
+    MAP_CELLID_COUNTER count_validation_failed;
     bool b_UpcDlMacCeFiUlSchedInfoInd = false;
-    MAP_INT_INT count_UpcDlMacCeFiUlSchedInfoInd;
-    MAP_INT_INT count_newTxSeData;
-    MAP_INT_INT count_nonAdaptReTxSeData;
-    MAP_INT_INT count_adaptReTxSeData;
+    MAP_CELLID_COUNTER count_UpcDlMacCeFiUlSchedInfoInd;
+    MAP_CELLID_COUNTER count_newTxSeData;
+    MAP_CELLID_COUNTER count_nonAdaptReTxSeData;
+    MAP_CELLID_COUNTER count_adaptReTxSeData;
     int cellId;
+    bool b_warning = false;
+    string str_warnning = "\ncellId: appeared in unexpected place:\n";
 
     thread t{spin};
     for (string line; getline(fs_in, line);)
@@ -90,13 +92,10 @@ void checklog(ifstream &fs_in)
                 count_UpcDlMacCeFiUlSchedInfoInd[cellId]++;
                 b_UpcDlMacCeFiUlSchedInfoInd = false;
             }
-            else
+            else if (str_warnning.length() < 100) //the cellid appeared in other signal?
             {
-                bRunning = false;
-                t.join();
-                cerr << "lineno\t" << lineno << endl
-                     << "cellId: appeared in unexpected place" << endl;
-                exit(-3);
+                b_warning = true;
+                str_warnning += to_string(lineno) + "\n";
             }
         }
         else if (line.find("newTxSeData") < string::npos)
@@ -140,6 +139,8 @@ void checklog(ifstream &fs_in)
          << count_validation_passed
          << "\tfailed\n"
          << count_validation_failed;
+    if (b_warning)
+        cout << str_warnning << endl;
 }
 
 int main(int argc, char *argv[])
@@ -148,7 +149,7 @@ int main(int argc, char *argv[])
     {
         cerr << "Usage:" << argv[0] << " [dec file]\n"
              << "used for statistics for Signal UpcDlMacCeFiUlValidationInfoInd & UpcDlMacCeFiUlSchedInfoInd only\n"
-             << "ver 1.1 \ndeveloped  by Xu YangChun\n";
+             << "ver 1.1 developed  by Xu YangChun\n";
         return -1;
     }
     ifstream fs_in(argv[1]);
