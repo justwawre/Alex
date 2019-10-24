@@ -1,7 +1,0 @@
-
-Standard IP access list Subnet173fromRouter
-permit 10.56.236.0, wildcard bits 0.0.0.127
-permit 10.56.219.1, wildcard bits 0.0.0.255
-permit 10.140.0.0, wildcard bits 0.0.255.255
-permit 10.68.0.0, wildcard bits 0.0.255.255
-deny any

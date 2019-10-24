@@ -1,2 +1,0 @@
-http://wiki.strongswan.org/projects/strongswan/wiki/IKEv1Examples4
-http://www.strongswan.org/uml/testresults4/ikev1/net2net-cert/
