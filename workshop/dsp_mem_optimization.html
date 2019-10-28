@@ -1,0 +1,524 @@
+<!DOCTYPE html><html><head>
+      <title>dsp_mem_optimization</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <p><strong>dsp mem optimization</strong><br>
+<em><strong>The leessons learned in last sprint</strong></em><br>
+CONTENTS</p>
+<ul>
+<li><a href="#problem">Problem</a>
+<ul>
+<li><a href="#analysis">analysis</a></li>
+</ul>
+</li>
+<li><a href="#reduce-global-variables-space-via-bits-field">reduce global variables&apos; space via bits field</a></li>
+<li><a href="#stack-resue-to-reduce-local-variable-space">stack resue to reduce local variable space</a>
+<ul>
+<li><a href="#solution">solution</a></li>
+</ul>
+</li>
+<li><a href="#looking-forward-anonymous-union">looking forward: Anonymous union</a></li>
+</ul>
+<p><em>Xu YangChun Aug/14/2019</em></p>
+<div class="pagebreak"> </div>
+<h2 class="mume-header" id="problem">Problem</h2>
+
+<ul>
+<li>The DSP/thread</li>
+</ul>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">/* global variables */</span>
+var1<span class="token punctuation">;</span>
+var2<span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+varm<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">ULMACCE_SCHEDFO_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token function">SESCHEDFO_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>  
+  <span class="token function">SESCHEDFO_main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token function">funcn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</pre><p>When building, it was reported that the thread&apos;s heap+stack usage is over limit.<br>
+<img src="plot_map.png" alt="plot_map"></p>
+<h3 class="mume-header" id="analysis">analysis</h3>
+
+<p>The direct cause is data struct change, a U16 field was added to the important structure which is used in several functions, so extra 24 words space is needed.</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
+<span class="token punctuation">{</span>
+	U16 abc<span class="token punctuation">;</span>
+	U16 def<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
+</pre><p>Althogh the error is &quot;heap+stack&quot;, dynmaic memory usage is not welcome in this dsp role, so only solution is to reduce memory usage inside functions or outside the functions.</p>
+<div class="pagebreak"> </div>
+<h2 class="mume-header" id="reduce-global-variables-space-via-bits-field">reduce global variables&apos; space via bits field</h2>
+
+<p>The usual ways is: changing the normal field in struct to bits field. it is easy to understand, but need code modification in several files, and to resolve &quot;address of bits fields&quot; error when compilation.</p>
+<p>The easy method&apos;s side effect is:it had been used by the other developers serveral years, so there is few space left to optimize, and there is performance penalty.</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">struct</span> bits
+<span class="token punctuation">{</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">short</span> low <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">;</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">short</span> mid<span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">signed</span> <span class="token keyword">short</span> <span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">short</span> i <span class="token operator">=</span> <span class="token number">0x12</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">struct</span> bits b <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span class="token comment">//line 10</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">short</span> xxx<span class="token punctuation">;</span>
+	xxx <span class="token operator">=</span> i<span class="token punctuation">;</span>
+	b<span class="token punctuation">.</span>mid <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">;</span>
+	xxx <span class="token operator">=</span> b<span class="token punctuation">.</span>mid<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">/*
+	mv         *dp(-2), a0h 	// 10 bits.c
+	or         49152, a0h   	// 10
+	mv         a0h, *dp(-2) 	// 10
+	mv         *dp(-2), a0h 	// 10
+	and        49167, a0h   	// 10
+	mv         a0h, *dp(-2) 	// 10
+	mv         #i, r0       	// 12
+	mv         *r0, a0h     	// 12
+	mv         a0h, *dp(-3) 	// 12
+	mv         *dp(-2), a0h 	// 13
+	and        49167, a0h   	// 13
+	addh       528, a0      	// 13
+	mv         a0h, *dp(-2) 	// 13
+	mv         *dp(-2), a0h 	// 14
+	exz        a0, 20, 9, a0h	// 14
+	mv         a0h, *dp(-3) 	// 14
+ 
+*/</span>
+</pre><div class="pagebreak"> </div>
+<h2 class="mume-header" id="stack-resue-to-reduce-local-variable-space">stack resue to reduce local variable space</h2>
+
+<p><img src="stack_layout.PNG" alt="stack_layout"><br>
+As illustrated above, the local variables ared allocated/released with stack frame, then the variable allocated in stack frame of the same level, actually reuse the stack space in time domain, so trying allocating the local variable in the same level, will save space.</p>
+<p>The difficulty of this solution is:</p>
+<ul>
+<li>optimizaiotn is only meaningful in critical function(deepest in stack)</li>
+<li>no tool to find to which func is critical<br>
+Anyway, with help of git reflog/reset, the cricital function was identified: SESCHEDFO_main().</li>
+</ul>
+<p>The principle explained in asm</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
+<span class="token keyword">int</span> s<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token punctuation">{</span>
+	 <span class="token keyword">int</span> xxx <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//line 6</span>
+	 <span class="token keyword">int</span> yyy <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> xxx_2 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> yyy_2 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> xxx_3 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> yyy_3 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 
+	 <span class="token keyword">if</span> <span class="token punctuation">(</span>xxx<span class="token operator">&gt;</span><span class="token number">100</span><span class="token punctuation">)</span>
+		 s <span class="token operator">+=</span><span class="token punctuation">(</span>xxx<span class="token operator">+</span>yyy <span class="token operator">+</span> xxx_2<span class="token operator">+</span>yyy_2<span class="token operator">+</span>xxx_3<span class="token operator">+</span>yyy_3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token punctuation">{</span>
+	 <span class="token keyword">int</span> xxx <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//line 17</span>
+	 <span class="token keyword">int</span> yyy <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> xxx_2 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> yyy_2 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> xxx_3 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">int</span> yyy_3 <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token keyword">if</span> <span class="token punctuation">(</span>yyy<span class="token operator">&gt;</span><span class="token number">300</span><span class="token punctuation">)</span>
+		 s <span class="token operator">-=</span><span class="token punctuation">(</span>xxx<span class="token operator">+</span>yyy <span class="token operator">+</span> xxx_2<span class="token operator">+</span>yyy_2<span class="token operator">+</span>xxx_3<span class="token operator">+</span>yyy_3<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//line 24</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/*
+	callr      #rand        	// 6 a.c (*), CurrBundle: 4, CriticalPath: 4
+	mv         a0h, *dp(-1) 	// 6 (*), CurrBundle: 1, CriticalPath: 1, 1-byte Folded Spill
+|	callr      #rand        	// 7 (*)
+	.rule_off               	// 7
+	copy       a0, a5       	// 7 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 8 (*)
+	copy       a0, a6       	// 8 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 9 (*)
+	copy       a0, a7       	// 9 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 10 (*)
+	copy       a0, a4       	// 10 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 11 (*)
+	.rule_on
+	mv         *dp(-1), a1h 	// (*), 1-byte Folded Reload
+	cmp        101, a1h     	// 13 (*), CurrBundle: 2, CriticalPath: 2
+	if         .a1:ge       	// 14
+|	addh       a1h, a5      	// 14 (*)
+|	mv         #s, r0       	// 14
+	if         .a1:ge       	// 14
+|	addh       a5h, a6      	// 14 (*)
+|	mv         *r0, a1h     	// 14
+	addh       a6h, a7, .a1:ge	// 14 (*)
+	addh       a7h, a4, .a1:ge	// 14 (*)
+	addh       a4h, a0, .a1:ge	// 14 (*)
+	addh       a1h, a0, .a1:ge	// 14 (*)
+	mv         a0h, *r0, .a1:ge	// 14 (*), CurrBundle: 7, CriticalPath: 7
+	callr      #rand        	// 17 (*), CurrBundle: 1, CriticalPath: 1
+	mv         a0h, *dp(-1) 	// 17 (*), CurrBundle: 1, CriticalPath: 1, 1-byte Folded Spill
+|	callr      #rand        	// 18 (*)
+	.rule_off               	// 18
+	copy       a0, a5       	// 18 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 19 (*)
+	copy       a0, a6       	// 19 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 20 (*)
+	copy       a0, a7       	// 20 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 21 (*)
+	copy       a0, a4       	// 21 (*), CurrBundle: 1, CriticalPath: 1
+|	callr      #rand        	// 22 (*)
+	.rule_on                	// 23
+	cmp        301, a5h     	// 23 (*)
+	brr        #.LBB0_2, .a5:lt	// 23 (*), CurrBundle: 2, CriticalPath: 2
+
+// Procedure estimates:
+// Code size: 101 words (28 bits/instr)
+// Instructions / cycles: 57 / 39
+// Loop weighted cycles: 39
+// Stack allocation: 16
+*/</span>
+</pre><h3 class="mume-header" id="solution">solution</h3>
+
+<p><em><strong>original code</strong></em></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">void</span> <span class="token function">SESCHEDFO_main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  ULMACCE_LAPCSPLIB_traceS trace<span class="token punctuation">;</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token keyword">while</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    assignSpectrumSucceeded <span class="token operator">=</span>
+        <span class="token function">ULMACCE_SCHEDLIB_assignSpectrumToSe</span><span class="token punctuation">(</span>
+            <span class="token operator">&amp;</span>trace
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//it is found that trace was not used inside this block at all </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>assignSpectrumSucceeded<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      ULMACCE_PUSCHTPS_ginrWeighterDataS ginrWeightDataS<span class="token punctuation">;</span>
+	  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 
+    <span class="token punctuation">}</span>    
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><p><em><strong>after refactoring</strong></em></p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">void</span> <span class="token function">SESCHEDFO_main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+
+ <span class="token keyword">while</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    BOOL isNs05seTypeDowngraded <span class="token operator">=</span> FALSE<span class="token punctuation">;</span>
+    <span class="token punctuation">{</span>
+    ULMACCE_LAPCSPLIB_traceS trace<span class="token punctuation">;</span>
+	<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    assignSpectrumSucceeded <span class="token operator">=</span>
+        <span class="token function">ULMACCE_SCHEDLIB_assignSpectrumToSe</span><span class="token punctuation">(</span>
+            <span class="token operator">&amp;</span>trace
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>assignSpectrumSucceeded<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ULMACCE_PUSCHTPS_ginrWeighterDataS ginrWeightDataS<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>    
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><p>result:memory usage reduced by 26 words<br>
+because trace&apos;s stack space was release and reused by ginrWeightDataS</p>
+<h2 class="mume-header" id="looking-forward-anonymous-union">looking forward: Anonymous union</h2>
+
+<p>In thread level, all global vars are orgnaized via array of struct, e.g.</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
+<span class="token punctuation">{</span>
+	U16 abc<span class="token punctuation">;</span>
+	U16 def<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
+_SeDataS
+_SchedData<span class="token punctuation">[</span>MAX_NR_OF_UL_SE_PER_TT_PER_CELL<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</pre><p>The global varialbe was created due to it will be used across the functions, but usually its lifecycle don&apos;t cover the whole thread. if data field abc is used in first 3 functions, but def is used in last 2 functions, there can share in time domain via union</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
+<span class="token punctuation">{</span>
+	<span class="token keyword">union</span>
+	<span class="token punctuation">{</span>
+		U16 abc<span class="token punctuation">;</span>
+		U16 def<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
+</pre><p>If using the name union, it will require lots codes in the funcion which refer the fields, but the anonymous union require no code change. The only problem is current compler don&apos;t support it, so it need wait for clang migration completion.</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
