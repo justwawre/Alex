@@ -1,42 +1,35 @@
-## Alex Xu
-A developer in telecom industry now.
-A developer in telecom industry.
-good at C/C++/Python/Go
-interested in distributed computing,e.g. K8s
+A C/C++/Python/Go developer in telecom industry,interested in distributed computing,e.g. K8s
+Good at analyzing & problem solving.
 
 ## work experience:
 ### Sr SW engineer                                                                                                  Tieto   2018.12- present
-Developing the MAC layer SW of Ericsson 4G/5G base station
-* dsp c under EMCA platform  
-* source control/review system : git/gerrit
+Developing the MAC layer SW of Ericsson base station
+* dsp c under multi-core platform, using git/gerrit
+* support other team's simulator development, including LTE spec understanding, troubleshooting
 
 ### LTE tech support:      Nokia   2009-2018.7
-Handle the cases which isLTE e2e issue or design defect. 
-* Analyzing problem and giving out solution, coordinating different R&D teams and product managers if needed.
-* Building the Lab using Cisco Switch, EPC emulator and test Instrument, deliver related courses & certificate to service engineer.
-* Acting as lead engineer and trial manager.
-* Innovated 3 product feature during innovation program, and propose several code optimization/design change request during troubleshooting,
+Handle of the cases which is e2e issue or design defect.
+* Analyzed problem and propose solution, coordinate different teams to accomplish.
+* Built the Lab using Cisco Switch, EPC emulator, deliver LTE related courses to service teams.
+* Acted as lead engineer or trial manager.
+* Innovated 3 product feature during innovation program.
 
 
 ### SW engineer/Scrum master: Radio platform, Nokia    2006-2009
-developing the 3G platform (a distributed computing system) sw.
-* C/C++/SDL under embedded OS or Linux.
-* As individual, the SW module I developed cause no bugs during my service.
-* As scrum master and chief content owner, the team always achieve goal ahead the schedule of product owner.
-* Teach the SDL class training 
+developmemnt of the 3G platform, using C/C++/SDL under embedded OS or Linux.
+* Act as scrum master and chief content owner.
+* Delivered the SDL class training 
 
 ### project lead of Aicent,                          May-Jul    2006
-* Developed a solution based on FreeRadius 
-* Tested via Verizon (between US, Jamaica, Puerta Rico)
+Developed a solution based on FreeRadius, tested by Verizon (between US & other country)
 
 ### project leader of Techfaith wireless:            April 2005 – May 2006 
-As individual: 
-* Developed modem SW, including the LCD driver, new AT command, modem remote management agent. 
-* Designed the new the Call Control logic, replacing the MML with C function.
-As project lead: 
-* Developed the  SMS framework to support EMS, found the memory bugs in reference design,.  
-* At the same time leading a new phone project at the same time.
-The project management experience helps me achieve the top 50 in the national system analyst exam.
+* As individual: 
+  - Developed modem SW, including the LCD driver, management sw. 
+  - Proposed the new way to wrtie the Call Control logic, replacing the MML language.
+* As project lead: 
+  - Developed the  SMS framework to support EMS
+  - Led a new phone project at the same time.
 
 ### SW Project lead of Beijing cyber world            2002
 * Developed a web map system based on MapInfo for java using servlet
@@ -49,7 +42,7 @@ The project management experience helps me achieve the top 50 in the national sy
 * Developed a Java GUI client with Java Swing/Applet using FIX protocol.
 
 ### SW engineer  Beijing Inca Tech   1998-1999
-* SW maintenance and Oracle database development. 
+SW maintenance and Oracle database development. 
 * Innovated some feature 
   - a cost calculation system using the excel and its oo4o Oracle.
   - a cash flow statement function via book keeping tag.
@@ -59,12 +52,10 @@ The project management experience helps me achieve the top 50 in the national sy
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## ref
-* [code demo](https://github.com/justwawre/about/tree/master/demo) 
-* [article published](https://justwawre.github.io/about/published/) 
-* [workshop](https://justwawre.github.io/about/workshop/)
-* [LTE system analysis](https://github.com/justwawre/about/tree/master/LTE)
-* [Innovation](https://github.com/justwawre/about/tree/master/Innovation) 
-* [Honor](https://github.com/justwawre/about/tree/master/Honor) 
+* [code demo](https://github.com/justwawre/Alex/tree/master/demo) 
+* [article published](https://justwawre.github.io/Alex/published/) 
+* [workshop](https://justwawre.github.io/Alex/workshop/)
+* [Tech blog](https://justwawre.github.io/Alex/blog) 
 
 ## **Contact:**  
 _xuyc@sina.com_ 

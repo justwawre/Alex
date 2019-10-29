@@ -3,10 +3,11 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      <link rel="stylesheet" href="file:///c:\Users\exxxngc\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.5.0\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
       
       
 
+      
       
       
       
@@ -278,17 +279,28 @@ CONTENTS</p>
 </ul>
 </li>
 <li><a href="#looking-forward-anonymous-union">looking forward: Anonymous union</a></li>
+<li><a href="#a-thread-wo-global-variable">a thread W/O global variable?</a></li>
+<li><a href="#supplements">Supplements</a></li>
 </ul>
-<p><em>Xu YangChun Aug/14/2019</em></p>
+<p><em>Xu YangChun Aug/21/2019</em></p>
 <div class="pagebreak"> </div>
 <h2 class="mume-header" id="problem">Problem</h2>
 
 <ul>
-<li>The DSP/thread</li>
+<li>The DSP/thread<br>
+The code abstract:</li>
 </ul>
 <pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">/* global variables */</span>
 var1<span class="token punctuation">;</span>
 var2<span class="token punctuation">;</span>
+<span class="token comment">/*
+typedef struct _SeDataS
+{
+	U16 abc;
+	U16 def; //added in the project
+} _SeDataS;
+*/</span>	
+_SeDataS _SchedData<span class="token punctuation">[</span>MAX_<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 varm<span class="token punctuation">;</span>
 
@@ -302,23 +314,16 @@ varm<span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   <span class="token function">funcn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-
 </pre><p>When building, it was reported that the thread&apos;s heap+stack usage is over limit.<br>
 <img src="plot_map.png" alt="plot_map"></p>
 <h3 class="mume-header" id="analysis">analysis</h3>
 
-<p>The direct cause is data struct change, a U16 field was added to the important structure which is used in several functions, so extra 24 words space is needed.</p>
-<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
-<span class="token punctuation">{</span>
-	U16 abc<span class="token punctuation">;</span>
-	U16 def<span class="token punctuation">;</span>
-<span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
-</pre><p>Althogh the error is &quot;heap+stack&quot;, dynmaic memory usage is not welcome in this dsp role, so only solution is to reduce memory usage inside functions or outside the functions.</p>
+<p>The direct cause is that an U16 field was added to _SeDataS, so extra 24 words space is needed.<br>
+Althogh the error is &quot;heap+stack&quot;, dynmaic memory usage is not encouraged in this dsp role, so memory optimization is either inside functions or outside the functions, in other words, local or global variable.</p>
 <div class="pagebreak"> </div>
 <h2 class="mume-header" id="reduce-global-variables-space-via-bits-field">reduce global variables&apos; space via bits field</h2>
 
-<p>The usual ways is: changing the normal field in struct to bits field. it is easy to understand, but need code modification in several files, and to resolve &quot;address of bits fields&quot; error when compilation.</p>
-<p>The easy method&apos;s side effect is:it had been used by the other developers serveral years, so there is few space left to optimize, and there is performance penalty.</p>
+<p>The usual ways is: changing the normal field in struct to bits field. it is easy to understand, but involve several files, and need to resolve &quot;address of bits fields&quot; error. And the deadly side effect is that it was used serveral years, so there is few space left to optimize, and there is performance penalty.</p>
 <pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">struct</span> bits
 <span class="token punctuation">{</span>
 	<span class="token keyword">unsigned</span> <span class="token keyword">short</span> low <span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">;</span>
@@ -352,20 +357,12 @@ varm<span class="token punctuation">;</span>
 	mv         *dp(-2), a0h 	// 14
 	exz        a0, 20, 9, a0h	// 14
 	mv         a0h, *dp(-3) 	// 14
- 
 */</span>
 </pre><div class="pagebreak"> </div>
 <h2 class="mume-header" id="stack-resue-to-reduce-local-variable-space">stack resue to reduce local variable space</h2>
 
-<p><img src="stack_layout.PNG" alt="stack_layout"><br>
-As illustrated above, the local variables ared allocated/released with stack frame, then the variable allocated in stack frame of the same level, actually reuse the stack space in time domain, so trying allocating the local variable in the same level, will save space.</p>
-<p>The difficulty of this solution is:</p>
-<ul>
-<li>optimizaiotn is only meaningful in critical function(deepest in stack)</li>
-<li>no tool to find to which func is critical<br>
-Anyway, with help of git reflog/reset, the cricital function was identified: SESCHEDFO_main().</li>
-</ul>
-<p>The principle explained in asm</p>
+<p><img src="stack_layout.png" alt="stack_layout"><br>
+As illustrated above, the local variables ared allocated/released with stack frame, if we tell the complier to allocate the variable in the stack frames of the same level,  stack space can be reused, as explained in asm below:</p>
 <pre data-role="codeBlock" data-info="c" class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h&gt;</span></span>
 <span class="token keyword">int</span> s<span class="token punctuation">;</span>
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -485,29 +482,37 @@ Anyway, with help of git reflog/reset, the cricital function was identified: SES
     <span class="token punctuation">}</span>    
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</pre><p>result:memory usage reduced by 26 words<br>
-because trace&apos;s stack space was release and reused by ginrWeightDataS</p>
+</pre><p>result:memory usage reduced by 26 words</p>
+<p>The difficulty of this solution is:</p>
+<ul>
+<li>optimizaiotn is only meaningful in the CriticalPath</li>
+<li>hwo many space can be save is difficult to calculate</li>
+<li>no tool to find the CriticalPath<br>
+Last sprint, I used git reflog/reset several round to find out the CriticalPath in thread level: SESCHEDFO_main().</li>
+</ul>
 <h2 class="mume-header" id="looking-forward-anonymous-union">looking forward: Anonymous union</h2>
 
-<p>In thread level, all global vars are orgnaized via array of struct, e.g.</p>
-<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
-<span class="token punctuation">{</span>
-	U16 abc<span class="token punctuation">;</span>
-	U16 def<span class="token punctuation">;</span>
-<span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
-_SeDataS
-_SchedData<span class="token punctuation">[</span>MAX_NR_OF_UL_SE_PER_TT_PER_CELL<span class="token punctuation">]</span><span class="token punctuation">;</span>
-</pre><p>The global varialbe was created due to it will be used across the functions, but usually its lifecycle don&apos;t cover the whole thread. if data field abc is used in first 3 functions, but def is used in last 2 functions, there can share in time domain via union</p>
-<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
+<p>If two fieled don&apos;t appear at the same time, they can share space via union</p>
+<pre data-role="codeBlock" data-info="c" class="language-c"><span class="token comment">//abc,def was organized to a union</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> _SeDataS
 <span class="token punctuation">{</span>
 	<span class="token keyword">union</span>
 	<span class="token punctuation">{</span>
 		U16 abc<span class="token punctuation">;</span>
 		U16 def<span class="token punctuation">;</span>
 	<span class="token punctuation">}</span><span class="token punctuation">;</span>
-
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token punctuation">}</span> _SeDataS<span class="token punctuation">;</span>	
-</pre><p>If using the name union, it will require lots codes in the funcion which refer the fields, but the anonymous union require no code change. The only problem is current compler don&apos;t support it, so it need wait for clang migration completion.</p>
+<span class="token comment">//code needn no change</span>
+_SchedData<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>abc <span class="token operator">=</span> xxx<span class="token punctuation">;</span>
+</pre><p>If using the named union, it will require lots code changes.The only problem of the solution is that current compler don&apos;t support it, so it need wait for clang migration completion.</p>
+<h2 class="mume-header" id="a-thread-wo-global-variable">a thread W/O global variable?</h2>
+
+<p>Is it possbile?<br>
+If not possible, can we design sw in data driven way, so track its lifecycle more clearly?</p>
+<h2 class="mume-header" id="supplements">Supplements</h2>
+
+<p>Here only list some tricks I use in last sprint, the topic about algorithm change is not covered, a seperate example about it will be shared via gerrit link.</p>
 
       </div>
       
