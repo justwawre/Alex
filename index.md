@@ -1,21 +1,22 @@
-A C/C++/Python/Go developer in telecom industry,interested in distributed computing,e.g. K8s
-Good at analyzing & problem solving.
+*A C/C++/Python/Go developer in telecom industry,interested in distributed computing,e.g. K8s
+Good at system analyzing & problem solving.*
 
-## work experience:
-### Sr SW engineer                                                                                                  Tieto   2018.12- present
+
+## work experience
+### Sr SW engineer:  Tieto   2018.12- present
 Developing the MAC layer SW of Ericsson base station
 * dsp c under multi-core platform, using git/gerrit
-* support other team's simulator development, including LTE spec understanding, troubleshooting
+* In scrum team, speed the SW delivery speed at least 2X,via coaching & taking the hardest task
+* support other team's development, from the viewpoint of LTE spec/Code understanding
 
 ### LTE tech support:      Nokia   2009-2018.7
 Handle of the cases which is e2e issue or design defect.
-* Analyzed problem and propose solution, coordinate different teams to accomplish.
-* Built the Lab using Cisco Switch, EPC emulator, deliver LTE related courses to service teams.
-* Acted as lead engineer or trial manager.
+* Analyzed problem and propose solution, coordinate teams to accomplish task in time
+* Acted as lead engineer or trial manager, turn many projects from failure to sucess
 * Innovated 3 product feature during innovation program.
+* Built the Lab using Cisco Switch, EPC emulator, deliver LTE related courses to service teams.
 
-
-### SW engineer/Scrum master: Radio platform, Nokia    2006-2009
+### SWx engineer/Scrum master: Radio platform, Nokia    2006-2009
 developmemnt of the 3G platform, using C/C++/SDL under embedded OS or Linux.
 * Act as scrum master and chief content owner.
 * Delivered the SDL class training 
@@ -52,10 +53,9 @@ SW maintenance and Oracle database development.
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## ref
-* [code demo](https://github.com/justwawre/Alex/tree/master/demo) 
-* [article published](https://justwawre.github.io/Alex/published/) 
+* [tech blog](https://justwawre.github.io/Alex/blog) 
 * [workshop](https://justwawre.github.io/Alex/workshop/)
-* [Tech blog](https://justwawre.github.io/Alex/blog) 
+* [published](https://justwawre.github.io/Alex/published/) 
 
 ## **Contact:**  
 _xuyc@sina.com_ 
