@@ -1,12 +1,19 @@
-git/gerrit 已经在工作用了9个月,如果加上git/github 已经超过一年了, 总结一下.
+Using git/gerrit more than 9 months, and git/github more than 12 moths, do a review here.
+
 
 ## git 的revision 库设计
 做过软件设计,而不是纯粹按要求编码的人应该有一个体会, 数据结构定义了后适合的操作也就确定了. git 作为一个版本管理工具,关键的数据结构设计,如何表示/存储revision? 由于git 诞生在硬盘/带宽已经比较廉价的时代,所以跟前辈的版本管理工具相比,它对节省存储空间/带宽不太关注,所以它对任何时刻寸一个full snapshot, 而git 命令的主要操作是将文件与revision history tree 关联起来. git 不对文件夹管理, 文件应该带full pathname 的.
 
 ### git add <file>
-   给文件建立一个 index 指针
+it actually add a object.
+    <img src="git_add.png" width="500" height="200">
+and its path is a SHA1 of file content    
+
+
 ### git commit 
-在revision history tree 上建一个child node, 返回一个sha1索引, 该node 的的叶子就是当前所有文件的index
+*  <img src="git_commit_1.png" width="500" height="120">
+*  <img src="git_commit_2.png" width="500" height="120">
+
 ### git commit --amend 
 在revision history tree 上建一个sibling node,
 
