@@ -55,7 +55,6 @@ SW maintenance and Oracle database development.
 ## Other
 * [tech blog](https://justwawre.github.io/Alex/blog) 
 * [workshop](https://justwawre.github.io/Alex/workshop/)
-* [published](https://justwawre.github.io/Alex/published/) 
 
 ## **Contact:**  
 _xuyc@sina.com_ 
