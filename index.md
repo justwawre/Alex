@@ -16,15 +16,15 @@ Handle of the cases which is e2e issue or design defect.
 * Innovated 3 product feature during innovation program.
 * Built the Lab using Cisco Switch, EPC emulator, deliver LTE related courses to service teams.
 
-### SWx engineer/Scrum master: Radio platform, Nokia    2006-2009
+### SW engineer/Scrum master: Radio platform, Nokia    2006-2009
 developmemnt of the 3G platform, using C/C++/SDL under embedded OS or Linux.
 * Act as scrum master and chief content owner.
 * Delivered the SDL class training 
 
-### project lead of Aicent,                          May-Jul    2006
+### Project lead of Aicent,                          May-Jul    2006
 Developed a solution based on FreeRadius, tested by Verizon (between US & other country)
 
-### project leader of Techfaith wireless:            April 2005 – May 2006 
+### Project leader of Techfaith wireless:            April 2005 – May 2006 
 * As individual: 
   - Developed modem SW, including the LCD driver, management sw. 
   - Proposed the new way to wrtie the Call Control logic, replacing the MML language.
@@ -52,7 +52,7 @@ SW maintenance and Oracle database development.
 * Beijing University of Posts&Telecoms  master of CS    2002 – 2005
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
-## ref
+## Other
 * [tech blog](https://justwawre.github.io/Alex/blog) 
 * [workshop](https://justwawre.github.io/Alex/workshop/)
 * [published](https://justwawre.github.io/Alex/published/) 
