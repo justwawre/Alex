@@ -53,8 +53,8 @@ SW maintenance and Oracle database development.
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 ## Other
-* [tech blog](https://justwawre.github.io/Alex/blog) 
-* [workshop](https://justwawre.github.io/Alex/workshop/)
+* [tech blog](blog/) 
+* [workshop](workshop/)
 
 ## **Contact:**  
 _xuyc@sina.com_ 
