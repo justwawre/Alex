@@ -1,7 +1,5 @@
 Personal review, something maybe ignored during past daily work.
 
-CONTENTS           
-[TOC]
 ## Overview
 * Protocol stack
    <img src="protocal_stack.png" width="600" height="400">

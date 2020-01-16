@@ -1,6 +1,5 @@
 recording some usage
-CONTENTS           
-[TOC]
+
 ## installation
 * env: CentOS 7
 * version: 6.01

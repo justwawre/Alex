@@ -1,4 +1,4 @@
-[TOC]
+
 ### background
 There was a project about new log for troubleshooting, which verifier need compare with existed logs for correctness. If the work was to done manually, it will take lots of time, so I write some tools do help.
 The log file size is 3~10G bytes, so I considered using the C++/STL to do the log analyze instead of Python.

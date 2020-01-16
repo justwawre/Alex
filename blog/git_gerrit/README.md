@@ -1,5 +1,4 @@
 Using git/gerrit more than 9 months, and git/github more than 12 moths, do a review here.
-[TOC]
 
 ## data structure of git version database
 * The .git folder contains the full version database.
