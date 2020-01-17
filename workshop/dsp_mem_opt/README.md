@@ -1,10 +1,8 @@
-﻿**dsp mem optimization**
-***The leessons learned in last sprint***
+﻿## dsp mem optimization
 *Xu YangChun Aug/21/2019*
 
-## Problem
-* The DSP/thread run out of memory
-The program shown in abstract:
+### Problem
+The DSP/thread run out of memory, shown in abstract:
 ```c
 /* global variables */
 var1;
@@ -39,7 +37,7 @@ The direct cause is that an U16 field was added to _SeDataS, so extra 24 words s
 Althogh the error is "heap+stack", heap release is not supported in this dsp role, so the memory optimization limited to either inside functions or outside the functions, in other words, local or global variable.
 
 <!-- pagebreak -->
-## reduce global variables' space via bits field
+### reduce global variables' space via bits field
 The usual way used by developers before: changing the normal field in struct to bits field. it is easy to understand, but involve several files, and need to resolve "address of bits fields" error. And the deadly side effect is that it was used serveral years, so there is few space left to optimize, and there is performance penalty. 
 
 ```c
@@ -80,7 +78,7 @@ and its asm code
 	mv         a0h, *dp(-3) 	// 14
 */
 ```
-## stack resue to reduce local variable space
+### stack resue to reduce local variable space
 ![stack_layout](stack_layout.png)
 As illustrated above, the local variables ared allocated/released with stack frame, if we tell the complier to allocate the variable in the stack frames of the same level,  stack space can be reused, as explained in asm below:
 
@@ -217,7 +215,7 @@ The difficulty of this solution is:
 * no tool to find the CriticalPath
 Last sprint, I used git reflog/reset several round to find out the CriticalPath in thread level: SESCHEDFO_main().
 
-## looking forward: Anonymous union
+### looking forward: Anonymous union
 If two fieled don't appear at the same time, they can share space via union
 
 ```c
@@ -236,10 +234,10 @@ _SchedData[i].abc = xxx;
 ```
 If using the named union, it will require lots code changes.The only problem of the solution is that current compler don't support it, so it need wait for clang migration completion.
 
-## reduce more global variable?
+### reduce more global variable?
 Can we design SW in data driven way, if a global variable is not used in later phase, its space can be reused by another gloabal variable only used in later phase.
 
-## Supplements
+### Supplements
 Here only list some tricks I use in last sprint, the topic about algorithm change is not covered, a seperate example about it will be shared via gerrit link.
 
 
