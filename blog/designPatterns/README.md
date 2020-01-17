@@ -1,5 +1,6 @@
 
-### refer
-[Design Patterns for Humans's chinese and C++ version](https://pushmind.org/2017/07/31/design-patterns-for-humans/).
+### Coding refer to:
+[Design Patterns for Humans](https://pushmind.org/2017/07/31/design-patterns-for-humans/).
 
-c++14 required
+### c++14 standard
+### tested under Linux/WSL
