@@ -4,48 +4,42 @@ Good at system analyzing & problem solving.*
 
 ## work experience
 ### Sr SW engineer:  Tieto   2018.12- present
-Developing the MAC layer SW of Ericsson base station
-* dsp c under multi-core platform, using git/gerrit
-* In scrum team, speed the SW delivery speed at least 2X,via coaching & taking the hardest task
-* support other team's development, from the viewpoint of LTE spec/Code understanding
+Developing the MAC layer SW in multi-core platform, using git/gerrit,for Ericsson
+* In scrum team, speed the SW delivery speed at least 2X
+* Support other team's development via LTE spec/Code understanding
 
 ### LTE tech support:      Nokia   2009-2018.7
-Handle of the cases which is e2e issue or design defect.
-* Analyzed problem and propose solution, coordinate teams to accomplish task in time
-* Acted as lead engineer or trial manager, turn many projects from failure to sucess
-* Innovated 3 product feature during innovation program.
-* Built the Lab using Cisco Switch, EPC emulator, deliver LTE related courses to service teams.
+Handling of the escalated cases, usually the most difficult ones, e.g. e2e issue or design defect related different HW/SW teams.
+* Analyzed problem and product design, then propose solution,  coordinate teams to accomplish task in time
+* Acted as lead engineer/trial manager, turn many projects from failure to sucess
+* Own e2e handon experience, build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
 
 ### SW engineer/Scrum master: Radio platform, Nokia    2006-2009
-developmemnt of the 3G platform, using C/C++/SDL under embedded OS or Linux.
+using C/C++/SDL under embedded OS or Linux.
 * Act as scrum master and chief content owner.
 * Delivered the SDL class training 
 
 ### Project lead of Aicent,                          May-Jul    2006
-Developed a solution based on FreeRadius, tested by Verizon (between US & other country)
+* Developed a  data roaming solution based on FreeRadius, tested by Verizon (between US & other country)
 
 ### Project leader of Techfaith wireless:            April 2005 – May 2006 
-* As individual: 
-  - Developed modem SW, including the LCD driver, management sw. 
-  - Proposed the new way to wrtie the Call Control logic, replacing the MML language.
-* As project lead: 
-  - Developed the  SMS framework to support EMS
-  - Led a new phone project at the same time.
+* Innovated the new way for complicated [Call Control logic](call_logic.png), replacing the MML language.
+* The first one to design the SMS framework supporting EMS among the Phone Design HOuse.
+* Led a new phone project at the same time.
 
 ### SW Project lead of Beijing cyber world            2002
-* Developed a web map system based on MapInfo for java using servlet
-* Developed the car phone (MCU + modem) to provided geographic info without map SW, 
-* Developed the tool for index file generation (reduced time from 1 month to 4 hrs.) for Car phone map.
+* Developed a web map system based on MapInfo/Java/Servlet
+* Developed the embedded map SW for car phone (MCU + modem) 
+* Reduced map data (for Car Phone) generation time from 1 month to 4 hrs.
 
 ### SW engineer in NetEngine         1999.8 – 2001.10
-* Developed the web/WAP SW under Solaris, wrote a CGI/C lib widely used in company
-* Developed the middleware for stock trade, which connect with WAP server and security company, using the Linux/c and Windows/C++
-* Developed a Java GUI client with Java Swing/Applet using FIX protocol.
+* Developed the Web/WAP SW under Solaris
+* Developed the communication/proxy SW to different security company
+* Design new stock trade SW based on FIX protocol.
 
 ### SW engineer  Beijing Inca Tech   1998-1999
-SW maintenance and Oracle database development. 
-* Innovated some feature 
-  - a cost calculation system using the excel and its oo4o Oracle.
+* Innovated 
+  - a cost calculation system using the excel and its oo4o(Oracle).
   - a cash flow statement function via book keeping tag.
 
 ## Education:
