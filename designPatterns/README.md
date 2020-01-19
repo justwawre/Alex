@@ -1,9 +1,11 @@
+### Argument about design patterns
+Since it was proposed by GoF, there are many argument. 
+
 
 ### Code
 * c++14 standard
 * tested under WSL/gcc version 7.4.0 (Ubuntu 18.04.1)
-* [online](https://github.com/justwawre/Alex/tree/master/designPatterns)
-### 
+* [code online](https://github.com/justwawre/Alex/tree/master/designPatterns)
 
 
 ### reference

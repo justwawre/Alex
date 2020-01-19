@@ -1,0 +1,46 @@
+@startuml claas diagram
+
+
+
+abstract class Container{
+    +virtual double & operator[]()
+    +virtual int size()
+    +std::string ss()
+    +virtual ~Container()
+}
+note top: A stand for Abstract
+
+Container <|-- List_container
+class List_container{
+    -std::list<double> ld
+    +List_container()
+    +List_container(std::initializer_list<double>)
+    +~List_container()
+    +double& operator[](int)
+    +int size()
+}
+
+Container<|--Vector_container
+class Vector_container
+{
+    -double *elem
+    -int sz
+    +Vector_container()
+    +explicit Vector_container(int s)
+    +Vector_container(const Vector_container &a)
+    +Vector_container(Vector_container &&a)
+    +Vector_container &operator=(const Vector_container &a)
+    +Vector_container &operator=(Vector_container &&a)
+
+    +~Vector_container()
+
+    +Vector_container(std::initializer_list<double>)
+    +void push_back(double)
+
+    +double &operator[](int i)
+    +int size()
+    +virtual std::string ss()
+    +void display()
+}
+
+@enduml

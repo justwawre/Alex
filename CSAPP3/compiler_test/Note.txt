@@ -1,0 +1,20 @@
+#genearte the object file
+gcc -c *.c
+
+#decode the object file or a.out
+objdump -D  <filename>
+
+#only dump a specific section
+objdump -d -j .rodata  a.out
+#elf head
+readelf -a  a.out
+#read header 
+readelf -h a.out
+#list sections
+readelf -S a.out
+#list all symbol
+readelf -s a.out
+
+#generate the M$ masm file
+gcc  -S -masm=intel *.c
+
