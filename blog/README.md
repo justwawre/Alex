@@ -4,7 +4,7 @@
 * [LTE knowlege review ](lte_review/)
 * [log analyzer in C++](logAnalyzer/)
 * [Design patterns in C++](../designPatterns/)
-
+* [k8s/docker review](../k8s/)
 
 
 
