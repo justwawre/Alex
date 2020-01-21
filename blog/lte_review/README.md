@@ -2,21 +2,21 @@ Personal review, something maybe ignored during past daily work.
 
 ## Overview
 * Protocol stack
-   <img src="protocal_stack.png" width="600" height="400">
+    ![tbd](protocal_stack.png)
 * SDU/PDU
-   <img src="data_flow.png" width="500" height="300">
+   ![tbd](data_flow.png)
 
 ## DFT-S-FDMA(clustered)
+   ![tbd](cluster_pusch.png)
 
-   <img src="cluster_pusch.png" width="600" height="300">
 Discrete Fourier Transformation-Spread OFDM : allows multi cluster in UL, allows PUCCH and PUSCH to be transmitted at the same time.
 
 ## Cell size dimension
 * from power view, decided by  UE Tx power/path loss/eNB acceptable Rx power
 * from UE Rx/Tx switch time if TDD
    - decided by the GP of special subframe
-   <img src="frame_2.png" width="500" height="320">
-* Random access phase
+   ![tbd](frame_2.png)
+ * Random access phase
    - preamble  detection windows size decided by  Preach format
    - TA command,  its value was detected by eNB during RA phase, in theory, its value will limit the cell size.
 * acceptable  "channel delay spread" due to "inter OFDM symbol interference"
@@ -24,7 +24,7 @@ Discrete Fourier Transformation-Spread OFDM : allows multi cluster in UL, allows
 
 ## Why in LTE the SSS is transmitted before the PSS?
 beside carrying PCI info, the PSS/SSS has other function as to detect the CP length/subframe synchronize. Although the SSS seem transmitted a symbol earlier, for PCI decode, Still the PSS is decoded firstly.
-   <img src="DL.png" width="600" height="320">
+    ![tbd](DL.png)
 
 ## HARQ when UL TTI bundling
 it is quite special
@@ -38,9 +38,9 @@ it is quite special
 * number of HARQ processes are fixed to 8.
 * UL harq is synchronous,  UL ACK/NACK was fixed to 4 TTI after transmission
 * DL harq is asynchronous, its Harq process and RV is indicated by PDCCH.
-   <img src="ULDL_timing.png" width="576" height="374">
+![timing](ULDL_timing.png)
 timing of UL/DL transmission. in above example UL grant happen at n TTI, transmission happen at n+4, retransmission happen at n+8.
-   <img src="ulharq_no_adaptive.png" width="576" height="239">
+![no adpative](ulharq_no_adaptive.png)
 
 In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a received (HICH) in case no PDCCH was transmitted (non-adaptive). In case of an adaptive retransmission, the UE uses the resources which are assigned by the PDCCH. If a non-adaptive retransmission takes place, the UE uses the same resources which were previously used by the same HARQ process.
 
@@ -48,19 +48,19 @@ In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a rec
    * via SR/BSR
    classified by LCG
    * explicit granted via PDCCH or implicit grant e.g. IUA (SPS of interval 1/2/4ms)
-   <img src="ul_scheduling.png" width="600" height="400">
+   ![tbd](ul_scheduling.png)
    non-adaptive don't need UL grant signalling via PDCCH
 ## Random access procedure
-   <img src="ra.png" width="600" height="400">
+   ![tbd](ra.png)
 
 ## Attach
-   <img src="attach.png" width="600" height="350">
+   ![tbd](attach.png)
 
 ## Coordinated multiopoint(CoMP) transmission/reception
  is to improve the coverage/throughput at the cell edge.
  * ”joint processing”: eNBs share info
  * ”coordinated scheduling”: UE report bad/good PMI set
-    <img src="CoMP.png" width="500" height="360">
+    ![tbd](CoMP.png)
 
 ## Beamforming
 * a general signal processing technique used to control the directionality
@@ -71,66 +71,65 @@ of several correlated signals (beamforming),
 
 ## Carrier Aggregtion
 * UE-->TB-->CC mapping
-    <img src="CA_mapping.png" width="500" height="300">
+    ![tbd](CA_mapping.png)
 * scheduling only happen on PCell,so from MAC sw view, the SCell is only accessed via the PCell
 * SCell are configured based on UE capability. Can have DL only resources or DL
 and UL resources. Are Rel. 8/9 compatible. Are configured to be used by the UE
 via dedicated RRC Reconfiguration message. Can be dynamically activated/deactivated (MAC based).
 * asymmetric of DL/UL CC
-    <img src="CA_asymmetric.png" width="500" height="300">
+    ![tbd](CA_asymmetric.png)
+
 * MAC handling
   it split into two phase
   - phase 1, scell configuration/deconfiguration, dynamic, ue measurment based
   - activate/deactivate via MAC cmd, usually because of throughput
 
-## RRM
-* mac func
-    <img src="MAC_function.png" width="500" height="320">
-* goal: maximizie the UEs with satisfied QoS
+
+## Scheduler
+   Goal: maximizie the UEs with satisfied QoS
 
 ### QoS
-* QCI
-* ARP
-* GBR/MBR
-* AMBR 
+   * QCI
+   * ARP
+   * GBR/MBR
+   * AMBR 
 
 ### Phases
-* admission control
-* active queue management (threshold Min/Max)
-* rate shapping
-* scheduling (weight)
+   * admission control
+   * active queue management (threshold Min/Max)
+   * rate shapping
+   * scheduling (weight)
 
-## Scheduling:
 the QCI is e2e, each network node shall decided its per Hop policy to ensure the e2e target. in the transport network, it may use he DSCP mapping to different queue with different weight. in Baseband, the similiar policy was used.
-
-### The algorithm:
-   * roud robin
-   * proportional fair
+The framework of scheduler is based on 
+   * Priority Queue: higher weight mean higher probability of being sceduled
+   * weight functions:implements the scheduling algorithm
+So scheduler only need care the weight.
+### The algorithm examples:
+   * roud robin: resource fair
+   * proportional fair: a trade off between user fairness and the system performance
    * max cell throughput
-   * strict priority/delay based....
-All algorithm is implement the same frame work (Priority Queue), with differnt weight functions which may
-#### time domain
-   * constant with priority
-   * increase with time
-   * decrease with data sent
-   * change according to Channel Quality.....  
+   * strict priority:Used for BCCH, PCCH, CCCH, MAC Ctrl
+   * delay based: VOIP, usually bundle the voice packets to intervals like 60ms
+       ![tbd](QCI.png)
 
-#### frequency slective/frequency domain
+### weight functions used in frequency slective scheduling
    * each PRB has different weight for a SE/UE   
 
-#### the object of scheduling is frequency domain * time domian
+### the unit of scheduling
    * SB: scheduling block, (15*12khz)* (1ms),, the smallest scheduling unit:
    * SE: scheduling unit, correspond 1 UE
-   * internal scheduling unit: PQ, which corresponding to 
+   * internal scheduling queue:
       - Radio bearer for DL,
-         <img src="PQ_example_1.png" width="500" height="250"> 
+          ![tbd](PQ_example_1.png)
       - LCG for UL
-         <img src="PQ_example_2.png" width="500" height="300"> 
+          ![tbd](PQ_example_2.png)
 ## Other summary
 *  CQI is Channel Quality Indicator. PMI stands for Pre-coding Matrix Indicator, and RI is Rank Indicator.
 * SRB: SRB0 common;SRB1 dedicated for an UE; SRB2 after activated, all NAS go by it
 * key tech of LTE: OFDM/SC-FDMA, MIMO, HARQ
 * Key tech of LTE-A: CA
+
 
 ## Reference
 * Sanchar LTE-A training material

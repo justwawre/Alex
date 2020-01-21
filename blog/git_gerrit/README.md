@@ -6,17 +6,16 @@ Using git/gerrit more than 9 months, and git/github more than 12 moths, do a rev
 
 ### git add <file>
 mean add the file into the version database, then return a SHA1
-    <img src="git_add.png" width="500" height="200">
-
+          ![tbd](git_add.png)
 ### git commit 
 * after commit, two object created
-    <img src="git_commit_1.png" width="500" height="120">
+          ![tbd](git_commit_1.png)
 * one object is new directory structure, another is commit itself
-    <img src="git_commit_2.png" width="500" height="120">
+          ![tbd](git_commit_2.png)
 * can verify by
-    <img src="git_commit_3.png" width="500" height="50">
+          ![tbd](git_commit_3.png)
 * every commit is a full snapshot of the whole project
-    <img src="git_commit_4.png" width="500" height="250">
+          ![tbd](git_commit_4.png)
 ### git commit --amend 
 create a sibling node, instead of child node, in the version history tree.
 
@@ -27,16 +26,16 @@ When using the clearcase/svn before, I had rename filename as file_1.c file_2.c,
 ## data compression
 * non-modified file will not dupliacted
 * only delta was sent between the local/remote repository
-    <img src="git_push.png" width="500" height="250">
+          ![tbd](git_push.png)
 ## Gerrit
 * it a git server with access control
 * allows to review commits before they are integrated into a target branch.
 * built on top of Git
 ### push for review
 * refer to remote branch
-    <img src="gerrit_push_review.png" width="500" height="250">
+          ![tbd](gerrit_push_review.png)
 * it generate change/patch set
-    <img src="gerrit_change.png" width="500" height="300">
+          ![tbd](gerrit_change.png)
 * the change-id was generated and inserted into commit message by the commit hook
 * Gerrit whill create whether change existed or not, then updte patchset or create a change
 

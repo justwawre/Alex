@@ -8,3 +8,8 @@ WARNING!!!
 Please note that this code is for testing purposes only! It is not meant to be production ready and I do advise not to use it in real-life projects without adding proper error handling!
 
 # not work in WSL 
+
+# to add client/server models as below
+## tcp select
+## tcp epoll
+## udp echo
