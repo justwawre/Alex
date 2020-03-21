@@ -5,6 +5,7 @@
 * [log analyzer in C++](logAnalyzer/)
 * [Design patterns in C++](../designPatterns/)
 * [k8s/docker review](../k8s/)
+* [Open RAN](O-RAN/)
 * [book: Foundations of Computer Science](../foundation_cs/)
  
 
