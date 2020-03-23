@@ -6,6 +6,7 @@
 * [Design patterns in C++](../designPatterns/)
 * [k8s/docker review](../k8s/)
 * [Open RAN](O-RAN/)
+* [5G study](5g/)
 * [book: Foundations of Computer Science](../foundation_cs/)
  
 
