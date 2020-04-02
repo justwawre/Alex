@@ -21,7 +21,8 @@ create a sibling node, instead of child node, in the version history tree.
 
 
 ## distributed
-When using the clearcase/svn before, I had rename filename as file_1.c file_2.c, to record the version locally. Now Git is a fully version control system which can run locally.
+When using the clearcase/svn before, you may need filename such as file_1.c file_2.c, to record the version locally before push to remote to invoke CI building, 
+For Git, it need no need at all.
 
 ## data compression
 * non-modified file will not dupliacted

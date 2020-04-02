@@ -2,7 +2,14 @@
 *Xu YangChun Aug/21/2019*
 
 ### Problem
-The DSP/thread run out of memory, shown in abstract:
+The DSP/thread run out of memory due to new feature<br>
+to be precise, the thread's memory usage is over limit set before.<br>
+
+### analysis
+The cause is that an new U16 field was added to the strcuture, <br> 
+then more space is needed for the array which allocated statically.<br> 
+the code just for illustration <br>
+
 ```c
 /* global variables */
 var1;
@@ -18,27 +25,33 @@ _SeDataS _SchedData[MAX_];
 ....
 varm;
 
-void ULMACCE_SCHEDFO_start()
+void _start()//entry point of the thread
 {
-  SESCHEDFO_init();
+  _init();
   func1();
   func2();
   ....  
-  SESCHEDFO_main();
+  _main();
   ....
   funcn();
 }
 ```  
-When building, it was reported that the thread's heap+stack usage is over limit.
-![plot_map](plot_map.png)
 
-### analysis
-The direct cause is that an U16 field was added to _SeDataS, so extra 24 words space is needed.
-Althogh the error is "heap+stack", heap release is not supported in this dsp role, so the memory optimization limited to either inside functions or outside the functions, in other words, local or global variable.
+since the dynamic allocated memory (heap ) is not supported in this dsp role, <br>
+(can allocate but can't release) <br> 
+so the memory optimization limited to satic allocated memory (stack) <br> 
+including the local or global variable for this thread/dsp.<br> 
 
 <!-- pagebreak -->
 ### reduce global variables' space via bits field
-The usual way used by developers before: changing the normal field in struct to bits field. it is easy to understand, but involve several files, and need to resolve "address of bits fields" error. And the deadly side effect is that it was used serveral years, so there is few space left to optimize, and there is performance penalty. 
+The usual way used by developers before: <br>
+changing the normal field in struct to bits field. <br>
+it is easy to understand, but involve several files, <br>
+and need to resolve "address of bits fields" error. <br>
+But there is few space left to optimize since the tricks was used many times before,<br>
+and it has performance penalty. <br>
+
+shown as an example <br>
 
 ```c
 struct bits
@@ -58,7 +71,7 @@ int main()
 	return 0;
 }
 ```
-and its asm code
+its asm code show that it need extra instructions 
 ```asm
 	mv         *dp(-2), a0h 	// 10 bits.c
 	or         49152, a0h   	// 10
@@ -78,16 +91,24 @@ and its asm code
 	mv         a0h, *dp(-3) 	// 14
 */
 ```
-### stack resue to reduce local variable space
+### reduce global variables' space via stack frame change 
 ![stack_layout](stack_layout.png)
-As illustrated above, the local variables ared allocated/released with stack frame, if we tell the complier to allocate the variable in the stack frames of the same level,  stack space can be reused, as explained in asm below:
+As illustrated above,<br>
+the local variables ared allocated/released inside the stack frame,<br>
+so when compiler met a function or code block, stack frame added, space increaded <br>
+when it met function return or end of code block, stack frome decreased, space decreased <br>
+so if we tell can put two variables which are located different level of stack frome <br>
+to stack frame of the the same level, <br>
+ thne stack space can be reused,<br>
+
+example below, aftr adding two sets of {},memory saved<br>
 
 ```c
 #include <stdlib.h>
 int s;
 int main()
 {
-	{
+	{//code block added,stack framed added, then space saved
 	 int xxx = rand();//line 6
 	 int yyy = rand();
 	 int xxx_2 = rand();
@@ -155,54 +176,48 @@ its asm code is:
 	cmp        301, a5h     	// 23 (*)
 	brr        #.LBB0_2, .a5:lt	// 23 (*), CurrBundle: 2, CriticalPath: 2
 
-// Procedure estimates:
-// Code size: 101 words (28 bits/instr)
-// Instructions / cycles: 57 / 39
-// Loop weighted cycles: 39
-// Stack allocation: 16
 ```
 
 ### solution
 ***original code***
 ```c
-void SESCHEDFO_main()
+void _main()
 {
-  ULMACCE_LAPCSPLIB_traceS trace;
+  _traceS trace;
   ....
   while(expr)
   {
-    assignSpectrumSucceeded =
-        ULMACCE_SCHEDLIB_assignSpectrumToSe(
+    Succeeded =
+        _assignSpectrumToSe(
             &trace
         );
     //it is found that trace was not used inside this block at all 
-    if (assignSpectrumSucceeded)
+    if (Succeeded)
     {
-      ULMACCE_PUSCHTPS_ginrWeighterDataS ginrWeightDataS;
+      _ginrWeighterDataS ginrWeightDataS;
 	  ... 
     }    
   }
 }
 ```
-***refactoring***
+***refactoring, just adding 1 set of {}***
 ```c
 void SESCHEDFO_main()
 {
 
  while(expr)
   {
-    BOOL isNs05seTypeDowngraded = FALSE;
-    {
-    ULMACCE_LAPCSPLIB_traceS trace;
+    {/code block added,stack framed added, then space saved
+    _traceS trace;
 	...
-    assignSpectrumSucceeded =
-        ULMACCE_SCHEDLIB_assignSpectrumToSe(
+    Succeeded =
+        _assignSpectrumToSe(
             &trace
         );
     }
-    if (assignSpectrumSucceeded)
+    if (Succeeded)
     {
-        ULMACCE_PUSCHTPS_ginrWeighterDataS ginrWeightDataS;
+        _ginrWeighterDataS ginrWeightDataS;
     }    
   }
 }
@@ -213,10 +228,13 @@ The difficulty of this solution is:
 * optimizaiotn is only meaningful in the CriticalPath
 * how many space can be save is difficult to calculate
 * no tool to find the CriticalPath
-Last sprint, I used git reflog/reset several round to find out the CriticalPath in thread level: SESCHEDFO_main().
+Last sprint, I used git reflog/reset several round to find out the CriticalPath <br>
+ in thread level function: _main().
 
 ### looking forward: Anonymous union
-If two fieled don't appear at the same time, they can share space via union
+many fieled actually are not used at the same time, <br>
+e.g. the firt half time abc is used, the later def is used <br>
+they can share space via union in theory<br>
 
 ```c
 //abc,def was organized to a union
@@ -232,13 +250,16 @@ typedef struct _SeDataS
 //code needn no change
 _SchedData[i].abc = xxx;
 ```
-If using the named union, it will require lots code changes.The only problem of the solution is that current compler don't support it, so it need wait for clang migration completion.
+If using the named union, it will require lots code changes.<br>
+The problem  is that current compler don't support it, <br>
+so it need wait for clang migration completion.<br>
 
-### reduce more global variable?
-Can we design SW in data driven way, if a global variable is not used in later phase, its space can be reused by another gloabal variable only used in later phase.
 
 ### Supplements
-Here only list some tricks I use in last sprint, the topic about algorithm change is not covered, a seperate example about it will be shared via gerrit link.
+Here only list some tricks I use in last sprint,<br>
+the topic about algorithm change is not covered, <br>
+an example of removing the big auxiliary Space in the merge sort function<br>
+will discuss next time <br>
 
 
 
