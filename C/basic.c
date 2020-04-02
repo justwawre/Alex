@@ -104,7 +104,7 @@ void endian_test()
   } word_t;
   word_t w;
   w.a = 1;
-  if (w.a == '\1')
+  if (w.c == '\1')
     printf("little endian\n");
   else
     printf("big endian\n");
