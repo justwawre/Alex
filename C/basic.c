@@ -14,20 +14,38 @@ If the macro NDEBUG is defined (above the statement that includes assert.h!),
 [alex@clang]$clang -DDEBUG -E test.c  -o a.c
  */
 
+//the original c func strcpy can handle the overlap issue
 char *strcpy_alex(char *restrict strDest, const char *restrict strSrc)
 {
-  assert(strDest != NULL && strSrc != NULL);
+  assert(strDest != NULL && strSrc != NULL && strSrc != strDest);
   char *address = strDest;
-  for (; *strSrc;)
+  if (strDest < strSrc)
   {
-    *strDest = *strSrc;
-    strDest++;
-    strSrc++;
+    for (; *strSrc;)
+    {
+      *strDest = *strSrc;
+      strDest++;
+      strSrc++;
+    }
+    *strDest = '\0';
   }
-  *strDest = '\0';
+  else
+  {
+    for (; *strSrc;)
+    {
+      strDest++;
+      strSrc++;
+    }
+    for (; address <= strDest;)
+    {
+      *strDest = *strSrc;
+      strDest--;
+      strSrc--;
+    }
+  }
+
   return address;
 }
-
 /* 
 bad example that  make garbage collection difficult or impossible
 char *s = (char *) malloc(1024);
@@ -64,14 +82,23 @@ int strlen_2(char src[2]) //
 void str_func_test()
 {
   FUNC_HEAD();
-  char str[10];
-  strcpy_alex(str, "123456");
-  printf("%s\n", str);
+  char str[30];
+
+  char *p = &(str[5]);
+  strcpy_alex(p, "123456");
+  printf("the src=123456 the dest=%s\n", p);
+
+  char *p1 = &(str[20]);
+  strcpy_alex(p1, p);
+  printf("the src=123456 the dest=%s\n", p1);
+
+  strcpy_alex(str, p);
+  printf("the src=123456 the dest=%s\n", str);
 
   int len = sizeof(str) / sizeof(str[0]);
   strncpy(str, "123456789012", len - 1);
   str[len - 1] = '\0';
-  printf("%s\n", str);
+  printf("original str=123456789012 after strncpy %s\n", str);
 
   assert(strlen_alex(str) == strlen(str));
   assert(strlen_2(str) == strlen(str));
@@ -121,8 +148,7 @@ enum sizes
 void enmum_test()
 {
   FUNC_HEAD();
-  printf("the enum are:\n %d %d %d %d\n",small,medium,large,humungous);
-
+  printf("the enum are:\n %d %d %d %d\n", small, medium, large, humungous);
 }
 
 void op_test()
@@ -213,7 +239,6 @@ void anonymous_union_test(void)
   printf("%x\n", wang.i);
 }
 
-
 unsigned int avg(unsigned int a, unsigned int b)
 {
   return (a >> 1) + (b >> 1) + (a & b & 1);
@@ -229,7 +254,6 @@ unsigned int avg_upgrade(unsigned int a, unsigned int b)
   return ((long)a + (long)b) / 2;
 }
 
-
 void avg_test(void)
 {
   FUNC_HEAD();
@@ -238,7 +262,6 @@ void avg_test(void)
   printf("avg_overflow return: %ud\n", avg_overflow(-1, -1));
   printf("avg_upgrade return: %ud\n", avg_upgrade(-1, -1));
 }
-
 
 int main()
 {
