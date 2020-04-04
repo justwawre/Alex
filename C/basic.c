@@ -13,8 +13,16 @@ If the macro NDEBUG is defined (above the statement that includes assert.h!),
 [alex@clang]$gcc -DDEBUG -E test.c  -o a.c     用来传递DEBUG的定义
 [alex@clang]$clang -DDEBUG -E test.c  -o a.c
  */
+void char_space()
+{
+  char a;
+  int c;
+  char b;
+  printf("addres of a is %p, of b is %p \n", &a,&b);
+}
 
-//the original c func strcpy can handle the overlap issue
+
+//handle the overlap issue just like libc
 char *strcpy_alex(char *restrict strDest, const char *restrict strSrc)
 {
   assert(strDest != NULL && strSrc != NULL && strSrc != strDest);
@@ -57,33 +65,24 @@ restrict是c99标准引入的，它只可以用于限定和约束指针，并表
 是否遵循了这一限制，如果您蔑视它也就是在让自己冒险。
  */
 
-int strlen_alex(const char *restrict src)
+//make sure it func same as strlen() in libc
+int strlen_alex(const char *restrict pStr)
 {
-  int len = 0;
-  assert(src != NULL);
-  for (; *src; src++)
-  {
-    len++;
-  }
-  return len;
-}
 
-int strlen_2(char src[2]) //
-{
-  int len = 0;
-  assert(src != NULL);
-  for (; *src; src++)
-  {
-    len++;
-  }
-  return len;
+  assert(pStr != NULL);
+  const char *addr = pStr;
+  for (; *pStr; pStr++)
+    ;
+  return pStr - addr;
 }
 
 void str_func_test()
 {
   FUNC_HEAD();
-  char str[30];
 
+  char_space();
+
+  char str[30];
   char *p = &(str[5]);
   strcpy_alex(p, "123456");
   printf("the src=123456 the dest=%s\n", p);
@@ -101,9 +100,8 @@ void str_func_test()
   printf("original str=123456789012 after strncpy %s\n", str);
 
   assert(strlen_alex(str) == strlen(str));
-  assert(strlen_2(str) == strlen(str));
 
-  int (*func)(char *) = strlen_2;
+  int (*func)(const char *) = strlen_alex;
   printf("sizof(func pointer) in 64bit system is :%lu\n", sizeof(func));
 }
 
@@ -197,11 +195,11 @@ void in_param_test()
 void sign_test(void)
 {
   FUNC_HEAD();
-  unsigned int ut;
+  unsigned int ut = 1;
   printf("%d\n", ISUNSIGNED(ut));
   printf("%d\n", ISUNSIGNED_T(unsigned int));
 
-  signed int st;
+  signed int st = 1;
   printf("%d\n", ISUNSIGNED(st));
   printf("%d\n", ISUNSIGNED_T(signed int));
 }
