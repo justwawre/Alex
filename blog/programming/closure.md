@@ -5,6 +5,7 @@
 * Closure 有代价的,往往意味着所在的fuction object 得延迟释放内存.
 
 以一个adder函数演示一下实现.
+* [C](adder.c)
 * [C++](adder.cpp)
 * [Python](adder.py)
 
