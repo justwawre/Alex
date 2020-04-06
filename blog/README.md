@@ -8,6 +8,7 @@
 * [k8s/docker review](../k8s/)
 * [Open RAN](O-RAN/)
 * [5G study](5g/)
+* [programming](programming/)
 * [book: Foundations of Computer Science](../foundation_cs/)
  
 
