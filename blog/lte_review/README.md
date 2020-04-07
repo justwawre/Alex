@@ -1,21 +1,21 @@
-Personal review, something maybe ignored during past daily work.
+Personal review
 
 ## Overview
 * Protocol stack
-    ![tbd](protocal_stack.png)
+* ![tbd](protocal_stack.png)
 * SDU/PDU
-   ![tbd](data_flow.png)
+* ![tbd](data_flow.png)
 
 ## DFT-S-FDMA(clustered)
-   ![tbd](cluster_pusch.png)
+* ![tbd](cluster_pusch.png)
 
-Discrete Fourier Transformation-Spread OFDM : allows multi cluster in UL, allows PUCCH and PUSCH to be transmitted at the same time.
+* Discrete Fourier Transformation-Spread OFDM : allows multi cluster in UL, allows PUCCH and PUSCH to be transmitted at the same time.
 
 ## Cell size dimension
 * from power view, decided by  UE Tx power/path loss/eNB acceptable Rx power
 * from UE Rx/Tx switch time if TDD
    - decided by the GP of special subframe
-   ![tbd](frame_2.png)
+   - ![tbd](frame_2.png)
  * Random access phase
    - preamble  detection windows size decided by  Preach format
    - TA command,  its value was detected by eNB during RA phase, in theory, its value will limit the cell size.
@@ -38,18 +38,19 @@ it is quite special
 * number of HARQ processes are fixed to 8.
 * UL harq is synchronous,  UL ACK/NACK was fixed to 4 TTI after transmission
 * DL harq is asynchronous, its Harq process and RV is indicated by PDCCH.
-![timing](ULDL_timing.png)
-timing of UL/DL transmission. in above example UL grant happen at n TTI, transmission happen at n+4, retransmission happen at n+8.
-![no adpative](ulharq_no_adaptive.png)
+* ![timing](ULDL_timing.png)
+* timing of UL/DL transmission. in above example UL grant happen at n TTI, transmission happen at n+4, retransmission happen at n+8.
+* ![no adpative](ulharq_no_adaptive.png)
 
-In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a received (HICH) in case no PDCCH was transmitted (non-adaptive). In case of an adaptive retransmission, the UE uses the resources which are assigned by the PDCCH. If a non-adaptive retransmission takes place, the UE uses the same resources which were previously used by the same HARQ process.
-
+In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a received (PHICH)
+* If non-adaptive retransmission, the UE uses the same resources which were previously used by the same HARQ process, no PDCCH signalling needed.
+* If adaptive retransmission, the UE uses the resources which are assigned by the PDCCH.
 ## UL scheduling
    * via SR/BSR
    classified by LCG
    * explicit granted via PDCCH or implicit grant e.g. IUA (SPS of interval 1/2/4ms)
-   ![tbd](ul_scheduling.png)
-   non-adaptive don't need UL grant signalling via PDCCH
+   * ![tbd](ul_scheduling.png)
+   * if retransmission, please refer previous chapter
 ## Random access procedure
    ![tbd](ra.png)
 
@@ -60,7 +61,7 @@ In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a rec
  is to improve the coverage/throughput at the cell edge.
  * ”joint processing”: eNBs share info
  * ”coordinated scheduling”: UE report bad/good PMI set
-    ![tbd](CoMP.png)
+ * ![tbd](CoMP.png)
 
 ## Beamforming
 * a general signal processing technique used to control the directionality
@@ -71,13 +72,15 @@ of several correlated signals (beamforming),
 
 ## Carrier Aggregtion
 * UE-->TB-->CC mapping
-    ![tbd](CA_mapping.png)
+* ![tbd](CA_mapping.png)
 * scheduling only happen on PCell,so from MAC sw view, the SCell is only accessed via the PCell
-* SCell are configured based on UE capability. Can have DL only resources or DL
-and UL resources. Are Rel. 8/9 compatible. Are configured to be used by the UE
-via dedicated RRC Reconfiguration message. Can be dynamically activated/deactivated (MAC based).
+* SCell are configured based on UE capability
+* Can have DL only resources or DL and UL resources.
+* Rel. 8/9 compatible.
+* configured via dedicated RRC Reconfiguration message.
+* Can be dynamically activated/deactivated (MAC based).
 * asymmetric of DL/UL CC
-    ![tbd](CA_asymmetric.png)
+* ![tbd](CA_asymmetric.png)
 
 * MAC handling
   it split into two phase
@@ -121,9 +124,9 @@ So scheduler only need care the weight.
    * SE: scheduling unit, correspond 1 UE
    * internal scheduling queue:
       - Radio bearer for DL,
-          ![tbd](PQ_example_1.png)
+      - ![tbd](PQ_example_1.png)
       - LCG for UL
-          ![tbd](PQ_example_2.png)
+      - ![tbd](PQ_example_2.png)
 ## Other summary
 *  CQI is Channel Quality Indicator. PMI stands for Pre-coding Matrix Indicator, and RI is Rank Indicator.
 * SRB: SRB0 common;SRB1 dedicated for an UE; SRB2 after activated, all NAS go by it
@@ -136,3 +139,6 @@ So scheduler only need care the weight.
 * internal LTE RRM trainning video
 * LTE spec, 3gpp 36.3xx
 * 温金辉: 深入理解LTE-A
+
+## others
+* [tm mode](tm_mode.md)
