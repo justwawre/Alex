@@ -1,10 +1,12 @@
 ## overview
-The downlink control information (DCI) is mapped to the PDCCH in the physical layer. 
-
-Each DCI carries its own radio network temporary identity (RNTI) to identify the target user. The DCI can have several formats depending on the transmission mode as shown in Table 3.3-6.
+LTE specifies the way the downlink radio channel will be used by defining a set of transmission modes in 36.213 Section 7.1. There are nine different modes, all of which have different benefits in different use cases depending on the radio environment.
 
 * ![tm overview](tm_overview.png)
 
+An antenna “port” does not always mean the same thing as a physical antenna. The term antenna port refers to the use of a particular set of reference signals, which are multiplexed onto physical antennas to suit the transmission mode. An example is port 5, used in TM7. The same coded signal is adjusted in phase and fed to multiple physical antennas to create a beamformed signal. This
+concentrates the transmitted power towards a specific direction or location, while the UE needs only to estimate the channel from one group of reference signals.
+
+The way in which the different transmission modes are applied to the various downlink signals depends on what use the transmission mode makes of transmit diversity, spatial multiplexing, or cyclic delay diversity (CDD).
 
 
 ## downlink Reference Signals
@@ -47,4 +49,4 @@ allocated with a periodicity of 5, 10, 20, 40 and 80 subframes. This range helps
 * 由于TM9的测量导频CSI-RS可以是用户级配置，从而能更精准的对相邻小区发送的数据流进行测量，并协调调度。根据实验室结果来看，基于TM9的下行 CoMP技术可使边缘速率提升20%-40%。
 
 ## ref
-*Agilent Technologies, LTE and the Evolution to 4G Wireless Design and Measurement Challenges
+* Agilent , LTE and the Evolution to 4G Wireless Design and Measurement Challenges
