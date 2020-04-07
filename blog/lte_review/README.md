@@ -6,10 +6,6 @@ Personal review
 * SDU/PDU
 * ![tbd](data_flow.png)
 
-## DFT-S-FDMA(clustered)
-* ![tbd](cluster_pusch.png)
-
-* Discrete Fourier Transformation-Spread OFDM : allows multi cluster in UL, allows PUCCH and PUSCH to be transmitted at the same time.
 
 ## Cell size dimension
 * from power view, decided by  UE Tx power/path loss/eNB acceptable Rx power
@@ -51,17 +47,6 @@ In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a rec
    * explicit granted via PDCCH or implicit grant e.g. IUA (SPS of interval 1/2/4ms)
    * ![tbd](ul_scheduling.png)
    * if retransmission, please refer previous chapter
-## Random access procedure
-   ![tbd](ra.png)
-
-## Attach
-   ![tbd](attach.png)
-
-## Coordinated multiopoint(CoMP) transmission/reception
- is to improve the coverage/throughput at the cell edge.
- * ”joint processing”: eNBs share info
- * ”coordinated scheduling”: UE report bad/good PMI set
- * ![tbd](CoMP.png)
 
 ## Beamforming
 * a general signal processing technique used to control the directionality
@@ -114,7 +99,6 @@ So scheduler only need care the weight.
    * max cell throughput
    * strict priority:Used for BCCH, PCCH, CCCH, MAC Ctrl
    * delay based: VOIP, usually bundle the voice packets to intervals like 60ms
-       ![tbd](QCI.png)
 
 ### weight functions used in frequency slective scheduling
    * each PRB has different weight for a SE/UE   
@@ -127,20 +111,20 @@ So scheduler only need care the weight.
       - ![tbd](PQ_example_1.png)
       - LCG for UL
       - ![tbd](PQ_example_2.png)
-## Other summary
-*  CQI is Channel Quality Indicator. PMI stands for Pre-coding Matrix Indicator, and RI is Rank Indicator.
-* SRB: SRB0 common;SRB1 dedicated for an UE; SRB2 after activated, all NAS go by it
-* key tech of LTE: OFDM/SC-FDMA, MIMO, HARQ
-* Key tech of LTE-A: CA
+
+## MISC
+
+* [Physical Layer](phy.md)
+* [tm mode](tm_mode.md)
+* [Access Stratum](AS.md)
+* [Non-Access Stratum](NAS.md)
+* [SAE](SAE.md)
+* [LTE advanced](lte_a.md)
+* [LTE QoS](LTE_QoS.pdf)
 
 
 ## Reference
-* Sanchar LTE-A training material
 * internal LTE RRM trainning video
-* LTE spec, 3gpp 36.3xx
 * 温金辉: 深入理解LTE-A
+* Moray Rumney, LTE and the Evolution to 4G Wireless
 
-## others
-* [tm mode](tm_mode.md)
-* [dci](dci.md)
-* [uci](uci.md)

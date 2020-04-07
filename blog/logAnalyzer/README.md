@@ -1,6 +1,7 @@
 
 ### background
-There was a project about new log for troubleshooting, which verifier need compare with existed logs for correctness. If the work was to done manually, it will take lots of time, so I write some tools do help.
+There was a project about new log for troubleshooting, which verifier need compare with existed logs for correctness. 
+
 The log file size is 3~10G bytes, so I considered using the C++/STL to do the log analyze instead of Python.
 ### env
 * run: Redhat 6.0 with GCC 4.x
@@ -12,16 +13,22 @@ The log file size is 3~10G bytes, so I considered using the C++/STL to do the lo
 * [verify the NewTx type ](c_11.cpp)
  
 Vector/Map/Regex were used at firstly, later only map was used.
+
 Regex was abandoned because it run slower than using string::find() for pattern matching as tested.
+
 Vector was used to store a list of info appear before info needed appear, but it is found needless when running the verification tools, so was abandoned too.
+
 The key of Map is "bbUeRef", a data structure correspond to it  will be compared.
 
 ### tool for log statistics
-During the load test, it need find out how many message sent/lost for each kind of trace. It is quite difficult for tester to such counting, and personally, I'd find out why mesage was lost, so need statistics more detailed, so I wrote the program for tester.
+During the full load test, lots message were lost. It is quite difficult for tester to do statistics then to find out why mesage was lost just using Linux commands. so I wrote the tool for tester.
+
 * [statistics of message and its status](se_stastics.cpp)
+
 #### spinning indicator
 Since the log file is quite big, so it need about 30~60s to complete. so a spinning indication was designed, to tell the tester that the program is progressing.
 It need start a sperate thread for it:
+
 ```C++
 this_thread::sleep_for(40ms); // 25 frames/second
 ```
@@ -29,12 +36,16 @@ this_thread::sleep_for(40ms); // 25 frames/second
 ### something learned
 #### regex lib issue
 The program used the Regex lib firstly, and it work fine under g++ 4.9x/g++8.0, but not work under gcc version 4.8.5/clang version 6.0.1. And it is a known issue.
+
 But regex lib is still very good for extraction
+
 * [regex example](regex.cpp)
 
 #### valgrind to check memory leak
 http://valgrind.org
+
 the framewrok work fine, not forget to disable optimize when compilation.
+
 ```bash
 g++ -g -std=c++11 -o logA a.cpp
 valgrind --tool=memcheck --leak-check=full ./logA BB.dec
@@ -43,11 +54,11 @@ valgrind --tool=memcheck --leak-check=full ./logA BB.dec
 #### WSL binary compatible
 It seem that if Linux kernel permit, the executable can be compatible.
 
-* compiled under WSL (Ubuntu)
+compiled under WSL (Ubuntu)
 ```bash
 $ g++ -g C.cpp -static
 ```
-* Then upload to Redhat
+Then upload to Redhat server
 ```tcsh
 -> ./a.out
 FATAL: kernel too old

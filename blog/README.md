@@ -9,6 +9,7 @@
 * [Open RAN](O-RAN/)
 * [5G study](5g/)
 * [programming](programming/)
+* [algorithms](algorithms/)
 * [book: Foundations of Computer Science](../foundation_cs/)
  
 

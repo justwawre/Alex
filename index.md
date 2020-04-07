@@ -1,5 +1,6 @@
-*A C/C++/Python/Go developer in telecom industry,interested in distributed computing,e.g. K8s
-Good at system analyzing & problem solving.*
+A C/C++/Python/Go developer in telecom industry,<br>
+interested in distributed computing,e.g. K8s<br>
+Good at system analyzing & problem solving. <br>
 
 
 ## work experience
