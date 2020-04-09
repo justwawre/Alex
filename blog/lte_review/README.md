@@ -121,6 +121,7 @@ So scheduler only need care the weight.
 * [SAE](SAE.md)
 * [LTE advanced](lte_a.md)
 * [LTE QoS](LTE_QoS.pdf)
+* [LTE 接入过程中的安全机制](LTE_RACH_security.pdf)
 
 
 ## Reference
