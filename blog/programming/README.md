@@ -2,5 +2,5 @@
 * [closure](closure.md)
 * [programming paradigm](programming_paradigm.md)
 * [static & dynamic lib under Linux](static_dynamic_lib.md)
-
-
+* [24点游戏的算法与实现](24点游戏的算法与实现.pdf)
+* [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
