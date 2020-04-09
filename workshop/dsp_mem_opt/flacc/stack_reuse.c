@@ -1,3 +1,6 @@
+/*
+flacc -O3 -S 
+*/
 #include <stdlib.h>
 int s;
 int main()
@@ -26,8 +29,5 @@ int main()
 	return s;
 }
 
-/*
-flacc -O3 -S 
 
-*/
 
