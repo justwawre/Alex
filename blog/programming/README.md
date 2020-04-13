@@ -1,4 +1,5 @@
 * [win10](win10.md)
+* [Ubuntu 18.04 LTS setup](Ubuntu.md)
 * [closure](closure.md)
 * [programming paradigm](programming_paradigm.md)
 * [static & dynamic lib under Linux](static_dynamic_lib.md)
