@@ -150,3 +150,75 @@ struct rb_root
 ```
 也就是说牺牲一个 指针的空间，就可以使用rbt的所有功能了。
 
+# book:Linux Kernel Development 3e
+the book is based on kernel 2.6.
+
+## the process have 3 states
+
+the Linux specific concept, the process have 3 states:
+
+* In user-space, executing user code in a process
+* In kernel-space, in process context, executing on behalf of a specific process
+* In kernel-space, in interrupt context, not associated with a process, handling an interrupt,not associated with any process.This special context exists solely to let an interrupt handler quickly respond to an interrupt, and then exit.
+
+This list is inclusive. Even corner cases fit into one of these three activities: For example, when idle, it turns out that the kernel is executing an idle process in process context in the kernel.
+
+## differences between the Linux kernel and Unix's
+* Linux supports the dynamic loading of kernel modules
+* The Linux kernel is preemptive, can preempt a task even as it executes in the kernel
+* Linux provides an object-oriented device model with device classes, hot-pluggable events, and a user-space device filesystem (sysfs).
+
+## kernel differ to normal program
+* The kernel has access to neither the C library nor the standard C headers.
+* The kernel is coded in GNU C.
+* The kernel lacks the memory protection afforded to user-space.
+* The kernel cannot easily execute floating-point operations.
+* The kernel has a small per-process fixed-size stack.
+* Because the kernel has asynchronous interrupts, is preemptive, and supports SMP, synchronization and concurrency are major concerns within the kernel.
+* Portability is important.
+
+总体感觉,kernel 的编程一方面类似普通的嵌入式开发,资源有限,另外一方面由于os的特点,需要考虑的地方,支持的功能都比较多.
+
+## Process Descriptor and the Task Structure
+The kernel stores the list of processes in a circular doubly linked list called the task list. Each element in the task list is a process descriptor of the type struct task_struct, which is defined in <linux/sched.h>.The process descriptor contains all the information about a specific process.
+
+The task_struct is a relatively large data structure, at around 1.7 kilobytes on a 32-bit machine.This size, however, is quite small considering that the structure contains all the information that the kernel has and needs about a process.
+
+## Multitasking
+operating systems come in two flavors: cooperative multitasking and preemptive multitasking. In preemptive multitasking, the scheduler decides when a process is to cease running and a new process is to begin running.The act of involuntarily suspending a running process is called preemption.Conversely, in cooperative multitasking, a process does not stop running until it voluntary decides to do so.The act of a process voluntarily suspending itself is called yielding.
+
+## Policy
+is the behavior of the scheduler that determines what runs when.
+
+I/O-Bound Versus Processor-Bound Processes: The former is characterized as a process that spends much of its time submitting and waiting on I/O requests.Conversely, processor-bound processes spend much of their time executing code. The scheduling policy in a system must attempt to satisfy two conflicting goals: fast process response time (low latency) and maximal system utilization (high throughput).
+
+
+## System call
+	long syscall(long number, ...);
+The mechanism to signal the kernel is a software interrupt: The defined software interrupt on x86 is interrupt number 128, which is incurred via the int $0x80 instruction. It triggers a switch to kernel mode and the execution of exception vector 128, which is the system call handler. On x86, the syscall number is fed to the kernel via the eax register. On x86-32, the registers ebx, ecx, edx, esi, and edi contain, in order, the first five arguments。The return value is sent to user-space also via register. On x86, it is written into the eax register.
+
+In process context, the kernel is capable of sleeping (for example, if the system call blocks on a call or explicitly calls schedule()) and is fully preemptible. These two points are important. First, the capability to sleep means that system calls can make use of the majority of the kernel's functionality. the capability to sleep greatly simplifies kernel programming.
+
+The fact that process context is preemptible implies that, like user-space, the current task may be preempted by another task. Because the new task may then execute the same system call, care must be exercised to ensure that system calls are reentrant.
+
+# Interrupt handler
+印象中是为了缩短disable interrupt的时间，enable interrupt后就会产生中断嵌套的执行方式。
+
+* the top half,
+* the bottom half,
+
+## Building the Kernel
+	$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git
+
+	#kernel source code: /usr/src/linux-5.x
+	#build directory:    ~
+
+
+	$sudo apt-get install libncurses5-dev 
+	$sudo apt install flex bison
+
+	$ cd /usr/src/linux-5.0.4/
+	$ make O=~ menuconfig
+	$ make O=~
+
+

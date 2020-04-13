@@ -10,7 +10,7 @@
 * [Open RAN](O-RAN/)
 * [5G study](5g/)
 * [programming](programming/)
-* [guide for tester & service](support/)
+* [Dev/test support](support/)
 * [algorithms](algorithms/)
 * [book: Foundations of Computer Science](../foundation_cs/)
  
