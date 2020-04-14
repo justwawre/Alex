@@ -9,5 +9,8 @@
 * [APUE 3e practise](APUE.md)
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
 * [GDB](GDB.md)
+* [tcp/ip programming](tcpip.md)
+* [tcp/ip troubleshooting](tcpip_debug.md)
+* [bash shell script](bash.md)
 * [24点游戏的算法与实现](24点游戏的算法与实现.pdf)
 * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
