@@ -104,6 +104,22 @@ clang++ -g -std=c++11 -stdlib=libc++ -lc++abi regex.cpp
 * clang
 * clang++
 * clang-format, even you using the other compiler, VS Code using it to format your C/C++ code
+
+```
+apt-get install clang-format
+```
+
+在代码当前目录新建.clang-format文件（注意文件名开头的.），内容为：
+
+```
+BasedOnStyle: LLVM
+IndentWidth: 8
+UseTab: Always
+BreakBeforeBraces: Linux
+AllowShortIfStatementsOnASingleLine: false 
+IndentCaseLabels: false
+```
+
 * clang-modernize：change the C++98 code to C++11 codde
 * Clang Static Analyzer
 

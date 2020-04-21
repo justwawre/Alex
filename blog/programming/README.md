@@ -2,6 +2,8 @@
     * [Ubuntu 18.04 LTS setup](Ubuntu.md)
     * [git/gerrit ](git_gerrit.md)
     * [llvm/clang/lldb](llvm_clang_lldb.md)
+    * [GCC](gcc.md)
+    * [GDB](GDB.md)
     
 * [programming paradigm](programming_paradigm.md)
     * [closure](closure.md)
@@ -13,16 +15,18 @@
     * [tcp/ip programming](tcpip.md)
     * [tcp/ip troubleshooting](tcpip_debug.md)
     * [bash shell script](bash.md)
-    * [Linux kernel code](Linux_kernel_reading.md)
-    * [APUE 3e practise](APUE.md)
     * [C practise](https://github.com/yc-alex-xu/Alex/tree/master/C)
-    * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
-    * [GDB](GDB.md)
+ 
+* [Linux kernel code](Linux_kernel_reading.md)
+
 
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
     * [staic of C](static_of_C.md)
     * [strong & weak symbol during linking](strong_weak.md)
+
+* [APUE 3e practise](APUE.md)
     * [static & dynamic lib under Linux](static_dynamic_lib.md)
+    * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
 
 * [C++ practise](https://github.com/yc-alex-xu/Alex/tree/master/C++)
     * [log analyzer in C++](logAnalyzer.md)
