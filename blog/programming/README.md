@@ -5,11 +5,6 @@
     * [GCC](gcc.md)
     * [GDB](GDB.md)
     
-* [programming paradigm](programming_paradigm.md)
-    * [closure](closure.md)
-
-* [distributed system](CAP.md)
-
 
 * [The Linux Programming Interface](TLPI.md)
     * [tcp/ip programming](tcpip.md)
@@ -32,12 +27,18 @@
     * [log analyzer in C++](logAnalyzer.md)
     * [Design patterns in C++](../../designPatterns/)
 
-* [algorithms](algorithms.md)
-
 * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
     * [24点游戏的算法与实现](24点游戏的算法与实现.pdf)
 
 * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)
+
+* [algorithms](algorithms.md)
+
+* [programming paradigm](programming_paradigm.md)
+    * [closure](closure.md)
+
+* [distributed system](CAP.md)
+
 
 * [book: Foundations of Computer Science](../../foundation_cs/)
 
