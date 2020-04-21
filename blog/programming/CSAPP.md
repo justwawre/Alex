@@ -46,32 +46,119 @@ function will need to be modified。
 e.g.<br>
 当g.o调用一个外部的函数puts()时，那么编译器会生成一条call指令，指令的操作数是一个占位符，而与此同时生成一条重定位条目（relocation entry）放在.rel.text section中，类似的，当模块调用一个外部变量时，编译器会生成一条重定位条目放在.rel.data section中。
 
-
-### 对于可执行文件
-由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它不存在.rel.text和.rel.data这两个section。但是，它增加了一个section：
-* .init: 这个section里面保存了程序运行前的初始化代码
-
-用来检查的命令
-* Display the relocation entries in the file
-```
-objdump -r g.o
-```
-* Display the dynamic relocation entries in the file
-```
-objdump -R a.out
+[main()](main.c) [f()](foo.c)  [g()](goo.c)
 
 ```
-3) .rela.eh_frame：
+$ gcc -c main.c
+$ objdump -r main.o
+
+main.o:     file format elf64-x86-64
+
+RELOCATION RECORDS FOR [.text]:
+OFFSET           TYPE              VALUE 
+000000000000000f R_X86_64_PLT32    f-0x0000000000000004
+000000000000001b R_X86_64_PLT32    g-0x0000000000000004
+0000000000000024 R_X86_64_PC32     j-0x0000000000000004
+
+
+RELOCATION RECORDS FOR [.eh_frame]:
+OFFSET           TYPE              VALUE 
+0000000000000020 R_X86_64_PC32     .text
+
+```
+可以看到main() 中的f(),g(),j 因为在main.c中没有define, 所以都需要relocation.
+
+* .rela.eh_frame：
 
 这个section同.rel.text一样属于重定位信息的section，只不过它包含的是eh_frame的重定位信息 (When using languages that support exceptions, such as C++, additional information must be provided to the runtime environment that describes the call frames that much be unwound during the processing of an exception. This information is contained in the special sections.eh_frameand.eh_framehdr.)
 
-4) .dynsym: 这个section保存与动态链接相关的导入导出符号，不包括模块内部的符号。而.symtab则保存所有符号，包括.dynsym中的符号。
+可以disable
 
-5) .init和.init_array: 这个section中保存了该可执行程序main函数执行之前的初始化代码， 比如设置环境变量，给main函数传递参数等
+```
+$ gcc -c -fno-asynchronous-unwind-tables main.c
+$ objdump -r main.o
 
-6) .fini和.fini_array: 这个section中保存了该可执行程序main函数正常退出之后执行的代码。
+main.o:     file format elf64-x86-64
 
-7) .dynamic: 这个section里保存了动态链接器所需要的基本信息，比如依赖哪些共享对象、动态链接符号表的位置、动态链接重定位表的位置、共享对象初始化代码的地址等。它是由是由Elfxx_Dyn（Elf32_Dyn或者Elf64_Dyn）组成的数组。Elfxx_Dyn结构由一个类型值加上一个附加的数值或指针，对于不同的类型，后面附加的数值或者指针有着不同的含义。
+RELOCATION RECORDS FOR [.text]:
+OFFSET           TYPE              VALUE 
+000000000000000f R_X86_64_PLT32    f-0x0000000000000004
+000000000000001b R_X86_64_PLT32    g-0x0000000000000004
+0000000000000024 R_X86_64_PC32     j-0x0000000000000004
+
+
+```
+
+
+
+### 对于可执行文件
+由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它不存在.rel.text和.rel.data这两个section。但是，它增加了一个section .init: 这个section里面保存了程序运行前的初始化代码
+* .init:
+
+[static variable with initial value](static.c)
+
+```
+$ gcc static.c
+$ objdump -d a.out
+
+a.out:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+00000000000004b8 <_init>:
+ 4b8:	48 83 ec 08          	sub    $0x8,%rsp
+ 4bc:	48 8b 05 25 0b 20 00 	mov    0x200b25(%rip),%rax        # 200fe8 <__gmon_start__>
+ 4c3:	48 85 c0             	test   %rax,%rax
+ 4c6:	74 02                	je     4ca <_init+0x12>
+ 4c8:	ff d0                	callq  *%rax
+ 4ca:	48 83 c4 08          	add    $0x8,%rsp
+ 4ce:	c3                   	retq   
+```
+
+### 其他 section
+
+* dynamic relocation entries 
+
+ Display the dynamic relocation entries in the file
+
+
+```
+$ gcc main.c foo.c goo.c
+$ objdump -R a.out
+a.out:     file format elf64-x86-64
+
+DYNAMIC RELOCATION RECORDS
+OFFSET           TYPE              VALUE 
+0000000000200df0 R_X86_64_RELATIVE  *ABS*+0x00000000000005f0
+0000000000200df8 R_X86_64_RELATIVE  *ABS*+0x00000000000005b0
+0000000000201008 R_X86_64_RELATIVE  *ABS*+0x0000000000201008
+0000000000200fd8 R_X86_64_GLOB_DAT  _ITM_deregisterTMCloneTable
+0000000000200fe0 R_X86_64_GLOB_DAT  __libc_start_main@GLIBC_2.2.5
+0000000000200fe8 R_X86_64_GLOB_DAT  __gmon_start__
+0000000000200ff0 R_X86_64_GLOB_DAT  _ITM_registerTMCloneTable
+0000000000200ff8 R_X86_64_GLOB_DAT  __cxa_finalize@GLIBC_2.2.5
+
+
+```
+
+
+* .dynsym: 
+
+这个section保存与动态链接相关的导入导出符号，不包括模块内部的符号。而.symtab则保存所有符号，包括.dynsym中的符号。
+
+* .init和.init_array: 
+这个section中保存了该可执行程序main函数执行之前的初始化代码， 比如设置环境变量，给main函数传递参数等
+
+* .fini和.fini_array: 
+这个section中保存了该可执行程序main函数正常退出之后执行的代码。
+
+*  .dynamic
+ 这个section里保存了动态链接器所需要的基本信息，比如依赖哪些共享对象、动态链接符号表的位置、动态链接重定位表的位置、共享对象初始化代码的地址等。它是由是由Elfxx_Dyn（Elf32_Dyn或者Elf64_Dyn）组成的数组。Elfxx_Dyn结构由一个类型值加上一个附加的数值或指针，对于不同的类型，后面附加的数值或者指针有着不同的含义。
+
+
+
+
 
 # chp 8 virtual memory
 ## virtual address
