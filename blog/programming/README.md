@@ -20,9 +20,9 @@
     * [GDB](GDB.md)
 
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
-    * [static & dynamic lib under Linux](static_dynamic_lib.md)
     * [staic of C](static_of_C.md)
-
+    * [strong & weak symbol during linking](strong_weak.md)
+    * [static & dynamic lib under Linux](static_dynamic_lib.md)
 
 * [C++ practise](https://github.com/yc-alex-xu/Alex/tree/master/C++)
     * [log analyzer in C++](logAnalyzer.md)

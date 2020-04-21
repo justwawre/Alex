@@ -1,4 +1,4 @@
-从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成。但真正讲的好的没有几章。
+从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成。
 
 # chp 7: linking
 Linking is the process of collecting and combining various pieces of code and data into a single file that can be loaded (copied) into memory and executed.
