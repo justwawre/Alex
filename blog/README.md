@@ -1,6 +1,4 @@
-* [LTE knowlege review ](lte_review/)
-    * [Open RAN](O-RAN/)
-    * [5G study](5g/)
+* [telecom](telecom/)
 
 * [programming](programming/)
 
