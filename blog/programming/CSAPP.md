@@ -1,35 +1,54 @@
 从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成。但真正讲的好的没有几章。
 
 # chp 7: linking
+Linking is the process of collecting and combining various pieces of code and data into a single file that can be loaded (copied) into memory and executed.
+Linking can be performed
+* at compile time, when the source code is translatedinto machine code; 
+* at load time, when the program is loaded into memory and executed by the loader; and even 
+* at run time, by application programs.
 
-Linux下ELF文件类型分为以下几种：
+![tbd](CSAPP_static_link.png)
 
+To build the executable, the linker (ld under Linux) must perform two main tasks:
+* Symbol resolution. Object files define and reference symbols. The purpose of symbol resolution is to associate each symbol reference with exactly one
+symbol definition.
+* Relocation. Compilers and assemblers generate code and data sections that start at address 0. The linker relocates these sections by associating a memory
+location with each symbol definition, and then modifying all of the references to those symbols so that they point to this memory locatiion.
+
+
+## Linux下ELF(Executable and Linkable Format)
+文件类型分为以下几种：
 * 可重定位文件，例如SimpleSection.o；
 * 可执行文件，例如/bin/bash；
 * 共享目标文件，例如/lib/libc.so。
 * Core dump文件
 
-ELF文件中典型的section如下：
+### ELF文件中典型的section如下：
 * .text: 已编译程序的二进制代码
 * .rodata: 只读数据段，比如常量
 * .data: 已初始化的全局变量和静态变量
 * .bss: 未初始化的全局变量和静态变量，所有被初始化成0的全局变量和静态变量
-* .sysmtab: 符号表，它存放了程序中定义和引用的函数和全局变量的信息
+* .sysmtab: 符号表，它存放了程序中定义和引用的函数和全局变量的信息. (Alex, 这是等其他.o文件中的.rel.text，.rel.data 来指向的)
 * .debug: 调试符号表，它需要以'-g'选项编译才能得到，里面保存了程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C文件
-* .line: 原始的C文件行号和.text节中机器指令之间的映射
-* .strtab: 字符串表，内容包括.symtab和.debug节中的符号表
+* .line: 原始的C文件行号和.text节中机器指令之间的映射。A mapping between line numbers in the original C source program
+and machine code instructions in the .text section. It is only present if the compiler driver is invoked with the -g option.
+* .strtab: 字符串表，内容包括.symtab和.debug节中的符号表。 A string table for the symbol tables in the .symtab and .debug
+sections, and for the section names in the section headers. A string table is a sequence of null-terminated character strings. (Alex:这样就避免了字符串出现在代码中)
 
-特殊的，
-1）对于可重定位的文件，由于在编译时，并不能确定它引用的外部函数和变量的地址信息，因此，编译器在生成目标文件时，增加了两个section：
-* .rel.text 保存了程序中引用的外部函数的重定位信息，这些信息用于在链接时重定位其对应的符号。
-* .rel.data 保存了被模块引用或定义的所有全局变量的重定位信息，这些信息用于在链接时重定位其对应的全局变量。
+### 对于可重定位的文件
+由于在编译时，并不能确定它引用的外部函数和变量的地址信息，因此，编译器在生成目标文件时，增加了两个section：
+* .rel.text 保存了程序中引用的外部函数的重定位信息，这些信息用于在链接时重定位其对应的符号。A list of locations in the .text section that will need to be modified
+when the linker combines this object file with others. In general, any instruction that calls an external function or references a global variable
+will need to be modified. On the other hand, instructions that call local functions do not need to be modified.
+* .rel.data 保存了被模块引用或定义的所有全局变量的重定位信息，这些信息用于在链接时重定位其对应的全局变量。 Relocation information for any global variables that are referenced or defined by the module. In general, any initialized global variable whose initial value is the address of a global variable or externally defined
+function will need to be modified。
 
-e.g.
-
+e.g.<br>
 当g.o调用一个外部的函数puts()时，那么编译器会生成一条call指令，指令的操作数是一个占位符，而与此同时生成一条重定位条目（relocation entry）放在.rel.text section中，类似的，当模块调用一个外部变量时，编译器会生成一条重定位条目放在.rel.data section中。
 
 
-2）对于可执行文件，由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它不存在.rel.text和.rel.data这两个section。但是，它增加了一个section：
+### 对于可执行文件
+由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它不存在.rel.text和.rel.data这两个section。但是，它增加了一个section：
 * .init: 这个section里面保存了程序运行前的初始化代码
 
 用来检查的命令

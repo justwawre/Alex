@@ -10,7 +10,7 @@
 * [The Linux Programming Interface](TLPI.md)
 * [APUE 3e practise](APUE.md)
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
-* [GDB](GDB.md)
+* [the usage of staic in C programming](static_of_C.md)
 * [tcp/ip programming](tcpip.md)
 * [tcp/ip troubleshooting](tcpip_debug.md)
 * [bash shell script](bash.md)
