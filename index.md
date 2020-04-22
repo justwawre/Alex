@@ -46,8 +46,13 @@ Innovated
 * Beijing University of Posts&Telecoms  master of CS    2002 – 2005
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
-**Reference**
-* [tech blog](blog/) 
+**Blog**
+* [telecom](telecom/)
+
+* [programming](programming/)
+
+* [Dev/test support](support/)
+
 * [workshop](workshop/)
 
 **Contact:**  

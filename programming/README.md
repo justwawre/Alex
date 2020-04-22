@@ -7,8 +7,9 @@
     
 
 * [The Linux Programming Interface](TLPI.md)
+    * [source code, minor modificaton](https://github.com/yc-alex-xu/Alex/tree/master/TLPI)
     * [tcp/ip programming](tcpip.md)
-    * [tcp/ip troubleshooting](tcpip_debug.md)
+    * [sctp programming](https://github.com/yc-alex-xu/Alex/tree/master/sctp-sandbox)
     * [bash shell script](bash.md)
     * [C practise](https://github.com/yc-alex-xu/Alex/tree/master/C)
  
@@ -16,18 +17,23 @@
 
 
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
+    * [source code, only part](https://github.com/yc-alex-xu/Alex/tree/master/CSAPP3)
     * [staic of C](static_of_C.md)
     * [strong & weak symbol during linking](strong_weak.md)
     * [static & shared lib](CSAPP_lib.md)
+
 * [APUE 3e practise](APUE.md)
     * [static & dynamic lib under Linux](static_dynamic_lib.md)
     * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
 
 * [C++ practise](https://github.com/yc-alex-xu/Alex/tree/master/C++)
     * [log analyzer in C++](logAnalyzer.md)
-    * [Design patterns in C++](../../designPatterns/)
+    * [Design patterns in C++](../designPatterns/)
 
 * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
+    * [fluentPython Code, only part](https://github.com/yc-alex-xu/Alex/tree/master/fluentPython)
+    * [for fun](https://github.com/yc-alex-xu/Alex/tree/master/fun)  
+    * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
     * [24点游戏的算法与实现](24点游戏的算法与实现.pdf)
 
 * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)
@@ -40,5 +46,5 @@
 * [distributed system](CAP.md)
 
 
-* [book: Foundations of Computer Science](../../foundation_cs/)
+* [book: Foundations of Computer Science](../foundation_cs/)
 

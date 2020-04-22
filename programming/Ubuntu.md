@@ -39,6 +39,9 @@ ibus
 
 # office suite
 WPS
+## uninstall the foxit pdf reader
+![tbd](u_uninstall_foxit.png)
+
 
 # SW dev & blogging
 VS Code
