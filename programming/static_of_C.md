@@ -14,7 +14,9 @@ defined with the static attribute. These symbols are visible anywhere within mod
 object file and the name of the source file that corresponds to module m also get local symbols.
 * no entry for the local variable, which was allocated in stack
 
-* [static variable with initial value](static.c)
+# static variable with initial value 
+
+[static.c](static.c)
 
 ```
 $ gcc -c static.c
@@ -26,8 +28,9 @@ $ objdump --syms static.o
 ```
 可以看到代码中的两个i, 在 symbol table(s) 中为:local, an object (O),在.data section.
 
+# static variable without initial value
 
-* [static variable without initial value](static_2.c)
+ [static_2.c](static_2.c)
 
 ```
 $ gcc -c static_2.c

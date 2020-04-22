@@ -11,6 +11,13 @@ just ignore it via
 # 尝试夜间模式
 ![tbd](u_nightlight.png)
 
+# 定时关机
+```
+$ shutdown -h 00:59
+Shutdown scheduled for Thu 2020-04-23 00:59:00 CST, use 'shutdown -c' to cancel.
+$ 
+```
+
 # screen snapshot
 using the KolourPaint and the internal function (e.g. shift+ctrl+print).
 
