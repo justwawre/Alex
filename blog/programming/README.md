@@ -18,7 +18,7 @@
 * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
     * [staic of C](static_of_C.md)
     * [strong & weak symbol during linking](strong_weak.md)
-
+    * [static & shared lib](CSAPP_lib.md)
 * [APUE 3e practise](APUE.md)
     * [static & dynamic lib under Linux](static_dynamic_lib.md)
     * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)

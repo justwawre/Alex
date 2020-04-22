@@ -23,7 +23,8 @@ location with each symbol definition, and then modifying all of the references t
 * 共享目标文件，例如/lib/libc.so。
 * Core dump文件
 
-### ELF文件中典型的section如下：
+### common的section如下：
+
 * .text: 已编译程序的二进制代码
 * .rodata: 只读数据段，比如常量
 * .data: 已初始化的全局变量和静态变量
@@ -90,10 +91,12 @@ OFFSET           TYPE              VALUE
 ```
 
 
-
 ### 对于可执行文件
-由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它不存在.rel.text和.rel.data这两个section。但是，它增加了一个section .init: 这个section里面保存了程序运行前的初始化代码
-* .init:
+![tbd](CSAPP_typical_elf.png)
+
+由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它
+* 不存在.rel.text和.rel.data这两个section。但是，
+* 它增加了一个section .init: The .init section defines a small function, called _init, that will be called by the program’s initialization code. 
 
 [static variable with initial value](static.c)
 
@@ -158,7 +161,41 @@ OFFSET           TYPE              VALUE
 
 
 
+## load
 
+On 32-bit Linux systems, the code segment starts at address 0x08048000.
+
+![tbd](CSAPP_runtime.png)
+
+When the loader runs, it creates the memory image as above,Guided by the segment header table in the executable, it copies chunks of the executable into the code and data segments. Next, the loader jumps to the program’s entry point, which is always the address of the _start symbol. The startup code at the _start address is defined in the object file crt1.o and is the same for all C programs. 
+
+```
+$ objdump -d a.out
+
+Disassembly of section .text:
+
+00000000000004f0 <_start>:
+ 4f0:	31 ed                	xor    %ebp,%ebp
+ 4f2:	49 89 d1             	mov    %rdx,%r9
+ 4f5:	5e                   	pop    %rsi
+ 4f6:	48 89 e2             	mov    %rsp,%rdx
+ 4f9:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+ 4fd:	50                   	push   %rax
+ 4fe:	54                   	push   %rsp
+ 4ff:	4c 8d 05 9a 01 00 00 	lea    0x19a(%rip),%r8        # 6a0 <__libc_csu_fini>
+ 506:	48 8d 0d 23 01 00 00 	lea    0x123(%rip),%rcx        # 630 <__libc_csu_init>
+ 50d:	48 8d 3d e6 00 00 00 	lea    0xe6(%rip),%rdi        # 5fa <main>
+ 514:	ff 15 c6 0a 20 00    	callq  *0x200ac6(%rip)        # 200fe0 <__libc_start_main@GLIBC_2.2.5>
+ 51a:	f4                   	hlt    
+ 51b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+```
+virtual memory 下的loader并不会copy 整个elf文件到内存，而是copy as need.
+
+For the impatient reader, here is a preview of how loading really works: Each program in a Unix system runs in the context of a process with its own virtual address space.When the shell runs a program, the parent shell process forks a child process that is a duplicate of the parent. The child process invokes
+the loader via the execve system call. The loader deletes the child’s existing virtual memory segments, and creates a new set of code, data, heap, and stack segments. The new stack and heap segments are initialized to zero. The new code and data segments are initialized to the contents of the executable
+file by mapping pages in the virtual address space to page-sized chunks of the executable file. Finally, the loader jumps to the _start address, which eventually calls the application’s main routine. Aside from some header information, there is no copying of data from disk to memory during loading. The
+copying is deferred until the CPU references a mapped virtual page, at which point the operating system automatically transfers the page from disk to memory using its paging mechanism
 
 # chp 8 virtual memory
 ## virtual address
