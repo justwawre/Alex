@@ -7,14 +7,14 @@
 
 * [The Linux Programming Interface](../TLPI/)
     * [tcp/ip programming](tcpip.md)
-    * [sctp programming](https://github.com/yc-alex-xu/Alex/tree/master/sctp-sandbox)
+    * [sctp programming](../sctp-sandbox)
     * [bash shell script](bash.md)
-    * [C practise](https://github.com/yc-alex-xu/Alex/tree/master/C)
+    * [C practise](../C)
  
 * [Linux kernel code](Linux_kernel_reading.md)
 
 
-* [Computer Systems: A Programmer's Perspective, 3/E](../CSAPP3/README.md)
+* [Computer Systems: A Programmer's Perspective, 3/E](../CSAPP3/)
     * [staic of C](../CSAPP3/static_of_C.md)
     * [strong & weak symbol during linking](../CSAPP3/strong_weak.md)
     * [static & shared lib](../CSAPP3/CSAPP_lib.md)
@@ -23,7 +23,7 @@
     * [static & dynamic lib under Linux](static_dynamic_lib.md)
     * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
 
-* [C++ practise](https://github.com/yc-alex-xu/Alex/tree/master/C++)
+* [C++ practise](../C++)
     * [log analyzer in C++](logAnalyzer.md)
     * [Design patterns in C++](../designPatterns/)
 
