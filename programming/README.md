@@ -1,5 +1,4 @@
-* [win10](win10.md)
-    * [Ubuntu 18.04 LTS setup](Ubuntu.md)
+* [Ubuntu 18.04 LTS setup](Ubuntu.md)
     * [git/gerrit ](git_gerrit.md)
     * [llvm/clang/lldb](llvm_clang_lldb.md)
     * [GCC](gcc.md)
@@ -16,11 +15,10 @@
 * [Linux kernel code](Linux_kernel_reading.md)
 
 
-* [Computer Systems: A Programmer's Perspective, 3/E](CSAPP.md)
-    * [source code, only part](https://github.com/yc-alex-xu/Alex/tree/master/CSAPP3)
-    * [staic of C](static_of_C.md)
-    * [strong & weak symbol during linking](strong_weak.md)
-    * [static & shared lib](CSAPP_lib.md)
+* [Computer Systems: A Programmer's Perspective, 3/E](../CSAPP3/README.md)
+    * [staic of C](../CSAPP3/static_of_C.md)
+    * [strong & weak symbol during linking](../CSAPP3/strong_weak.md)
+    * [static & shared lib](../CSAPP3/CSAPP_lib.md)
 
 * [APUE 3e practise](APUE.md)
     * [static & dynamic lib under Linux](static_dynamic_lib.md)

@@ -1,21 +1,23 @@
-A C/C++/Python/Go developer in telecom industry,<br>
-interested in distributed computing,e.g. K8s<br>
+**About me** <br>
+A C/C++ developer in telecom/SW industry,<br>
+interested in distributed computing,e.g. K8s/Python/Golang<br>
 Good at system analyzing & problem solving. <br>
 
 
 **Sr SW engineer:  Tieto   2018.12- present** <br>
-Developing the MAC layer SW in multi-core platform, using git/gerrit,for Ericsson
-* In scrum team, speed the SW delivery speed at least 2X
+for Ericsson LTE eNB
+* Develop the MAC layer SW on multi-core platform, using git/gerrit,
 * Support other team's development via LTE spec/Code understanding
 
 **LTE tech support:      Nokia   2009-2018.7**<br>
-Handling of the escalated cases, usually the most difficult ones, e.g. e2e issue or design defect related different HW/SW teams.
+Handling of the escalated cases, usually the most difficult ones, e.g. e2e issue/design defect/unclear HW or SW issue.
 * Analyzed problem and product design, then propose solution,  coordinate teams to accomplish task in time
 * Acted as lead engineer/trial manager, turn many projects from failure to sucess
-* Own e2e handon experience, build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
+* build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
+* delivered e2e hands-on training, 
 
 **SW engineer/Scrum master: Radio platform, Nokia    2006-2009**<br>
-using C/C++/SDL under embedded OS or Linux.
+using C/C++/SDL under DMX/Chorous/Linux OS
 * Acted as scrum master and chief content owner.
 * Delivered the SDL class training 
 
@@ -24,7 +26,7 @@ using C/C++/SDL under embedded OS or Linux.
 
 **Project leader of Techfaith wireless:            April 2005 – May 2006**<br> 
 * Innovated the new way for complicated [Call Control logic](call_logic.png), replacing the MML language.
-* The first one to design the SMS framework supporting EMS among the Phone Design HOuse.
+* Innovated the SMS framework supporting EMS among the Phone Design HOuse.
 * Led a new phone project at the same time.
 
 **SW Project lead of Beijing cyber world            2002**<br> 
@@ -48,11 +50,8 @@ Innovated
 
 **Blog**
 * [telecom](telecom/)
-
 * [programming](programming/)
-
 * [Dev/test support](support/)
-
 * [workshop](workshop/)
 
 **Contact:**  

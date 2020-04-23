@@ -19,14 +19,15 @@ $
 ```
 
 # screen snapshot
+使用OS内置功能截屏即可， 如 shift+ctrl+print 后paste 到KolourPaint。
 using the KolourPaint and the internal function (e.g. shift+ctrl+print).
 
 ![tbd](u_screensnapshot.png)
 
-or shift+print
+或者 shift+print 直接保存。
 
 # change the repo source
-no need to change manually, just changing it in GUI.
+不用一些guide 说的手动修改, just changing it in GUI.
 
 ![tbd](u_repo.png)
 
@@ -37,7 +38,10 @@ https://deluge.readthedocs.io/en/latest/intro/01-install.html
 
 
 # chinese input
-ibus
+需要安装
+* ibus
+* m$字体
+* 输入法  https://github.com/libpinyin/ibus-libpinyin
 
 ![tbd](u_ibus.png)
 
@@ -45,7 +49,7 @@ ibus
 ![tbd](u_pinyin.png)
 
 # office suite
-WPS
+WPS，支持PDF。
 ## uninstall the foxit pdf reader
 ![tbd](u_uninstall_foxit.png)
 
