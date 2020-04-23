@@ -49,10 +49,60 @@ Innovated
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
 **Blog**
-* [telecom](telecom/)
-* [programming](programming/)
-* [Dev/test support](support/)
-* [workshop](workshop/)
+* Telecom
+    * [lte overview](telecom/lte.md)
+    * [Physical Layer](telecom/phy.md)
+    * [tm mode](telecom/tm_mode.md)
+    * [Access Stratum](telecom/AS.md)
+    * [Non-Access Stratum](telecom/NAS.md)
+    * [SAE](telecom/SAE.md)
+    * [LTE advanced](telecom/lte_a.md)
+    * [CA study](telecom/CA.md)
+    * [LTE QoS](telecom/LTE_QoS.pdf)
+    * [LTE 接入过程中的安全机制](telecom/LTE_RACH_security.pdf)
+    * [Open RAN](telecom/oran.md)
+    * [5G study](telecom/5g.md)
+
+* Programming
+    * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
+        * [git/gerrit ](programming/git_gerrit.md)
+        * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
+        * [GCC](programming/gcc.md)
+        * [GDB](programming/GDB.md)
+    * [The Linux Programming Interface](TLPI/)
+        * [sctp programming](sctp-sandbox)
+        * [bash shell script](programming/bash.md)
+        * [C practise](C/)
+    * [Linux kernel code](programming/Linux_kernel_reading.md)
+    * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
+        * [staic of C](CSAPP3/static_of_C.md)
+        * [strong & weak symbol during linking](CSAPP3/strong_weak.md)
+        * [static & shared lib](CSAPP3/CSAPP_lib.md)
+    * [APUE 3e practise](programming/APUE.md)
+        * [static & dynamic lib under Linux](programming/static_dynamic_lib.md)
+        * [Unix中多程序间共享内存](programming/Unix_muliti_process_programming.pdf)
+    * [C++ practise](C++/)
+        * [log analyzer in C++](C++/logAnalyzer.md)
+        * [Design patterns in C++](designPatterns/)
+    * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
+        * [fluentPython Code, only part](https://github.com/yc-alex-xu/Alex/tree/master/fluentPython)
+        * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
+        * [24点游戏的算法与实现](programming/24点游戏的算法与实现.pdf)
+    * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)
+    * [algorithms](programming/algorithms.md)
+    * [programming paradigm](programming/programming_paradigm.md)
+        * [closure](programming/closure.md)
+    * [distributed system](programming/CAP.md)
+* Dev/test support
+    * [Catalyst swtiches setup](support/Catalyst_swtiches_setup.md)
+    * [ipsec suport](support/ipsec_suport.md)
+    * [SuSE cluster/HA](support/cluster.md)
+    * [cloud native](support/cloud_native.md)
+    * [k8s under minikube](https://github.com/yc-alex-xu/Alex/tree/master/k8s)
+    * [Cisco 设备日志转储的故障排除](support/Cisco_log_dump.pdf)
+* Workshop
+    * [dsp memory optimization 2019](workshop/dsp_mem_opt/)
+
 
 **Contact:**  
 _xuyc@sina.com_ 
