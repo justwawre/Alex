@@ -132,7 +132,12 @@ Disassembly of section .plt.got:
 
 
 ## Position-Independent Code (PIC)
-原理
+-fPIC 作用于编译阶段，告诉编译器产生与位置无关代码(Position-Independent Code)，则产生的代码中，没有绝对地址，全部使用相对地址，故而代码可以被加载器加载到内存的任意
+位置，都可以正确的执行。这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的. 感觉这套路与MS-DOS中的com 文件类型,类似，不同的是com 文件因此加载后不能超过64k,因为16位cpu，offset最大也就64k. 所以.so实际也有这限制，不过32bit/64bit cpu时代而已。
+
+如果不加-fPIC,则加载.so文件的代码段时,代码段引用的数据对象需要重定位, 重定位会修改代码段的内容,这就造成每个使用这个.so文件代码段的进程在内核里都会生成这个.so文件代码段的copy。
+
+
 
 the compiler creates a table called the global offset table (GOT) at the beginning of the data segment. The GOT contains an entry for each global data object that is referenced by the object module. The compiler also generates a relocation record for each entry in the GOT. At load time, the dynamic linker relocates each entry in the GOT so that it contains the appropriate absolute address. Each object module that references global data has its own
 GOT.
@@ -147,7 +152,7 @@ If an object module calls any functions that are defined in shared libraries, th
 
 ```
 $  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
-$  gcc -g  -rdynamic foo6.c -ldl
+$  gcc foo6.c -ldl
 $ objdump -s a.out
 
 a.out:     file format elf64-x86-64
@@ -186,6 +191,8 @@ Each procedure that is defined in a shared object and called by [foo6](foo6.c)  
 The PLT is an array of 16-byte entries. The first entry, PLT[0], is a special entry that jumps into the dynamic linker. Each called procedure has an entry in the PLT, starting at PLT[1]
 
 ```
+$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
+$  gcc foo6.c -ldl
 $ objdump -d a.out
 
 a.out:     file format elf64-x86-64
@@ -233,19 +240,41 @@ Disassembly of section .plt:
  971:	48 8d 3d fc 00 00 00 	lea    0xfc(%rip),%rdi        # a74 <_IO_stdin_used+0x4>
  978:	e8 83 fe ff ff       	callq  800 <dlopen@plt>
 
-
-```
-看来现在的汇编还是非常清晰的， callq  800 <dlopen@plt>  已经表到了，一种call <跳转表某项> 的做法。
-
-```
-
 $ ldd a.out
 	linux-vdso.so.1 (0x00007ffd1b322000)
 	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f5953515000)
 	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5953124000)
 	/lib64/ld-linux-x86-64.so.2 (0x00007f595391b000)
 ```
+non-PIC 与 PIC 代码的区别主要在于 access global data, jump label 的不同。
 
+比如一条 access global data 的指令，
+* non-PIC 的形式是：ld r3, var1
+* PIC 的形式则是：ld r3, var1-offset@GOT,意思是从 GOT 表的 index 为 var1-offset 的地方处，指示的地址处装载一个值,即var1-offset@GOT处的4个 byte。 其实就是 var1 的地址。这个地址只有在运行的时候才知道，是由 dynamic-loader(ld-linux.so) 填进去的。
+
+再比如 jump label 指令
+* non-PIC 的形式是： callq  400be0 <dlopen>
+* PIC 的形式则是：callq  800 <dlopen@plt>， 通过它二次跳转。
+
+
+作为对比，同一程序如果用静态链接，
+
+```
+$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
+$  gcc -static foo6.c -ldl
+$ objdump -d a.out
+
+  0000000000400b4d <main>:
+  400b4d:       55                      push   %rbp
+  400b4e:       48 89 e5                mov    %rsp,%rbp
+  400b51:       48 83 ec 10             sub    $0x10,%rsp
+  400b55:       c7 05 81 b8 2b 00 01    movl   $0x1,0x2bb881(%rip)        # 6bc3e0 <i>
+  400b5c:       00 00 00
+  400b5f:       be 01 00 00 00          mov    $0x1,%esi
+  400b64:       48 8d 3d 59 14 09 00    lea    0x91459(%rip),%rdi        # 491fc4 <_IO_stdin_used+0x4>
+  400b6b:       e8 70 00 00 00          callq  400be0 <dlopen>
+
+```
 
 ## Loading and Linking Shared Libraries from Applications
 不需要在compiliation 过程解决r symbol resolution，load 过程也是app 自己调用了。

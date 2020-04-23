@@ -1,5 +1,50 @@
 从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成。
 
+# chp1: A Tour of Computer Systems
+
+## compilation
+
+![the process of  compilation ](fig_1_3.png)
+
+## Processor
+
+![the processor ](fig_1_4.png)
+
+这是一个不包含cache 的简化模型
+
+The central processing unit (CPU), or simply processor, is the engine that interprets (or executes) instructions stored in main memory. At its core is a word-sized storage device (or register) called the program counter (PC). At any point in time, the PC points at (contains the address of) some machine-language instruction in main memory
+
+The processor reads the instruction from memory pointed at by the program counter (PC), interprets the bits in the instruction, performs some simple
+operation dictated by the instruction, and then updates the PC to point to the next instruction, which may or may not be contiguous in memory to the instruction that was just executed.
+
+There are only a few of these simple operations, and they revolve around main memory, the register file, and the arithmetic/logic unit (ALU). The register
+file is a small storage device that consists of a collection of word-sized registers, each with its own unique name. The ALU computes new data and address values.
+
+## cache
+To deal with the processor-memory gap, system designers include smaller faster storage devices called cache memories (or simply caches) that serve as
+temporary staging areas for information that the processor is likely to need in the near future.
+
+![the processor ](fig_1_8.png)
+
+The idea behind caching is that a system can get the effect of both a very large memory and a very fast one by exploiting locality, the tendency for
+programs to access data and code in localized regions. By setting up caches to hold data that is likely to be accessed often, we can perform most memory operations using the fast caches.
+
+locality 对各种不能预先判断的jmp 指令应该是深恶痛绝。
+
+## OS
+![the Abstractions](fig_1_11.png)
+
+As this figure suggests,
+* files are abstractions for I/O devices, 
+* virtual memory is an abstraction for both the main memory and disk I/O devices, and
+* processes are abstractions for the processor, main memory, and I/O devices.(alex: 应该是process认为自己独占镇整台computer 资源的含义吧。process is the operating system’s abstraction for a running program. Multiple processes can run concurrently on the same system, and each process appears to have exclusive use of the hardware.)
+
+## multi-core processors and hyperthreading. 
+![i7](fig_1_17.png)
+
+Hyperthreading, sometimes called simultaneous multi-threading, is a technique that allows a single CPU to execute multiple flows of control. It involves
+having multiple copies of some of the CPU hardware, such as program counters and register files, while having only single copies of other parts of the hardware, such as the units that perform floating-point arithmetic. Whereas a conventional processor requires around 20,000 clock cycles to shift between different threads, a hyperthreaded processor decides which of its threads to execute on a cycleby-cycle basis. It enables the CPU to make better advantage of its processing resources. For example, if one thread must wait for some data to be loaded into a cache, the CPU can proceed with the execution of a different thread. As an example, the Intel Core i7 processor can have each core executing two threads, and so a four-core system can actually execute eight threads in parallel. （alex: 这two threads 应该没法将core的速度加快，只是能够通过切换thread 减少core的空闲时间。）
+
 # chp 7: linking
 Linking is the process of collecting and combining various pieces of code and data into a single file that can be loaded (copied) into memory and executed.
 Linking can be performed
@@ -42,8 +87,9 @@ The linker relocates these sections by associating a **memory location** with ea
 
 由于在编译时，并不能确定它引用的外部函数和变量的地址信息，因此，编译器在生成目标文件时，增加了两个section：
 
-* Relocation entries for code are placed in .rel.text. 
-* Relocation entries for initialized data are placed in .rel.data
+* Relocation entries for code are placed in .rel.text. (Alex:就是需要在.text section 修改reference的)
+* .rel.data Relocation information for any global variables that are referenced or defined by the module. In general, any initialized global variable
+whose initial value is the address of a global variable or externally defined function will need to be modified
 
 [main.c](main.c) 引用了外部的函数与变量，可以检查一下它的**symbol reference**.
 
@@ -67,7 +113,36 @@ OFFSET           TYPE              VALUE
 ```
 可以看到main() 中的f(),g(),j 因为在main.c中没有define, 所以都需要relocation. j 作为一个外部全局变量在代码中使用，也出现在 .rel.text 中。
 
-alex: .rel.data 目前还不能找到使用场景。
+
+[main2.c](main2.c)  用到了.rel.data 
+
+```
+$ gcc -c main2.c 
+$ objdump -r main2.o
+
+main2.o:     file format elf64-x86-64
+
+RELOCATION RECORDS FOR [.text]:
+OFFSET           TYPE              VALUE 
+0000000000000006 R_X86_64_PC32     j-0x0000000000000004
+
+
+RELOCATION RECORDS FOR [.data.rel.local]:
+OFFSET           TYPE              VALUE 
+0000000000000000 R_X86_64_64       i
+
+
+RELOCATION RECORDS FOR [.data.rel]:
+OFFSET           TYPE              VALUE 
+0000000000000000 R_X86_64_64       j
+
+
+RELOCATION RECORDS FOR [.eh_frame]:
+OFFSET           TYPE              VALUE 
+0000000000000020 R_X86_64_PC32     .text
+
+```
+
 
 * .rela.eh_frame：
 
@@ -126,6 +201,9 @@ Disassembly of section .init:
 这个section中保存了该可执行程序main函数正常退出之后执行的代码。
 
 
+## Mangling of linker symbols in C++ and Java
+Both C++ and Java allow **overloaded** methods that have the same name in the source code but different parameter lists. So how does the linker tell the difference between these different overloaded functions? Overloaded functions in C++ and Java work because the compiler encodes each unique method and parameter list combination into a unique name for the linker. This encoding process is called mangling,and the inverse process demangling.
+
 ## load
 
 On 32-bit Linux systems, the code segment starts at address 0x08048000.
@@ -182,7 +260,7 @@ objdump -d -j .rodata  a.out
 gcc  -S -masm=intel *.c
 ```
 
-# chp 8 virtual memory
+# chp 9 virtual memory
 ## virtual address
 With virtual addressing, the CPU accesses main memory by generating a virtual address (VA), which is converted to the appropriate physical address before being sent to main memory. The task of converting a virtual address to a physical one is known as address translation. Like exception handling, address translation requires close cooperation between the CPU hardware and the operating system. Dedicated hardware on the CPU chip called the memory management unit(MMU)translates virtual addresses on the fly, using a lookup table (TLB????) stored in main memory whose contents are managed by the operating system.
 
