@@ -5,8 +5,7 @@
     * [GDB](GDB.md)
     
 
-* [The Linux Programming Interface](TLPI.md)
-    * [source code, minor modificaton](https://github.com/yc-alex-xu/Alex/tree/master/TLPI)
+* [The Linux Programming Interface](../TLPI/)
     * [tcp/ip programming](tcpip.md)
     * [sctp programming](https://github.com/yc-alex-xu/Alex/tree/master/sctp-sandbox)
     * [bash shell script](bash.md)
