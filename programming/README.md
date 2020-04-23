@@ -6,7 +6,6 @@
     
 
 * [The Linux Programming Interface](../TLPI/)
-    * [tcp/ip programming](tcpip.md)
     * [sctp programming](../sctp-sandbox)
     * [bash shell script](bash.md)
     * [C practise](../C)
