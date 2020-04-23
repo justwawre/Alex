@@ -22,8 +22,8 @@
     * [static & dynamic lib under Linux](static_dynamic_lib.md)
     * [Unix中多程序间共享内存](Unix_muliti_process_programming.pdf)
 
-* [C++ practise](../C++)
-    * [log analyzer in C++](logAnalyzer.md)
+* [C++ practise](../C++/)
+    * [log analyzer in C++](../C++/logAnalyzer.md)
     * [Design patterns in C++](../designPatterns/)
 
 * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
