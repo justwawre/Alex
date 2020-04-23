@@ -28,7 +28,6 @@
 
 * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
     * [fluentPython Code, only part](https://github.com/yc-alex-xu/Alex/tree/master/fluentPython)
-    * [for fun](https://github.com/yc-alex-xu/Alex/tree/master/fun)  
     * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
     * [24点游戏的算法与实现](24点游戏的算法与实现.pdf)
 
