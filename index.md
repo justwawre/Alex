@@ -68,6 +68,7 @@ Innovated
         * [staic of C](CSAPP3/static_of_C.md)
         * [strong & weak symbol during linking](CSAPP3/strong_weak.md)
         * [static & dynamic linking](CSAPP3/CSAPP_lib.md)
+        * [exceptions](CSAPP3/exceptions.md)
         * [tools](CSAPP3/tools.md)
     * [The Linux Programming Interface](TLPI/)
         * [sctp programming](sctp-sandbox)
