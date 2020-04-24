@@ -249,36 +249,6 @@ Shared libraries are “shared” in two different ways. First, in any given fil
 Position-Independent Code (PIC)文件的特点，看 [static & dynamic linking](CSAPP_lib.md).
 如何链接/访问到.so这一步，可以
 * 命令行调用dynamic linker 
-* application 调用dynamic linker 的函数接口
-实现。
-
-
-# chp 9 virtual memory
-## virtual address
-With virtual addressing, the CPU accesses main memory by generating a virtual address (VA), which is converted to the appropriate physical address before being sent to main memory. The task of converting a virtual address to a physical one is known as address translation. Like exception handling, address translation requires close cooperation between the CPU hardware and the operating system. Dedicated hardware on the CPU chip called the memory management unit(MMU)translates virtual addresses on the fly, using a lookup table (TLB????) stored in main memory whose contents are managed by the operating system.
-
-## virtual memory
-Conceptually, a virtual memory is organized as an array of N contiguous byte-sized cells stored on disk. Each byte has a unique virtual address that serves as an index into the array. The contents of the array on disk are cached in main memory. As with any other cache in the memory hierarchy, the data on disk (the lower level) is partitioned into blocks that serve as the transfer units between the disk and the main memory (the upper level). VM systems handle this by partitioning the virtual page is P = 2^p bytes in size. Similarly, physical memory is partitioned into physical pages (PPs), also P bytes in size. (Physical pages are also referred to as page frames.)
-
-如果没有virtual memory，程序员就需要考虑实际physical memory大小，才program 运行时自己作load in/load out 的工作。 有了virtual memory 这块工作就交给cpu+OS了。 
-
-## handle of page fault
-![tbd](CSAPP_pagefault.png)
-
-## allocate a virtual page
-![tbd](CSAPP_newpage.png)
-
-## address translation
-
-![tbd](CSAPP_pagetable.png)
-
-
-### Speeding Up Address Translation with a TLB
-As we have seen, every time the CPU generates a virtual address, the MMU must refer to a PTE in order to translate the virtual address into a physical address. In the worst case, this requires an additional fetch from memory, at a cost of tens to hundreds of cycles. If the PTE happens to be cached in L1, then the cost goes down to a handful of cycles. However, many systems try to eliminate even this cost by including a small cache of PTEs in the MMU called a translation lookaside buffer(TLB).
-
-A TLB is a small, virtually addressed cache where each line holds a block consisting of a single PTE.
-
-
-
+* application 调用dynamic linker 的函数接口实现。
 
 
