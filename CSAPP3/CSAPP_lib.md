@@ -1,4 +1,4 @@
-# static lib
+# static linking
 
 ## build & link
 
@@ -7,6 +7,58 @@
 $ gcc -c bar4.c bar5.c
 $ ar rcs libbar.a bar4.o bar5.o
 $ gcc foo5.c ./libbar.a 
+
+$ objdump -s a.out
+
+Contents of section .plt:
+ 04d0 ff35f20a 2000ff25 f40a2000 0f1f4000  .5.. ..%.. ...@.
+Contents of section .plt.got:
+ 04e0 ff25120b 20006690                    .%.. .f.        
+Contents of section .text:
+ 04f0 31ed4989 d15e4889 e24883e4 f050544c  1.I..^H..H...PTL
+
+Contents of section .got:
+ 200fc0 000e2000 00000000 00000000 00000000  .. .............
+ 200fd0 00000000 00000000 00000000 00000000  ................
+ 200fe0 00000000 00000000 00000000 00000000  ................
+ 200ff0 00000000 00000000 00000000 00000000  ................
+Contents of section .data:
+ 201000 00000000 00000000 08102000 00000000  .......... .....
+
+
+$ objdump -d a.out
+
+Disassembly of section .plt:
+
+00000000000004d0 <.plt>:
+ 4d0:	ff 35 f2 0a 20 00    	pushq  0x200af2(%rip)        # 200fc8 <_GLOBAL_OFFSET_TABLE_+0x8>
+ 4d6:	ff 25 f4 0a 20 00    	jmpq   *0x200af4(%rip)        # 200fd0 <_GLOBAL_OFFSET_TABLE_+0x10>
+ 4dc:	0f 1f 40 00          	nopl   0x0(%rax)
+
+Disassembly of section .plt.got:
+
+00000000000004e0 <__cxa_finalize@plt>:
+
+00000000000005fa <main>:
+ 5fa:	55                   	push   %rbp
+ 5fb:	48 89 e5             	mov    %rsp,%rbp
+ 5fe:	c7 05 0c 0a 20 00 01 	movl   $0x1,0x200a0c(%rip)        # 201014 <i>
+ 605:	00 00 00 
+ 608:	e8 08 00 00 00       	callq  615 <bar>
+ 60d:	8b 05 01 0a 20 00    	mov    0x200a01(%rip),%eax        # 201014 <i>
+ 613:	5d                   	pop    %rbp
+ 614:	c3                   	retq   
+
+0000000000000615 <bar>:
+ 615:	55                   	push   %rbp
+ 616:	48 89 e5             	mov    %rsp,%rbp
+ 619:	c7 05 f1 09 20 00 03 	movl   $0x3,0x2009f1(%rip)        # 201014 <i>
+ 620:	00 00 00 
+ 623:	90                   	nop
+ 624:	5d                   	pop    %rbp
+ 625:	c3                   	retq   
+ 626:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+ 62d:	00 00 00 
 
 ```
 ar 命令已经跟 tar 命令类似，只是打包(archive)而已。
@@ -33,54 +85,64 @@ relocates the object files in E to build the output executable file.
 ld
 
 
-# shared lib
-Shared libraries are modern innovations that address the disadvantages of static libraries. A shared library is an object module that, at run time, can be
-loaded at an arbitrary memory address and linked with a program in memory. This process is known as dynamic linking and is performed by a program called a
-dynamic linker.
+# dynamic linking
+## Shared libraries 
+are modern innovations that address the disadvantages of static libraries. A shared library is an object module that, at run time, can be loaded at an arbitrary memory address and linked with a program in memory. This process is known as dynamic linking and is performed by a program called a dynamic linker.
 
-也就是把 Resolve References 这一步在runtime 才执行。
+```
+$ gcc -shared -fPIC -o libbar.so bar4.c bar5.c
+
+```
+## PIC object file
+
+The -fPIC flag directs the compiler to generate position-independent code. The -shared flag directs the linker to create a shared object file. 感觉这套路与MS-DOS中的com 文件类型类似，在一个段内，不涉及段寄存器； 不同的是com 文件因此加载后不能超过64k,因为16位cpu，offset最大也就64k. 所以.so实际也有这限制，不过32bit/64bit cpu时代而已。
+
+note: COM文件中没有附带任何支持性数据，仅包含可执行代码。文件头即为第一句执行指令。没有重定位的信息，这样代码中不能有跨内存段(segment)操作数据的指令，因此代码与数据只能限制在同一个64KB的内存段中。
+
+如果不加-fPIC,则加载.so文件的代码段时,代码段引用的数据对象需要重定位, 重定位会修改代码段的内容,这就造成每个使用这个.so文件代码段的进程在内核里都会生成这个.so文件代码段的copy。
+
+none of the code or data sections from libbar.so are actually copied into the executable a.out when linking. Instead, the linker copies some relocation and symbol table information that will allow references to code and data in libbar.so to be resolved at run time. 
+
+alex: 静态链接是把.out 文件的 symbole reference 全部 resolve 了。 而动态链接由于 .so的位置是不定的，所以只能在通过
+* 创建 .got .plt 表， 
+* 链接时 .out 文件中对.so文件的引用就在这两个表中增加一项，让.out 中 的调用resolve 为对 .got .plt 表的引用
+* 运行时， loader 根据 .so 的加载情况，修改 .got .plt 表。
+
+印象中，这在Nokia的DMX/SDL 系统中，也是使用共享module。它的方式是
+* 共享module 的起始位置有一张跳转表，每一个entry 是 一 jmp 语句， 需要程序员手动填写. near jmp 到module 中的某个个procedure。
+* 这样其他process 要调用module 中某个procedure, 只需要 far call  module 段地址 +offset 即可。
+* 这样也可以实现 共享module 独立与调用process的独立开发，减少依赖。
+
+
+the compiler creates a table called the global offset table (GOT) at the beginning of the data segment. The GOT contains an entry for each global data object that is referenced by the object module. The compiler also generates a relocation record for each entry in the GOT. At load time, the dynamic linker relocates each entry in the GOT so that it contains the appropriate absolute address. Each object module that references global data has its own GOT.
+
+* Each procedure that is defined in a shared object and called by [foo5.c](foo5.c)  gets an entry in the GOT, starting with entry GOT[3].
+* The PLT is an array of 16-byte entries. The first entry, PLT[0], is a special entry that jumps into the dynamic linker. Each called procedure has an entry in the PLT, starting at PLT[1]
+* At run time, each global variable is referenced indirectly through the GOT。
+
+Lazy binding is implemented with a compact yet somewhat complex interaction between two data structures: the GOT and the procedure linkage table (PLT).
+If an object module calls any functions that are defined in shared libraries, then it has its own GOT and PLT. The GOT is part of the .data section. The PLT is part of the .text section.
+
+## check with the same files
 
 [foo5](foo5.c) [bar4](bar4.c) [bar5](bar5.c)
 
 ```
 $ gcc -shared -fPIC -o libbar.so bar4.c bar5.c
 $ gcc -g foo5.c  ./libbar.so
+$ ldd a.out
+	linux-vdso.so.1 (0x00007ffc575ff000)
+	./libbar.so (0x00007f4c2e5c5000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f4c2e1d4000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f4c2e9c9000)
 
-```
-The -fPIC flag directs the compiler to generate position-independent code. The -shared flag directs the linker to create a shared object file.
-
-
-Shared libraries are “shared” in two different ways. 
-* First, in any given file system, there is exactly one .so file for a particular library. The code and data in this .so file are shared by all of the executable object files that reference the library, as opposed to the contents of static libraries, which are copied and embedded in the executables that reference them. 
-* Second, a single copy of the .text section of a shared library in memory can be shared by different running processes. 
-
-
-none of the code or data sections from libbar.so are actually copied into the executable a.out when linking. Instead, the linker copies some relocation and symbol table information that will allow references to code and data in libbar.so to be resolved at run time. 感觉这在Nokia的DMX/SDL 系统中，就是共享module 的Start有一张跳转表，每一个entry 是 一 jmp 语句， jmp 到module 中的某个个procedure。 这样其他process 要调用module 中某个procedure, 只需要 call  start+offset 即可。
-
-```
-$ objdump -s a.out
+$objdump -s a.out
 
 a.out:     file format elf64-x86-64
 
 Contents of section .interp:
  0238 2f6c6962 36342f6c 642d6c69 6e75782d  /lib64/ld-linux-
  0248 7838362d 36342e73 6f2e3200           x86-64.so.2.    
-```
-.interp section, which contains the path name of the dynamic linker
-
-## 对应命令
-```
-$ gcc -shared -fPIC -o libbar.so bar4.c bar5.c
-$ gcc -g foo5.c  ./libbar.so
-$ ldd a.out
-	linux-vdso.so.1 (0x00007ffd537d6000)
-	./libbar.so (0x00007fdd9a2ea000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fdd99ef9000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007fdd9a6ee000)
-
-$ objdump -s a.out
-
-a.out:     file format elf64-x86-64
 
 Contents of section .plt:
  05f0 ff35ca09 2000ff25 cc092000 0f1f4000  .5.. ..%.. ...@.
@@ -88,7 +150,7 @@ Contents of section .plt:
 Contents of section .plt.got:
  0610 ff25e209 20006690                    .%.. .f.        
 Contents of section .text:
-
+ 0620 31ed4989 d15e4889 e24883e4 f050544c  1.I..^H..H...PTL
 
 Contents of section .got:
  200fb8 b80d2000 00000000 00000000 00000000  .. .............
@@ -97,7 +159,7 @@ Contents of section .got:
  200fe8 00000000 00000000 00000000 00000000  ................
  200ff8 00000000 00000000                    ........        
 Contents of section .data:
-
+ 201000 00000000 00000000 08102000 00000000  .......... .....
 
 $ objdump -d a.out
 
@@ -119,8 +181,6 @@ Disassembly of section .plt.got:
  610:	ff 25 e2 09 20 00    	jmpq   *0x2009e2(%rip)        # 200ff8 <__cxa_finalize@GLIBC_2.2.5>
  616:	66 90                	xchg   %ax,%ax
 
-
-
 000000000000072a <main>:
  72a:	55                   	push   %rbp
  72b:	48 89 e5             	mov    %rsp,%rbp
@@ -128,156 +188,89 @@ Disassembly of section .plt.got:
  735:	00 00 00 
  738:	e8 c3 fe ff ff       	callq  600 <bar@plt>
 
-```
-
-
-## Position-Independent Code (PIC)
--fPIC 作用于编译阶段，告诉编译器产生与位置无关代码(Position-Independent Code)，则产生的代码中，没有绝对地址，全部使用相对地址，故而代码可以被加载器加载到内存的任意
-位置，都可以正确的执行。这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的. 感觉这套路与MS-DOS中的com 文件类型,类似，不同的是com 文件因此加载后不能超过64k,因为16位cpu，offset最大也就64k. 所以.so实际也有这限制，不过32bit/64bit cpu时代而已。
-
-如果不加-fPIC,则加载.so文件的代码段时,代码段引用的数据对象需要重定位, 重定位会修改代码段的内容,这就造成每个使用这个.so文件代码段的进程在内核里都会生成这个.so文件代码段的copy。
-
-
-
-the compiler creates a table called the global offset table (GOT) at the beginning of the data segment. The GOT contains an entry for each global data object that is referenced by the object module. The compiler also generates a relocation record for each entry in the GOT. At load time, the dynamic linker relocates each entry in the GOT so that it contains the appropriate absolute address. Each object module that references global data has its own
-GOT.
-
-At run time, each global variable is referenced indirectly through the GOT。
-
-Lazy binding is implemented with a compact yet somewhat complex interaction between two data structures: the GOT and the procedure linkage table (PLT).
-If an object module calls any functions that are defined in shared libraries, then it has its own GOT and PLT. The GOT is part of the .data section. The PLT is part of the .text section.
-
-
-[foo6](foo6.c) [bar4](bar4.c) [bar5](bar5.c)
 
 ```
-$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
-$  gcc foo6.c -ldl
-$ objdump -s a.out
+其中
+* .interp section  which contains the path name of the dynamic linker
+* .plt section 包含 <bar@plt>
+* section .plt.got 
+* section .got
+* 代码中，函数调用link 后是 callq  600 <bar@plt>。
 
-a.out:     file format elf64-x86-64
-
-Contents of section .interp:
- 0238 2f6c6962 36342f6c 642d6c69 6e75782d  /lib64/ld-linux-
- 0248 7838362d 36342e73 6f2e3200           x86-64.so.2.    
-
-Contents of section .init:
- 07d0 4883ec08 488b050d 08200048 85c07402  H...H.... .H..t.
- 07e0 ffd04883 c408c3                      ..H....         
-Contents of section .plt:
- 07f0 ff35b207 2000ff25 b4072000 0f1f4000  .5.. ..%.. ...@.
- 0800 ff25b207 20006800 000000e9 e0ffffff  .%.. .h.........
- 0810 ff25aa07 20006801 000000e9 d0ffffff  .%.. .h.........
- 0820 ff25a207 20006802 000000e9 c0ffffff  .%.. .h.........
- 0830 ff259a07 20006803 000000e9 b0ffffff  .%.. .h.........
-Contents of section .plt.got:
- 0840 ff25b207 20006690                    .%.. .f.        
-Contents of section .text:
-
-
-Contents of section .got:
- 200fa0 a00d2000 00000000 00000000 00000000  .. .............
- 200fb0 00000000 00000000 06080000 00000000  ................
- 200fc0 16080000 00000000 26080000 00000000  ........&.......
- 200fd0 36080000 00000000 00000000 00000000  6...............
- 200fe0 00000000 00000000 00000000 00000000  ................
- 200ff0 00000000 00000000 00000000 00000000  ................
-Contents of section .data:
+.so 文件
 
 ```
-Each procedure that is defined in a shared object and called by [foo6](foo6.c)  gets an entry in the GOT, starting with entry GOT[3].
+$ gcc -shared -fPIC -o libbar.so bar4.c bar5.c
+$ objdump -d libbar.so 
+libbar.so:     file format elf64-x86-64
 
 
-The PLT is an array of 16-byte entries. The first entry, PLT[0], is a special entry that jumps into the dynamic linker. Each called procedure has an entry in the PLT, starting at PLT[1]
+Disassembly of section .init:
 
-```
-$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
-$  gcc foo6.c -ldl
-$ objdump -d a.out
-
-a.out:     file format elf64-x86-64
-
+00000000000004b8 <_init>:
+ 4b8:	48 83 ec 08          	sub    $0x8,%rsp
+ 4bc:	48 8b 05 35 0b 20 00 	mov    0x200b35(%rip),%rax        # 200ff8 <__gmon_start__>
+ 4c3:	48 85 c0             	test   %rax,%rax
+ 4c6:	74 02                	je     4ca <_init+0x12>
+ 4c8:	ff d0                	callq  *%rax
+ 4ca:	48 83 c4 08          	add    $0x8,%rsp
+ 4ce:	c3                   	retq   
 
 Disassembly of section .plt:
 
-00000000000007f0 <.plt>:
- 7f0:	ff 35 b2 07 20 00    	pushq  0x2007b2(%rip)        # 200fa8 <_GLOBAL_OFFSET_TABLE_+0x8>
- 7f6:	ff 25 b4 07 20 00    	jmpq   *0x2007b4(%rip)        # 200fb0 <_GLOBAL_OFFSET_TABLE_+0x10>
- 7fc:	0f 1f 40 00          	nopl   0x0(%rax)
+00000000000004d0 <.plt>:
+ 4d0:	ff 35 32 0b 20 00    	pushq  0x200b32(%rip)        # 201008 <_GLOBAL_OFFSET_TABLE_+0x8>
+ 4d6:	ff 25 34 0b 20 00    	jmpq   *0x200b34(%rip)        # 201010 <_GLOBAL_OFFSET_TABLE_+0x10>
+ 4dc:	0f 1f 40 00          	nopl   0x0(%rax)
 
-0000000000000800 <dlopen@plt>:
- 800:	ff 25 b2 07 20 00    	jmpq   *0x2007b2(%rip)        # 200fb8 <dlopen@GLIBC_2.2.5>
- 806:	68 00 00 00 00       	pushq  $0x0
- 80b:	e9 e0 ff ff ff       	jmpq   7f0 <.plt>
+Disassembly of section .plt.got:
 
-0000000000000810 <dlclose@plt>:
- 810:	ff 25 aa 07 20 00    	jmpq   *0x2007aa(%rip)        # 200fc0 <dlclose@GLIBC_2.2.5>
- 816:	68 01 00 00 00       	pushq  $0x1
- 81b:	e9 d0 ff ff ff       	jmpq   7f0 <.plt>
-
-0000000000000820 <dlsym@plt>:
- 820:	ff 25 a2 07 20 00    	jmpq   *0x2007a2(%rip)        # 200fc8 <dlsym@GLIBC_2.2.5>
- 826:	68 02 00 00 00       	pushq  $0x2
- 82b:	e9 c0 ff ff ff       	jmpq   7f0 <.plt>
-
-0000000000000830 <dlerror@plt>:
- 830:	ff 25 9a 07 20 00    	jmpq   *0x20079a(%rip)        # 200fd0 <dlerror@GLIBC_2.2.5>
- 836:	68 03 00 00 00       	pushq  $0x3
- 83b:	e9 b0 ff ff ff       	jmpq   7f0 <.plt>
+00000000000004e0 <__cxa_finalize@plt>:
+ 4e0:	ff 25 f2 0a 20 00    	jmpq   *0x200af2(%rip)        # 200fd8 <__cxa_finalize>
+ 4e6:	66 90                	xchg   %ax,%ax
 
 
+$ objdump -s libbar.so 
 
-
-
-
-000000000000095a <main>:
- 95a:	55                   	push   %rbp
- 95b:	48 89 e5             	mov    %rsp,%rbp
- 95e:	48 83 ec 10          	sub    $0x10,%rsp
- 962:	c7 05 b4 06 20 00 01 	movl   $0x1,0x2006b4(%rip)        # 201020 <i>
- 969:	00 00 00 
- 96c:	be 01 00 00 00       	mov    $0x1,%esi
- 971:	48 8d 3d fc 00 00 00 	lea    0xfc(%rip),%rdi        # a74 <_IO_stdin_used+0x4>
- 978:	e8 83 fe ff ff       	callq  800 <dlopen@plt>
-
-$ ldd a.out
-	linux-vdso.so.1 (0x00007ffd1b322000)
-	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f5953515000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5953124000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f595391b000)
+Contents of section .got:
+ 200fd8 00000000 00000000 00000000 00000000  ................
+ 200fe8 00000000 00000000 00000000 00000000  ................
+ 200ff8 00000000 00000000                    ........        
+Contents of section .got.plt:
+ 201000 880e2000 00000000 00000000 00000000  .. .............
+ 201010 00000000 00000000    
 ```
-non-PIC 与 PIC 代码的区别主要在于 access global data, jump label 的不同。
+可以看到.so文件与可执行文件非常类似，有 .init .got .plt。 但是 .got内容是空的。
+
+
+# static/dynamic linking 的区别
+主要在于 access global data, jump label 的不同。
 
 比如一条 access global data 的指令，
-* non-PIC 的形式是：ld r3, var1
-* PIC 的形式则是：ld r3, var1-offset@GOT,意思是从 GOT 表的 index 为 var1-offset 的地方处，指示的地址处装载一个值,即var1-offset@GOT处的4个 byte。 其实就是 var1 的地址。这个地址只有在运行的时候才知道，是由 dynamic-loader(ld-linux.so) 填进去的。
+* non-PIC 的形式是：
+```
+ld r3, var1
+```
+* PIC 的形式则是：
+```
+ld r3, var1-offset@GOT
+``` 
+意思是从 GOT 表的 index 为 var1-offset 的地方处，指示的地址处装载一个值,即var1-offset@GOT处的4个 byte。 其实就是 var1 的地址。这个地址只有在运行的时候才知道，是由 dynamic-loader(ld-linux.so) 填进去的。
 
 再比如 jump label 指令
-* non-PIC 的形式是： callq  400be0 <dlopen>
-* PIC 的形式则是：callq  800 <dlopen@plt>， 通过它二次跳转。
-
-
-作为对比，同一程序如果用静态链接，
-
+* non-PIC 的形式是： 
 ```
-$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
-$  gcc -static foo6.c -ldl
-$ objdump -d a.out
-
-  0000000000400b4d <main>:
-  400b4d:       55                      push   %rbp
-  400b4e:       48 89 e5                mov    %rsp,%rbp
-  400b51:       48 83 ec 10             sub    $0x10,%rsp
-  400b55:       c7 05 81 b8 2b 00 01    movl   $0x1,0x2bb881(%rip)        # 6bc3e0 <i>
-  400b5c:       00 00 00
-  400b5f:       be 01 00 00 00          mov    $0x1,%esi
-  400b64:       48 8d 3d 59 14 09 00    lea    0x91459(%rip),%rdi        # 491fc4 <_IO_stdin_used+0x4>
-  400b6b:       e8 70 00 00 00          callq  400be0 <dlopen>
-
+callq  615 <bar>
 ```
+* PIC 的形式则是：
+```
+callq  callq  600 <bar@plt>
+```
+， 通过它二次跳转。
 
-## Loading and Linking Shared Libraries from Applications
-不需要在compiliation 过程解决r symbol resolution，load 过程也是app 自己调用了。
+
+
+# Loading and Linking Shared Libraries from Applications
 
 [foo6](foo6.c) [bar4](bar4.c) [bar5](bar5.c)
 
@@ -319,10 +312,33 @@ $1 = 3
 (gdb) 
 
 ```
-令人惊讶的是，
-[strong & weak symbol during linking](strong_weak.md)
-在手动动态加载的情况下还成立。
+-rdynamic 并不是必需的
+Pass the flag ‘-export-dynamic’ to the ELF linker, on targets that support
+it. This instructs the linker to add all symbols, not only used ones, to the
+dynamic symbol table. This option is needed for some uses of dlopen or to
+allow obtaining backtraces from within a program.
 
+```
+$  gcc -shared -fPIC -o libbar.so bar4.c bar5.c
+$  gcc -g  foo6.c -ldl
+$  gdb a.out
+
+(gdb) br 23
+Breakpoint 1 at 0x7ca: file foo6.c, line 23.
+(gdb) r
+Starting program: /home/alex/base/Alex/CSAPP3/a.out 
+
+Breakpoint 1, main () at foo6.c:23
+23	    return 0;
+(gdb) print i
+$1 = 1
+(gdb) 
+```
+i值的变化，颇有有趣的现象，也许它反映的就是体现了 [strong & weak symbol during linking](strong_weak.md) 的rule 3.
+
+https://stackoverflow.com/questions/36692315/what-exactly-does-rdynamic-do-and-when-exactly-is-it-needed
+
+如果按该文的解释，用上 -rdynamic 是好习惯。
 
 
 # choice

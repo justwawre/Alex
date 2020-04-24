@@ -12,13 +12,13 @@
 
 这是一个不包含cache 的简化模型
 
-The central processing unit (CPU), or simply processor, is the engine that interprets (or executes) instructions stored in main memory. At its core is a word-sized storage device (or register) called the program counter (PC). At any point in time, the PC points at (contains the address of) some machine-language instruction in main memory
+The central processing unit (CPU), or simply processor, is the engine that interprets (or executes) instructions stored in main memory. At its core is a word-sized storage device (or register) called the program counter (PC). At any point in time, the PC points at (contains the address of) some machine-language instruction in main memory
 
 The processor reads the instruction from memory pointed at by the program counter (PC), interprets the bits in the instruction, performs some simple
 operation dictated by the instruction, and then updates the PC to point to the next instruction, which may or may not be contiguous in memory to the instruction that was just executed.
 
 There are only a few of these simple operations, and they revolve around main memory, the register file, and the arithmetic/logic unit (ALU). The register
-file is a small storage device that consists of a collection of word-sized registers, each with its own unique name. The ALU computes new data and address values.
+file is a small storage device that consists of a collection of word-sized registers, each with its own unique name (如 IA-32的 EAX、EBX、ECX、EDX). The ALU computes new data and address values.
 
 ## cache
 To deal with the processor-memory gap, system designers include smaller faster storage devices called cache memories (or simply caches) that serve as
@@ -43,7 +43,7 @@ As this figure suggests,
 ![i7](fig_1_17.png)
 
 Hyperthreading, sometimes called simultaneous multi-threading, is a technique that allows a single CPU to execute multiple flows of control. It involves
-having multiple copies of some of the CPU hardware, such as program counters and register files, while having only single copies of other parts of the hardware, such as the units that perform floating-point arithmetic. Whereas a conventional processor requires around 20,000 clock cycles to shift between different threads, a hyperthreaded processor decides which of its threads to execute on a cycleby-cycle basis. It enables the CPU to make better advantage of its processing resources. For example, if one thread must wait for some data to be loaded into a cache, the CPU can proceed with the execution of a different thread. As an example, the Intel Core i7 processor can have each core executing two threads, and so a four-core system can actually execute eight threads in parallel. （alex: 这two threads 应该没法将core的速度加快，只是能够通过切换thread 减少core的空闲时间。）
+having multiple copies of some of the CPU hardware, such as program counters and register files, while having only single copies of other parts of the hardware, such as the units that perform floating-point arithmetic (alex:浮点运算还是由coprocessor完成，所以此时cpu空转？). Whereas a conventional processor requires around 20,000 clock cycles to shift between different threads, a hyperthreaded processor decides which of its threads to execute on a cycle by-cycle basis. It enables the CPU to make better advantage of its processing resources. For example, if one thread must wait for some data to be loaded into a cache, the CPU can proceed with the execution of a different thread. As an example, the Intel Core i7 processor can have each core executing two threads, and so a four-core system can actually execute eight threads in parallel. （alex: 这two threads 应该没法将core的速度加快，只是能够通过切换thread 减少core的空闲时间。）
 
 # chp 7: linking
 Linking is the process of collecting and combining various pieces of code and data into a single file that can be loaded (copied) into memory and executed.
@@ -65,15 +65,14 @@ Object files define and reference symbols. The purpose of symbol resolution is t
 The linker relocates these sections by associating a **memory location** with each **symbol definition**, and then modifying all associated  **symbol reference** so that they point to this **memory locatiion**.
 
 
-## Linux下ELF(Executable and Linkable Format)
-文件类型分为以下几种：
+Linux下ELF(Executable and Linkable Format)文件分为以下几种：
 * 可重定位文件，例如SimpleSection.o；
 * 可执行文件，例如/bin/bash；
 * 共享目标文件，例如/lib/libc.so。
 * Core dump文件
 
-### common的section如下：
-
+## Relocatable object file (.o)
+![Relocatable object file](CSAPP_o.png)
 * .text: 已编译程序的二进制代码
 * .rodata: 只读数据段，比如常量
 * .data: 已初始化的全局变量和静态变量
@@ -83,7 +82,6 @@ The linker relocates these sections by associating a **memory location** with ea
 * .line: 原始的C文件行号和.text节中机器指令之间的映射。A mapping between line numbers in the original C source program and machine code instructions in the .text section. It is only present if the compiler driver is invoked with the -g option.
 * .strtab: 字符串表，内容包括.symtab和.debug节中的符号表。 A string table for the symbol tables in the .symtab and .debug sections, and for the section names in the section headers. A string table is a sequence of null-terminated character strings. (Alex:这样就避免了字符串出现在代码中)
 
-### 对于可重定位的文件 (.o)
 
 由于在编译时，并不能确定它引用的外部函数和变量的地址信息，因此，编译器在生成目标文件时，增加了两个section：
 
@@ -114,7 +112,7 @@ OFFSET           TYPE              VALUE
 可以看到main() 中的f(),g(),j 因为在main.c中没有define, 所以都需要relocation. j 作为一个外部全局变量在代码中使用，也出现在 .rel.text 中。
 
 
-[main2.c](main2.c)  用到了.rel.data 
+[main2.c](main2.c)  用到了.rel.data，local和非local两种。
 
 ```
 $ gcc -c main2.c 
@@ -166,7 +164,7 @@ OFFSET           TYPE              VALUE
 ```
 
 
-### 对于可执行文件
+## Executable object file.
 ![elf](CSAPP_typical_elf.png)
 
 由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它
@@ -201,10 +199,10 @@ Disassembly of section .init:
 这个section中保存了该可执行程序main函数正常退出之后执行的代码。
 
 
-## Mangling of linker symbols in C++ and Java
+### Mangling of linker symbols in C++ and Java
 Both C++ and Java allow **overloaded** methods that have the same name in the source code but different parameter lists. So how does the linker tell the difference between these different overloaded functions? Overloaded functions in C++ and Java work because the compiler encodes each unique method and parameter list combination into a unique name for the linker. This encoding process is called mangling,and the inverse process demangling.
 
-## load
+### load
 
 On 32-bit Linux systems, the code segment starts at address 0x08048000.
 
@@ -240,25 +238,20 @@ the loader via the execve system call. The loader deletes the child’s existing
 file by mapping pages in the virtual address space to page-sized chunks of the executable file. Finally, the loader jumps to the _start address, which eventually calls the application’s main routine. Aside from some header information, there is no copying of data from disk to memory during loading. The
 copying is deferred until the CPU references a mapped virtual page, at which point the operating system automatically transfers the page from disk to memory using its paging mechanism
 
-## objdump
-Can display all of the information in an object file. Its most useful function is disassembling the binary instructions in the .text section.
 
-```
-#decode the object file or a.out
-objdump -D  <filename>
+## Shared object file.
+这就是涉及到 [static & dynamic linking](CSAPP_lib.md). 简单的说，静态链接库只是把.o文件打成一个包而已(archive),而动态链接则涉及编译出一个与加载位置无关的.so 文件。Dynamic Linking with Shared Libraries。
 
-#only dump a specific section
-objdump -d -j .rodata  a.out
+Shared libraries are “shared” in two different ways. First, in any given file system, there is exactly one .so file for a particular library. The code and data in this .so file are shared by all of the executable object files that reference the library, as opposed to the contents of static libraries, which are copied and embedded in the executables that reference them. Second, a single copy of the .text section of a shared library in memory can be shared by different running processes. 
 
+![Dynamic linking with shared libraries.](CSAPP_7_15.png)
 
+Position-Independent Code (PIC)文件的特点，看 [static & dynamic linking](CSAPP_lib.md).
+如何链接/访问到.so这一步，可以
+* 命令行调用dynamic linker 
+* application 调用dynamic linker 的函数接口
+实现。
 
-
-```
-
-## generate the M$ masm file
-```
-gcc  -S -masm=intel *.c
-```
 
 # chp 9 virtual memory
 ## virtual address
