@@ -1,5 +1,5 @@
 
-由于UNIX被Linux取代，当初看的，写的code，现在已经不太重要。
+由于UNIX被Linux取代，当初看的，写的code，现在已经不太重要,所以大部分就删掉了。
 
 # nice()  don't work in multi cpu arch
 

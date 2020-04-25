@@ -1,4 +1,4 @@
-从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成。
+从第一版看到第三版，他这本书是非常全，对应国内多门课，如计算机原理/计算机组成，由于其他内容看其他书更合适，这里只回顾它写的好的几章。 感觉他的编排叙述不是很好，做了较大的编排调整。
 
 # chp1: A Tour of Computer Systems
 
@@ -252,3 +252,5 @@ Position-Independent Code (PIC)文件的特点，看 [static & dynamic linking](
 * application 调用dynamic linker 的函数接口实现。
 
 
+# code
+http://csapp.cs.cmu.edu/3e/code.html

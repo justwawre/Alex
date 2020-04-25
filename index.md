@@ -7,8 +7,9 @@ Good at system analyzing & problem solving. <br>
 **Sr SW engineer:  Tieto   2018.12- present** <br>
 for Ericsson LTE eNB
 * Develop the MAC layer SW on multi-core platform, using git/gerrit,
-* Develop the tool for tester.
+* Develop the [tool](C++/logAnalyzer.md) for tester myself.
 * Support other team's development via LTE spec/Code understanding
+* workshop for GZ team [dsp memory optimization](workshop/dsp_mem_opt/)
 
 **LTE tech support:      Nokia   2009-2018.7**<br>
 Handling of the escalated cases, usually the most difficult ones, e.g. e2e issue/design defect/unclear HW or SW issue.
@@ -75,20 +76,20 @@ Innovated
     * [The Linux Programming Interface](TLPI/)
         * [sctp programming](sctp-sandbox)
         * [bash shell script](programming/bash.md)
-        * [C practise](C/)
-    * [Linux kernel code](programming/Linux_kernel_reading.md)
-    * [APUE 3e practise](programming/APUE.md)
         * [static & dynamic lib under Linux](programming/static_dynamic_lib.md)
+        * [APUE 3e](programming/APUE.md)
         * [Unix中多程序间共享内存](programming/Unix_muliti_process_programming.pdf)
-    * [C++ practise](C++/)
+        * [C 11 practise](https://github.com/yc-alex-xu/Alex/tree/master/C)
+    * [Linux Kernel Development, 3rd Edition](programming/Linux_kernel_reading.md)
+    * [C++ 14 practise](https://github.com/yc-alex-xu/Alex/C++/)
         * [log analyzer in C++](C++/logAnalyzer.md)
         * [Design patterns in C++](designPatterns/)
+        * [Data Structures & Algorithm Analysis in C++, 4e](programming/algorithms.md)
     * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
         * [fluentPython Code, only part](https://github.com/yc-alex-xu/Alex/tree/master/fluentPython)
         * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
         * [24点游戏的算法与实现](programming/24点游戏的算法与实现.pdf)
     * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)
-    * [algorithms](programming/algorithms.md)
     * [programming paradigm](programming/programming_paradigm.md)
         * [closure](programming/closure.md)
     * [distributed system](programming/CAP.md)
