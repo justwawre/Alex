@@ -97,8 +97,6 @@ Innovated
     * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
         * [git/gerrit ](programming/git_gerrit.md)
         * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
-        * [GCC](programming/gcc.md)
-        * [GDB](programming/GDB.md)
     * [Catalyst swtiches setup](support/Catalyst_swtiches_setup.md)
     * [ipsec suport](support/ipsec_suport.md)
     * [SuSE cluster/HA](support/cluster.md)
