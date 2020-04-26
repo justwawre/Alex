@@ -1,9 +1,9 @@
 The access stratum (AS) contains the functionality associated with access to the radio network and the control of active connections between a UE and the radio network. The AS consists of a user plane and a control plane. The user plane is mainly concerned with carrying user data—e.g., internet protocol (IP) packets—through the access stratum. The control plane is concerned with controlling the connection between the UE and the network.
 ## User Plane
- ![User plane protocol stack](4.1-1.png)
+ ![User plane protocol stack](images/4.1-1.png)
 
 ## Control Plane
- ![Control plane protocol stack](4.1-2.png)
+ ![Control plane protocol stack](images/4.1-2.png)
 
 ## Physical Layer Downlink Control Information
 The eNB normally transmits many DCI messages per subframe, each using a different PDCCH. Each message is intended to be received by one or many UEs. A UE does not know which PDCCH channels have been used on a particular subframe by the eNB and, of those used, whether the PDCCH contains a DCI message intended for that UE. To receive DCI messages a UE must perform a large number of blind decodes every subframe. The DCI messages intended for that UE will be decoded successfully, whereas those not intended for that UE will fail the cyclic redundancy code (CRC) check.
@@ -18,13 +18,13 @@ ue specific RNTI ==>UE-specific search space
 * the cell RNTI, or C-RNTI, SPS C-RNTI / Temporary C-RNTI
 
 DCI carry on PDCCH, whose format is:
- ![Supported PDCCH formats](6.8.1-1.png)
+ ![Supported PDCCH formats](images/6.8.1-1.png)
 
 PDCCH candidates monitored by a UE.
- ![](9.1.1-1.png)
+ ![](images/9.1.1-1.png)
 
  an example
-  ![](4-6.png)
+  ![](images/4-6.png)
 eNodeB在调度时，会针对每个待调度的UE，从对应的搜索空间中选择一个可用的PDCCH candidate。如果能分配到CCE就调度，否则就不调度。发给不同UE的PDCCH可以有不同的聚合等级。
 
 DCI 有多种格式（见36.212 的5.3.3.1 节），但UE 事先并不知道接收到的PDCCH 携带的是哪种格式的DCI，也不知道该DCI 使用哪个PDCCH candidate 进行传输，所以UE 必须进行PDCCH盲检以接收对应的DCI。

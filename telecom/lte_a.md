@@ -31,6 +31,6 @@ also to increase system throughput. Figure 8.4-1 compares standard MIMO with CoM
 The primary difference between standard MIMO and CoMP is that for the latter, the transmitters are not physically co-located. In the case of downlink CoMP, however, there is the possibility of linking the transmitters at baseband (shown as the link between the transmitters on the right half of Figure 8.4-1) to enable sharing of payload data for the purposes of coordinated precoding. This sharing is not physically possible for the uplink, which limits the options for uplink CoMP. For the standard
 network topology in which the eNBs are physically distributed, provision of a high capacity, low latency baseband link is challenging and would probably require augmentation of the X2 inter-eNB interface using fiber. However, a cost-effective solution for inter-eNB connectivity is offered by the move towards a network architecture in which the baseband and RF transceivers are located at a central site with distribution of the RF to the remote radio heads via fiber.
 
-![Figure 8.4-1. Standard MIMO versus coordinated multi-point](8.4-1.png)
+![Figure 8.4-1. Standard MIMO versus coordinated multi-point](images/8.4-1.png)
 
 ## Release 12

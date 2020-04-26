@@ -2,7 +2,7 @@
 
 ## build & link
 
-[foo5](foo5.c) [bar4](bar4.c) [bar5](bar5.c)
+[foo5](src/foo5.c) [bar4](src/bar4.c) [bar5](src/bar5.c)
 ```
 $ gcc -c bar4.c bar5.c
 $ ar rcs libbar.a bar4.o bar5.o
@@ -116,7 +116,7 @@ alex: 静态链接是把.out 文件的 symbole reference 全部 resolve 了。 �
 
 the compiler creates a table called the global offset table (GOT) at the beginning of the data segment. The GOT contains an entry for each global data object that is referenced by the object module. The compiler also generates a relocation record for each entry in the GOT. At load time, the dynamic linker relocates each entry in the GOT so that it contains the appropriate absolute address. Each object module that references global data has its own GOT.
 
-* Each procedure that is defined in a shared object and called by [foo5.c](foo5.c)  gets an entry in the GOT, starting with entry GOT[3].
+* Each procedure that is defined in a shared object and called by [foo5.c](src/foo5.c)  gets an entry in the GOT, starting with entry GOT[3].
 * The PLT is an array of 16-byte entries. The first entry, PLT[0], is a special entry that jumps into the dynamic linker. Each called procedure has an entry in the PLT, starting at PLT[1]
 * At run time, each global variable is referenced indirectly through the GOT。
 
@@ -125,7 +125,7 @@ If an object module calls any functions that are defined in shared libraries, th
 
 ## check with the same files
 
-[foo5](foo5.c) [bar4](bar4.c) [bar5](bar5.c)
+[foo5](src/foo5.c) [bar4](src/bar4.c) [bar5](src/bar5.c)
 
 ```
 $ gcc -shared -fPIC -o libbar.so bar4.c bar5.c
@@ -272,7 +272,7 @@ callq  callq  600 <bar@plt>
 
 # Loading and Linking Shared Libraries from Applications
 
-[foo6](foo6.c) [bar4](bar4.c) [bar5](bar5.c)
+[foo6](src/foo6.c) [bar4](src/bar4.c) [bar5](src/bar5.c)
 
 ```
 $  gcc -shared -fPIC -o libbar.so bar4.c bar5.c

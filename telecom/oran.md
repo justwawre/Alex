@@ -43,7 +43,7 @@ Most major operators are already well down the path of this disaggregation, or v
 
 ## vRAN
 * Protocol stack
-    ![tbd](5g_cu_du.png)
+    ![tbd](images/5g_cu_du.png)
 
 in 5G, Baseband/RRU have new function split, it seem CU will be virtualized.
 

@@ -23,7 +23,7 @@ pages
 Caching 功能 are provided by a combination of operating system software, address translation hardware in the MMU (memory management unit), and a data structure stored in physical memory known as a page table that maps virtual pages to physical pages. The address translation hardware reads the page table
 each time it converts a virtual address to a physical address. 
 
-![page table](fig_9_4.png)
+![page table](images/fig_9_4.png)
 
 ###  handle of page hits
 A control register in the CPU, the page table base register (**PTBR**) points to the current page table.  page table 由page table entries (PTEs)组成。
@@ -35,10 +35,10 @@ the CPU hardware performs when there is a page hit.
 * Step 4: The cache/main memory returns the requested data word to the processor.
 
 ### handle of page fault
-![tbd](CSAPP_pagefault.png)
+![tbd](images/CSAPP_pagefault.png)
 
 ### allocate a virtual page
-![tbd](CSAPP_newpage.png)
+![tbd](images/CSAPP_newpage.png)
 
 ### 提高 page hits rate,减少 thrashing(颠簸)
 Although the total number of distinct pages that programs reference during an entire run might exceed the total size of physical memory, the principle of locality promises that at any point in time they will tend to work on a smaller set of active pages known as the **working set** or resident set. After an initial overhead where the working set is paged into memory, subsequent references to the working set result in hits, with no additional disk traffic。 alex:印象中OS课程中有内容就是如何规划 **working set**，让它们作为一个整体倒入倒出。
@@ -55,7 +55,7 @@ alex: 简单的说，由于所有的process， 在os 中都是一个独立的add
 
 ## address translation
 
-![tbd](CSAPP_pagetable.png)
+![tbd](images/CSAPP_pagetable.png)
 
 ### Speeding Up Address Translation with a TLB
 As we have seen, every time the CPU generates a virtual address, the MMU must refer to a PTE in order to translate the virtual address into a physical address. In the worst case, this requires an additional fetch from memory, at a cost of tens to hundreds of cycles. If the PTE happens to be cached in L1, then the cost goes down to a handful of cycles. However, many systems try to eliminate even this cost by including a small cache of PTEs in the MMU called a translation lookaside buffer(TLB).
@@ -66,14 +66,14 @@ A TLB is a small, virtually addressed cache where each line holds a block consis
 ## Linux Virtual Memory System
 Linux organizes the virtual memory as a collection of areas (also called segments).An area is a contiguous chunk of existing (allocated) virtual memory whose pages are related in some way. For example, the code segment, data segment, heap,shared library segment, and user stack are all distinct areas. Each existing virtual page is contained in some area, and any virtual page that is not part of some area does not exist and cannot be referenced by the process. The notion of an area is important because it allows the virtual address space to have gaps. The kernel does not keep track of virtual pages that do not exist, and such pages do not consume any additional resources in memory, on disk, or in the kernel itself. 也就是说，linux 在page 之上加了 areas/segments 这一集合个概念，也就是所谓的段页式管理，段和页都用上了，只是段与intel cpu的segment概念不同，所以也不依赖于intel cpu.
 
-![How Linux organizes virtual memory.](fig_9_27.png)
+![How Linux organizes virtual memory.](images/fig_9_27.png)
 
 Figure above highlights the kernel data structures that keep track of the virtual memory areas in a process. The kernel maintains a distinct task structure (task_struct in the source code) for each process in the system. The elements of the task structure either contain or point to all of the information that the kernel needs to run the process (e.g., the PID, pointer to the user stack, name of the executable object file, and program counter).
 
 One of the entries in the task structure points to an mm_struct that characterizes the current state of the virtual memory. The two fields of interest to us
 are pgd, which points to the base of the level 1 table (the page global directory),and mmap, which points to a list of vm_area_structs (area structs), each of which characterizes an area of the current virtual address space. When the kernel runs this process, it stores pgd in the CR3 control register.
 
-![Linux Page Fault.](fig_9_28.png)
+![Linux Page Fault.](images/fig_9_28.png)
 
 上图的处理过程，简单的说，就是触发常规的page fault处理流程前会检索一下vm_area_struct 这一链表，分为
 * 不出现在链表的任意一个area 中，invalid->Segmentation fault

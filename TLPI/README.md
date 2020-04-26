@@ -1,28 +1,49 @@
-# env check
-    $ uname -a
+Last time, the booking reading & practise was under the CentOS, this time is under 
 
-    $ find /lib/ -name "libc*"
-    $ getconf GNU_LIBC_VERSION
+# Preparation
+## env check
+```
+$ uname -a
+Linux minipc 5.3.0-46-generic #38~18.04.1-Ubuntu SMP Tue Mar 31 04:17:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 
-    $ ldd acl_update
-
-    //用来检查file systems which kernel supports
-    $ cat /proc/filesystems
-    $ mount      //To list the currently mounted file systems
-
- # install lib
-    sudo apt-get install libacl1-dev  libcap-dev libselinux-dev
+$ find /lib/ -name "libc*"
+$ getconf GNU_LIBC_VERSION
 
 
-# change from c99->c11 in makefile
+//用来检查file systems which kernel supports
+$ cat /proc/filesystems
+$ mount      //To list the currently mounted file systems
+```
+## install lib
+```
+sudo apt-get install libacl1-dev  libcap-dev libselinux-dev
+```
+## download source code
+
+http://www.man7.org/tlpi/
+
+
+## change from c99->c11 in makefile
 Edit Makefile.inc in the 'tlpi' root directory to modify the definitions of the CFLAGS and LDLIBS macros (and possibly other macros depending on your version of make(1)) as appropriate.
 
-# program/process check
-    $time ps -ef
-    $ strace ps -ef
-    $ size libtlpi.a
-    $ nm -s libtlpi.a
-    $ objdump -t libtlpi.a
+## some commands used
+```
+$ time ps -ef
+$ strace ps -ef
+$ size libtlpi.a
+$ nm -s libtlpi.a
+$ objdump -t libtlpi.a
+
+//fig_9_4.png -> images/fig_9_4.png
+$ sed -i 's/\w\+.png/images\/&/g' *.md  
+
+//bar1.c -> src/bar1.c
+$ sed -n 's/\w\+.c)/src\/&/p' *.md //test only
+$ sed -i 's/\w\+.c)/src\/&/g' *.md
+
+```
+ https://man.linuxde.net/sed
+
 
 # check the program break:
 Resizing the heap (i.e., allocating or deallocating memory) is actually as simple as telling the kernel to adjust its idea of where the process’s program break is. Initially, the program break lies just past the end of the uninitialized data segment.
@@ -50,7 +71,7 @@ After the program break is increased, the program may access any address in the 
 ##  malloc() and free()
 In general, C programs use the malloc family of functions to allocate and deallocate memory on the heap. These functions offer several advantages over brk() and sbrk().
 
-![tbd](TLPI_malloc.png)
+![tbd](images/TLPI_malloc.png)
 
 
 # ACL
@@ -60,10 +81,10 @@ In general, C programs use the malloc family of functions to allocate and deallo
 
 # 文件系统
 
-![tbd](TLPI_partion.png)
+![tbd](images/TLPI_partion.png)
 
 
-![tbd](TLPI_fs.png)
+![tbd](images/TLPI_fs.png)
 
 ## A directory
 
@@ -118,7 +139,7 @@ is a notification to a process that an event has occurred. e.g.The abort() funct
 
 we can use the null signal (num 0) to test if a process with a specific process ID exists.(alternative:The /proc/PID interface: For example, if a process with the process ID 12345 exists, then the directory /proc/12345 will exist, and we can check this using a call such as stat().)
 
-![tbd](TLPI_signal.png)
+![tbd](images/TLPI_signal.png)
 
 sigprocmask()/process;pthread_sigmask()/thread to maintain signal mask(a set of signals whose delivery to the process is currently blocked)
 
@@ -175,7 +196,7 @@ synchronously generated signals are delivered immediately. For example, a hardwa
 
 When a signal is generated asynchronously, there may be a (small) delay.The reason for this is that the kernel delivers a pending signal to a process only at the next switch from kernel mode to user mode while executing that process.e.g.rescheduled or completion of a system call.
 
-![tbd](TLPI_signal_unblocked.png)
+![tbd](images/TLPI_signal_unblocked.png)
 
 ## Realtime signals
 are a POSIX addition to the original signal model, and differ from standard signals in that they are queued, have a specified delivery order, and can be sent with an accompanying piece of data.
@@ -212,17 +233,17 @@ Linux 2.6 can: create multiple timers; choose the signal that is delivered on ti
 
 # process
 ## lifecycle
-![tbd](TLPI_process.png)
+![tbd](images/TLPI_process.png)
 
 ## file descriptors during fork()
-![tbd](TLPI_fork_fd.png)
+![tbd](images/TLPI_fork_fd.png)
 
 ## Memory Semantics of fork()
-![tbd](TLPI_fork_memory.png)
+![tbd](images/TLPI_fork_memory.png)
 
 # pthread
 ## Overview
-![tbd](TLPI_pthread.png)
+![tbd](images/TLPI_pthread.png)
 
 # THREAD SYNCHRONIZATION
 
@@ -308,7 +329,7 @@ int pthread_once(pthread_once_t *once_control, void (*init)(void));
 ## Thread-Specific Data
 Thread-specific data is a technique for making an existing function thread-safe without changing its interface. A function that uses thread-specific data may be slightly less efficient than a reentrant function, but allows us to leave the programs that call the function unchanged.
 
-![tbd](TLPI_pthread_tsd.png)
+![tbd](images/TLPI_pthread_tsd.png)
 
 ```c
 static pthread_once_t once = PTHREAD_ONCE_INIT;
@@ -387,7 +408,7 @@ to have the daemon establish a handler for SIGHUP, and perform the required step
 
     $ LD_LIBRARY_PATH=. ./prog    // 就执行 prog的时候替换一下该环境变量
 
-![tbd](TLPI_sharedlib_link.png)
+![tbd](images/TLPI_sharedlib_link.png)
 
 ## soname, alias of so
 If a shared library has a soname, then this name, rather than the library’s real name, is recorded in the resulting executable.
@@ -401,12 +422,11 @@ If a shared library has a soname, then this name, rather than the library’s re
 
 * [my another doc about lib](static_dynamic_lib.md)
 
-![tbd](TLPI_sharedlib_run.png)
+![tbd](images/TLPI_sharedlib_run.png)
 
 
 # IPC
-![tbd](TLPI_IPC.png)
+![tbd](images/TLPI_IPC.png)
 
 
 # book & source code
-http://www.man7.org/tlpi/

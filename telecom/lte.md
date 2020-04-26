@@ -2,16 +2,16 @@ Personal review
 
 ## Overview
 * Protocol stack
-* ![tbd](protocal_stack.png)
+* ![tbd](images/protocal_stack.png)
 * SDU/PDU
-* ![tbd](data_flow.png)
+* ![tbd](images/data_flow.png)
 
 
 ## Cell size dimension
 * from power view, decided by  UE Tx power/path loss/eNB acceptable Rx power
 * from UE Rx/Tx switch time if TDD
    - decided by the GP of special subframe
-   - ![tbd](frame_2.png)
+   - ![tbd](images/frame_2.png)
  * Random access phase
    - preamble  detection windows size decided by  Preach format
    - TA command,  its value was detected by eNB during RA phase, in theory, its value will limit the cell size.
@@ -20,7 +20,7 @@ Personal review
 
 ## Why in LTE the SSS is transmitted before the PSS?
 beside carrying PCI info, the PSS/SSS has other function as to detect the CP length/subframe synchronize. Although the SSS seem transmitted a symbol earlier, for PCI decode, Still the PSS is decoded firstly.
-    ![tbd](DL.png)
+    ![tbd](images/DL.png)
 
 ## HARQ when UL TTI bundling
 it is quite special
@@ -34,9 +34,9 @@ it is quite special
 * number of HARQ processes are fixed to 8.
 * UL harq is synchronous,  UL ACK/NACK was fixed to 4 TTI after transmission
 * DL harq is asynchronous, its Harq process and RV is indicated by PDCCH.
-* ![timing](ULDL_timing.png)
+* ![timing](images/ULDL_timing.png)
 * timing of UL/DL transmission. in above example UL grant happen at n TTI, transmission happen at n+4, retransmission happen at n+8.
-* ![no adpative](ulharq_no_adaptive.png)
+* ![no adpative](images/ulharq_no_adaptive.png)
 
 In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a received (PHICH)
 * If non-adaptive retransmission, the UE uses the same resources which were previously used by the same HARQ process, no PDCCH signalling needed.
@@ -45,7 +45,7 @@ In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a rec
    * via SR/BSR
    classified by LCG
    * explicit granted via PDCCH or implicit grant e.g. IUA (SPS of interval 1/2/4ms)
-   * ![tbd](ul_scheduling.png)
+   * ![tbd](images/ul_scheduling.png)
    * if retransmission, please refer previous chapter
 
 ## Beamforming
@@ -57,7 +57,7 @@ of several correlated signals (beamforming),
 
 ## Carrier Aggregtion
 * UE-->TB-->CC mapping
-* ![tbd](CA_mapping.png)
+* ![tbd](images/CA_mapping.png)
 * scheduling only happen on PCell,so from MAC sw view, the SCell is only accessed via the PCell
 * SCell are configured based on UE capability
 * Can have DL only resources or DL and UL resources.
@@ -65,7 +65,7 @@ of several correlated signals (beamforming),
 * configured via dedicated RRC Reconfiguration message.
 * Can be dynamically activated/deactivated (MAC based).
 * asymmetric of DL/UL CC
-* ![tbd](CA_asymmetric.png)
+* ![tbd](images/CA_asymmetric.png)
 
 * MAC handling
   it split into two phase
@@ -108,9 +108,9 @@ So scheduler only need care the weight.
    * SE: scheduling unit, correspond 1 UE
    * internal scheduling queue:
       - Radio bearer for DL,
-      - ![tbd](PQ_example_1.png)
+      - ![tbd](images/PQ_example_1.png)
       - LCG for UL
-      - ![tbd](PQ_example_2.png)
+      - ![tbd](images/PQ_example_2.png)
 
 ## Reference
 * internal LTE RRM trainning video

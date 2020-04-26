@@ -1,7 +1,7 @@
 ## overview
 LTE specifies the way the downlink radio channel will be used by defining a set of transmission modes in 36.213 Section 7.1. There are nine different modes, all of which have different benefits in different use cases depending on the radio environment.
 
-![tm overview](tm_overview.png)
+![tm overview](images/tm_overview.png)
 
 An antenna “port” does not always mean the same thing as a physical antenna. The term antenna port refers to the use of a particular set of reference signals, which are multiplexed onto physical antennas to suit the transmission mode. 
 
@@ -15,7 +15,7 @@ The way in which the different transmission modes are applied to the various dow
 
 ## downlink Reference Signals
 
-![dl_phy_signals](dl_phy_signals.png)
+![dl_phy_signals](images/dl_phy_signals.png)
 
 There are five types of downlink reference signals. 
 * In Release 8 there are the cell-specific reference signal (CRS), 
@@ -39,18 +39,18 @@ CSI-RS. This reference signal performs the same basic function as the CRS; that 
 * First, the CSI-RS can be scheduled as required rather than being present in every frame.
 * Second, the CSI-RS is used only for reporting of channel state information by the UE on the uplink and (unlike the CRS) is not used for demodulation.
 
-![tm9 csi](tm9_csi.png)
+![tm9 csi](images/tm9_csi.png)
 
 * CSI-RS mapping for eight antennas on virtual antenna ports 15 through 22. The CSI-RS can be
 allocated with a periodicity of 5, 10, 20, 40 and 80 subframes. This range helps optimize the trade-offs between the accuracy of channel sounding with the overhead of transmitting the CSI-RS
 
-![tm9 dl CoMP](tm9_dl_CoMP.png)
+![tm9 dl CoMP](images/tm9_dl_CoMP.png)
 
 * 由于TM9的测量导频CSI-RS可以是用户级配置，从而能更精准的对相邻小区发送的数据流进行测量，并协调调度。根据实验室结果来看，基于TM9的下行 CoMP技术可使边缘速率提升20%-40%。
 
 ##  uplink Reference Signals
 
-![ul_phy_signals](ul_phy_signals.png)
+![ul_phy_signals](images/ul_phy_signals.png)
 
 The DMRS is used for synchronization and uplink channel estimation. There are two types of DMRS; 
 * one for the PUSCH and

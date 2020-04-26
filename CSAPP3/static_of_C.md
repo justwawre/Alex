@@ -16,7 +16,7 @@ object file and the name of the source file that corresponds to module m also ge
 
 # static variable with initial value 
 
-[static.c](static.c)
+[static.c](src/static.c)
 
 ```
 $ gcc -c static.c
@@ -30,7 +30,7 @@ $ objdump --syms static.o
 
 # static variable without initial value
 
- [static_2.c](static_2.c)
+ [static_2.c](src/static_2.c)
 
 ```
 $ gcc -c static_2.c

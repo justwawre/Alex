@@ -7,7 +7,7 @@ Given this notion of strong and weak symbols, Unix linkers use the following rul
 
 * Rule 1: Multiple strong symbols are not allowed.
 
-[foo3.c](foo3.c) [bar1.c](bar1.c)
+[foo3.c](src/foo3.c) [bar1.c](src/bar1.c)
 
 ```
 $ gcc -g foo3.c bar1.c
@@ -22,7 +22,7 @@ collect2: error: ld returned 1 exit status
 
 example:  uninitialized in one module, then the linker will quietly choose the strong symbol defined in the other.
 
-[foo3.c](foo3.c) [bar3.c](bar3.c)
+[foo3.c](src/foo3.c) [bar3.c](src/bar3.c)
 
 ```
 $ gcc -g foo3.c bar3.c
@@ -52,7 +52,7 @@ bar() 中使用的i 是strong symbol (在foo3.c中定义)
 
 * Rule 3: Given multiple weak symbols, choose any of the weak symbols
 
-[foo4.c](foo4.c) [bar4.c](bar4.c)
+[foo4.c](src/foo4.c) [bar4.c](src/bar4.c)
 
 ```
 $ gcc -g foo4.c bar4.c

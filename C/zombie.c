@@ -1,10 +1,3 @@
-/*
-don't work in WSL,the child process's pcb will released by WSL.
-below cmd to check:
-ps -e -opid,stat,pid,cmd
-
-*/
-
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>

@@ -1,6 +1,6 @@
 ## transport channel
  
-![transport channel mapping](transport_channel.png)
+![transport channel mapping](images/transport_channel.png)
 
 ## PDCCH
 It consists of one or more consecutive control channel elements (CCEs), where a control channel element corresponds to nine resource element groups (REGs). 
@@ -18,7 +18,7 @@ The downlink control information (DCI) is mapped to the PDCCH in the physical la
 
 Each DCI carries its own radio network temporary identity (RNTI) to identify the target user. The DCI can have several formats depending on the transmission mode as shown in Table 3.3-6.
 
-![tm DCI mapping](tm_dci.png)
+![tm DCI mapping](images/tm_dci.png)
 
 * DCI Format 1: Used for scheduling of one PDSCH codeword in one cell. Carrier Indicator, Resource Allocation Header,Resource Block Assignment, MCS Index, HARQ Process Number, NDI, RV Index, TPC Command for PUCCH, DAI (TDD only).
 * DCI Format 1A: Used for compact scheduling of one PDSCH codeword in one cell. Carrier
@@ -32,7 +32,7 @@ Each DCI carries its own radio network temporary identity (RNTI) to identify the
 ## UCI
 Uplink control information (UCI) can be mapped to the PUCCH and PUSCH on the physical layer.
 
-![uci format](uci_format.png)
+![uci format](images/uci_format.png)
 
 ## Uplink Control Signaling
 Reporting the channel conditions experienced by the receiver represents the baseline for many adaptation algorithms such as frequency selective scheduling, MIMO precoding, adaptive modulation and coding (AMC), and rank adaptation.

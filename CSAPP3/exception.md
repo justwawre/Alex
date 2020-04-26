@@ -12,7 +12,7 @@ Trap |Intentional exception |Sync |Always returns to next instruction |
 Fault|Potentially recoverable error |Sync |Might return to current instruction |
 Abort| Nonrecoverable error| Sync |Never returns|
 
-![exceptions in IA32 systems](fig_8_9.png)
+![exceptions in IA32 systems](images/fig_8_9.png)
 
 Interrupts occur asynchronously as a result of signals from I/O devices that are external to the processor. Hardware interrupts are asynchronous in the sense
 that they are not caused by the execution of any particular instruction. Exception handlers for hardware interrupts are often called interrupt handlers. I/O devices such as network adapters, disk controllers, and timer chips trigger interrupts by signaling a pin on the processor chip and placing onto the system bus the exception number that identifies the device that caused the interrupt. After the current instruction finishes executing (ALEX：不能打断当前指令的执行，印象中只有用户态才能响应中断？？), the processor notices that the interrupt pin has gone high, reads the exception number from the system bus, and then calls the appropriate interrupt handler. 

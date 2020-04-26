@@ -4,11 +4,11 @@
 
 ## compilation
 
-![the process of  compilation ](fig_1_3.png)
+![the process of  compilation ](images/fig_1_3.png)
 
 ## Processor
 
-![the processor ](fig_1_4.png)
+![the processor ](images/fig_1_4.png)
 
 这是一个不包含cache 的简化模型
 
@@ -24,7 +24,7 @@ file is a small storage device that consists of a collection of word-sized regis
 To deal with the processor-memory gap, system designers include smaller faster storage devices called cache memories (or simply caches) that serve as
 temporary staging areas for information that the processor is likely to need in the near future.
 
-![the processor ](fig_1_8.png)
+![the processor ](images/fig_1_8.png)
 
 The idea behind caching is that a system can get the effect of both a very large memory and a very fast one by exploiting locality, the tendency for
 programs to access data and code in localized regions. By setting up caches to hold data that is likely to be accessed often, we can perform most memory operations using the fast caches.
@@ -32,7 +32,7 @@ programs to access data and code in localized regions. By setting up caches to h
 locality 对各种不能预先判断的jmp 指令应该是深恶痛绝。
 
 ## OS
-![the Abstractions](fig_1_11.png)
+![the Abstractions](images/fig_1_11.png)
 
 As this figure suggests,
 * files are abstractions for I/O devices, 
@@ -40,7 +40,7 @@ As this figure suggests,
 * processes are abstractions for the processor, main memory, and I/O devices.(alex: 应该是process认为自己独占镇整台computer 资源的含义吧。process is the operating system’s abstraction for a running program. Multiple processes can run concurrently on the same system, and each process appears to have exclusive use of the hardware.)
 
 ## multi-core processors and hyperthreading. 
-![i7](fig_1_17.png)
+![i7](images/fig_1_17.png)
 
 Hyperthreading, sometimes called simultaneous multi-threading, is a technique that allows a single CPU to execute multiple flows of control. It involves
 having multiple copies of some of the CPU hardware, such as program counters and register files, while having only single copies of other parts of the hardware, such as the units that perform floating-point arithmetic (alex:浮点运算还是由coprocessor完成，所以此时cpu空转？). Whereas a conventional processor requires around 20,000 clock cycles to shift between different threads, a hyperthreaded processor decides which of its threads to execute on a cycle by-cycle basis. It enables the CPU to make better advantage of its processing resources. For example, if one thread must wait for some data to be loaded into a cache, the CPU can proceed with the execution of a different thread. As an example, the Intel Core i7 processor can have each core executing two threads, and so a four-core system can actually execute eight threads in parallel. （alex: 这two threads 应该没法将core的速度加快，只是能够通过切换thread 减少core的空闲时间。）
@@ -53,7 +53,7 @@ Linking can be performed
 * at load time, when the program is loaded into memory and executed by the loader; and even 
 * at run time, by application programs.
 
-![link](CSAPP_static_link.png)
+![link](images/CSAPP_static_link.png)
 
 To build the executable, the linker (ld under Linux) must perform two main tasks:
 * Symbol resolution. 
@@ -72,7 +72,7 @@ Linux下ELF(Executable and Linkable Format)文件分为以下几种：
 * Core dump文件
 
 ## Relocatable object file (.o)
-![Relocatable object file](CSAPP_o.png)
+![Relocatable object file](images/CSAPP_o.png)
 * .text: 已编译程序的二进制代码
 * .rodata: 只读数据段，比如常量
 * .data: 已初始化的全局变量和静态变量
@@ -89,7 +89,7 @@ Linux下ELF(Executable and Linkable Format)文件分为以下几种：
 * .rel.data Relocation information for any global variables that are referenced or defined by the module. In general, any initialized global variable
 whose initial value is the address of a global variable or externally defined function will need to be modified
 
-[main.c](main.c) 引用了外部的函数与变量，可以检查一下它的**symbol reference**.
+[main.c](src/main.c) 引用了外部的函数与变量，可以检查一下它的**symbol reference**.
 
 ```
 $ gcc -c main.c
@@ -112,7 +112,7 @@ OFFSET           TYPE              VALUE
 可以看到main() 中的f(),g(),j 因为在main.c中没有define, 所以都需要relocation. j 作为一个外部全局变量在代码中使用，也出现在 .rel.text 中。
 
 
-[main2.c](main2.c)  用到了.rel.data，local和非local两种。
+[main2.c](src/main2.c)  用到了.rel.data，local和非local两种。
 
 ```
 $ gcc -c main2.c 
@@ -165,13 +165,13 @@ OFFSET           TYPE              VALUE
 
 
 ## Executable object file.
-![elf](CSAPP_typical_elf.png)
+![elf](images/CSAPP_typical_elf.png)
 
 由于它已经全部完成了重定位工作，可以直接加载到内存中执行，所以它
 * 不存在.rel section。但是，
 * 它增加了一个section .init: The .init section defines a small function, called _init, that will be called by the program’s initialization code. 
 
-[static.c](static.c)
+[static.c](src/static.c)
 
 ```
 $ gcc static.c
@@ -206,7 +206,7 @@ Both C++ and Java allow **overloaded** methods that have the same name in the so
 
 On 32-bit Linux systems, the code segment starts at address 0x08048000.
 
-![runtime](CSAPP_runtime.png)
+![runtime](images/CSAPP_runtime.png)
 
 When the loader runs, it creates the memory image as above,Guided by the segment header table in the executable, it copies chunks of the executable into the code and data segments. Next, the loader jumps to the program’s entry point, which is always the address of the _start symbol. The startup code at the _start address is defined in the object file crt1.o and is the same for all C programs. 
 
@@ -244,7 +244,7 @@ copying is deferred until the CPU references a mapped virtual page, at which poi
 
 Shared libraries are “shared” in two different ways. First, in any given file system, there is exactly one .so file for a particular library. The code and data in this .so file are shared by all of the executable object files that reference the library, as opposed to the contents of static libraries, which are copied and embedded in the executables that reference them. Second, a single copy of the .text section of a shared library in memory can be shared by different running processes. 
 
-![Dynamic linking with shared libraries.](CSAPP_7_15.png)
+![Dynamic linking with shared libraries.](images/CSAPP_7_15.png)
 
 Position-Independent Code (PIC)文件的特点，看 [static & dynamic linking](CSAPP_lib.md).
 如何链接/访问到.so这一步，可以
