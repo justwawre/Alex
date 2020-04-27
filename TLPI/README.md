@@ -23,8 +23,8 @@ sudo apt-get install libacl1-dev  libcap-dev libselinux-dev
 http://www.man7.org/tlpi/
 
 
-## change from c99->c11 in makefile
-Edit Makefile.inc in the 'tlpi' root directory to modify the definitions of the CFLAGS and LDLIBS macros (and possibly other macros depending on your version of make) as appropriate.
+## makefile
+修改一下 Makefile.inc 的 CFLAGS / LDLIBS macros.
 
 ## some commands used
 ```
@@ -45,6 +45,38 @@ $ sed -i 's/\w\+.c)/src\/&/g' *.md
  https://man.linuxde.net/sed
 
 
+# chp3 SYSTEM PROGRAMMING CONCEPTS 
+
+From a programming point of view, invoking a system call looks much like calling a C function,这是通过 a wrapper function in the C library 来实现的。
+![tbd](images/fig_3_1.png)
+
+the example of the execve() system call. On Linux/x86-32, execve() is system call number 11 (__NR_execve). Thus, in the sys_call_table vector, entry 11 contains the address of sys_execve(), the service routine for this system call. (On Linux, system call service routines typically have names of the form sys_xyz(), where xyz() is the system call in question.)
+
+note
+* wrapper function 通过 a trap machine instruction (int 0x80) 转入kernel mode
+* 通常的 function call 通过stack来传递参数的，但是syscall 由于user/kernel stack不同，只能通过register来传递参数。
+
+如果调用syscall，由于涉及user/kernel mode 的切换，时间比一般的function call 耗时多很多。
+```
+$ make
+$ time ./syscall_speed
+Calling getppid()
+
+real	0m6.590s
+user	0m4.722s
+sys	0m1.869s
+```
+如果不调用syscall
+```
+$ make "DEBUG_FLAG = -DNOSYSCALL"
+$ time ./syscall_speed 
+Calling normal function
+
+real	0m0.049s
+user	0m0.049s
+sys	0m0.000s
+$
+```
 # check the program break:
 Resizing the heap (i.e., allocating or deallocating memory) is actually as simple as telling the kernel to adjust its idea of where the process’s program break is. Initially, the program break lies just past the end of the uninitialized data segment.
 

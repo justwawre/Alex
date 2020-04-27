@@ -22,6 +22,7 @@ LINUX_LIBCAP = -lcap
 
 IMPL_CFLAGS = -std=c11 -D_XOPEN_SOURCE=600 \
 	        -D_DEFAULT_SOURCE \
+			${DEBUG_FLAG} \
 		-g -I${TLPI_INCL_DIR} \
 		-pedantic \
 		-Wall \
@@ -40,7 +41,7 @@ ifeq ($(CC),clang)
 		       -Wno-format-pedantic
 endif
 
-CFLAGS = ${IMPL_CFLAGS}
+CFLAGS = ${IMPL_CFLAGS} ${}
 
 IMPL_THREAD_FLAGS = -pthread
 
