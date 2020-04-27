@@ -1,4 +1,4 @@
-Last time, the booking reading & practise was under the CentOS, this time is under 
+Last time, the booking reading & practise was under the CentOS, this time is under Ubuntu.
 
 # Preparation
 ## env check
@@ -24,7 +24,7 @@ http://www.man7.org/tlpi/
 
 
 ## change from c99->c11 in makefile
-Edit Makefile.inc in the 'tlpi' root directory to modify the definitions of the CFLAGS and LDLIBS macros (and possibly other macros depending on your version of make(1)) as appropriate.
+Edit Makefile.inc in the 'tlpi' root directory to modify the definitions of the CFLAGS and LDLIBS macros (and possibly other macros depending on your version of make) as appropriate.
 
 ## some commands used
 ```
