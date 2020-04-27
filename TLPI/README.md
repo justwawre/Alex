@@ -23,8 +23,13 @@ sudo apt-get install libacl1-dev  libcap-dev libselinux-dev
 http://www.man7.org/tlpi/
 
 
-## makefile
-修改一下 Makefile.inc 的 CFLAGS / LDLIBS macros.
+## build
+* 修改一下 Makefile.inc 的 CFLAGS / LDLIBS macros.
+* 进入lib 目录，make
+* 需要进入某目录时再调用 make, 推出时 make clean
+* 不调用根目录的make
+
+这样 git status 就关注文档/源代码的改动即可。
 
 ## some commands used
 ```
@@ -57,6 +62,7 @@ note
 * 通常的 function call 通过stack来传递参数的，但是syscall 由于user/kernel stack不同，只能通过register来传递参数。
 
 如果调用syscall，由于涉及user/kernel mode 的切换，时间比一般的function call 耗时多很多。
+example under folder progconc:
 ```
 $ make
 $ time ./syscall_speed
@@ -75,8 +81,18 @@ Calling normal function
 real	0m0.049s
 user	0m0.049s
 sys	0m0.000s
-$
+
 ```
+# chp4/5 FILE I/O
+
+All system calls for performing I/O refer to open files using a file descriptor, a (usually small) nonnegative integer. File descriptors are used to refer to all types of open files, including pipes, FIFOs, sockets, terminals, devices, and regular files. Each process has its own set of file descriptors.
+alex: 用fd来访问文件的方式，由于没有buffer,编程时一般不直接用，不过OS内部的数据结构是要搞清楚的。
+
+# chp6 PROCESSES
+
+# chp7 MEMORY ALLOCATION
+
+
 # check the program break:
 Resizing the heap (i.e., allocating or deallocating memory) is actually as simple as telling the kernel to adjust its idea of where the process’s program break is. Initially, the program break lies just past the end of the uninitialized data segment.
 
