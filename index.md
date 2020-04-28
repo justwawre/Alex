@@ -74,7 +74,6 @@ Innovated
         * [virtual memory](CSAPP3/vm.md)        
         * [tools](CSAPP3/tools.md)
     * [The Linux Programming Interface](TLPI/)
-        * [sctp programming](sctp-sandbox)
         * [bash shell script](programming/bash.md)
         * [static & dynamic lib under Linux](programming/static_dynamic_lib.md)
         * [APUE 3e](programming/APUE.md)

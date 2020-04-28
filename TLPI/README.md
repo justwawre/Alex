@@ -81,7 +81,6 @@ Calling normal function
 real	0m0.049s
 user	0m0.049s
 sys	0m0.000s
-
 ```
 # chp4/5 FILE I/O
 
@@ -91,37 +90,79 @@ alex: 用fd来访问文件的方式，由于没有buffer,编程时一般不直�
 # chp6 PROCESSES
 
 # chp7 MEMORY ALLOCATION
+## Adjusting the Program Break
+一个process 能够使用的heap 上限称为program break，通过SYSTEM CALL brk()/sbrk()来修改。在一个支持[virtual memory](../CSAPP3/vm.md)的OS 下修改Program Break，
+* 只是修改virual memory  的管理信息，并不实际分配physical memory,physical memory是等到实际需要时再分配
+* 既然Linux 是一种段页式的管理， Program Break 的扩展也是以 page 为单位。 
+* 一般不直接调用brk()/sbrk()； 而是调用 malloc()来在申请heap，它会根据需要调用 brk()/sbrk() 来 increase program break. 
 
+![malloc()](images/TLPI_malloc.png)
 
-# check the program break:
-Resizing the heap (i.e., allocating or deallocating memory) is actually as simple as telling the kernel to adjust its idea of where the process’s program break is. Initially, the program break lies just past the end of the uninitialized data segment.
+* In general, free() doesn’t lower the program break, but instead adds the block of memory to a list of free blocks that are recycled by future calls to malloc().
 
-After the program break is increased, the program may access any address in the newly allocated area, but no physical memory pages are allocated yet. The kernel automatically allocates new physical pages on the first attempt by the process to access addresses in those pages
+```
+$ ./free_and_sbrk 100 1024 2
 
-    $ ./free_and_sbrk 100 1024 2
+Initial program break:          0x7fffec141000
+Allocating 100*1024 bytes
+Program break is now:           0x7fffec141000
+Freeing blocks from 1 to 100 in steps of 2
+After free(), program break is: 0x7fffec141000
 
-    Initial program break:          0x7fffec141000
-    Allocating 100*1024 bytes
-    Program break is now:           0x7fffec141000
-    Freeing blocks from 1 to 100 in steps of 2
-    After free(), program break is: 0x7fffec141000
+$ ./free_and_sbrk 100 10240 2
 
-    $ ./free_and_sbrk 100 10240 2
+Initial program break:          0x7fffde75f000
+Allocating 100*10240 bytes
+Program break is now:           0x7fffde84e000
+Freeing blocks from 1 to 100 in steps of 2
+After free(), program break is: 0x7fffde84e000
+```
 
-    Initial program break:          0x7fffde75f000
-    Allocating 100*10240 bytes
-    Program break is now:           0x7fffde84e000
-    Freeing blocks from 1 to 100 in steps of 2
-    After free(), program break is: 0x7fffde84e000
+Valgrind 是一个比较好用的 memory leak 检测工具，它是类似虚拟机，把被测试放在其中执行。 如果Linux OS可以启动一种 memory debug 模式，程序运行完后，输出free list 等用于管理memory 的数据结构的变化，就可以更好的完成 memory leak 检测功能。
 
-一个process 能够使用的heap 上限称为program break，通过SYSTEM CALL sbrk（）来修改。
+## 其他memory 函数
+ calloc() and realloc()，realloc(） 不太常用。
+ alloca() 不太明白为啥不用定义一个局部变量来替代。 
 
-##  malloc() and free()
-In general, C programs use the malloc family of functions to allocate and deallocate memory on the heap. These functions offer several advantages over brk() and sbrk().
+# chp8 USERS AND GROUPS
+这应该算是一种最简单的 Authenticate,authorize 功能了,用  user identifiers (UIDs) and group identifiers (GIDs)。
 
-![tbd](images/TLPI_malloc.png)
+# chp9 PROCESS CREDENTIALS
+是  chp8 USERS AND GROUPS 的强化。 因为一个文件创建时owner 赋予一套权限，但是运行该文件不一定是owner,所以需要根据运行者的id 的权限定义如下概念
+* real user ID and group ID;  运行该文件的id.
+* effective user ID and group ID; 考虑suid/sgid 后的实际id
+* saved set-user-ID and saved set-group-ID;
 
+If the set-user-ID (set-group-ID) permission bit is enabled on the executable, then the effective user (group) ID of the process is made the same as the owner
+of the executable. If the set-user-ID (set-group-ID) bit is not set, then no change is made to the effective user (group) ID of the process.
 
+* file-system user ID and group ID (Linux-specific); 过时的概念，同effective id.
+* supplementary group IDs
+
+```
+$ ./idshow 
+UID: real=alex (1000); eff=alex (1000); saved=alex (1000); fs=alex (1000); 
+GID: real=alex (1000); eff=alex (1000); saved=alex (1000); fs=alex (1000); 
+Supplementary groups (8): adm (4) cdrom (24) sudo (27) dip (30) plugdev (46) lpadmin (116) sambashare (126) alex (1000) 
+
+$ su 
+Password: 
+# chown root:root ./idshow
+# chmod 4755 ./idshow
+# exit
+exit
+
+$ ls -l ./idshow
+-rwsr-xr-x 1 root root 32064 Apr 28 13:52 ./idshow
+$ ./idshow 
+UID: real=alex (1000); eff=root (0); saved=root (0); fs=root (0); 
+GID: real=alex (1000); eff=alex (1000); saved=alex (1000); fs=alex (1000); 
+Supplementary groups (8): adm (4) cdrom (24) sudo (27) dip (30) plugdev (46) lpadmin (116) sambashare (126) alex (1000) 
+```
+# chp10 TIME
+# chp11 SYSTEM LIMITS AND OPTIONS
+# chp12 SYSTEM AND PROCESS INFORMATION
+# chp13 
 # ACL
     $ mkdir sub
 
