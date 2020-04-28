@@ -66,5 +66,8 @@ main(int argc, char *argv[])
             printf("Mismatch on call %d (mismatch=%d handled=%d)\n",
                     callNum, mismatch, handled);
         }
+        else if (callNum % 1000 == 0){
+            printf("-");
+        }
     }
 }
