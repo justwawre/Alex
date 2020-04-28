@@ -5,7 +5,7 @@ Good at system analyzing & problem solving. <br>
 
 
 **Sr SW engineer:  Tieto   2018.12- present** <br>
-for Ericsson LTE eNB
+Ericsson LTE eNB baseband R&D assignment.
 * Develop the MAC layer SW on multi-core platform, using git/gerrit,
 * Develop the [tool](C++/logAnalyzer.md) for tester myself.
 * Support other team's development via LTE spec/Code understanding
@@ -70,7 +70,7 @@ Innovated
         * [staic of C](CSAPP3/static_of_C.md)
         * [strong & weak symbol during linking](CSAPP3/strong_weak.md)
         * [static & dynamic linking](CSAPP3/CSAPP_lib.md)
-        * [exceptions](CSAPP3/exceptions.md)
+        * [exceptions](CSAPP3/exception.md)
         * [virtual memory](CSAPP3/vm.md)        
         * [tools](CSAPP3/tools.md)
     * [The Linux Programming Interface](TLPI/)

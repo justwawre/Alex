@@ -1,6 +1,6 @@
 Last time, the booking reading & practise was under the CentOS, this time is under Ubuntu.
 
-总体读后感，这本书虽然被称为linux开发圣经，但是如果用它来学linux os本身并不合适，它虽然尽可能按讲os的方式来叙述，但总体还是抄袭APUE，把syscall/lib function 分类作为一个个章节来讲。
+总体读后感，这本书虽然被称为linux开发圣经，但是如果用它来学linux os本身并不合适，它虽然尽可能按讲os的方式来叙述，但总体还是仿APUE，把syscall/lib function 分类作为一个个章节来讲。
 
 # Preparation
 ## env check
@@ -32,25 +32,6 @@ http://www.man7.org/tlpi/
 * 不调用根目录的make
 
 这样 git status 就关注文档/源代码的改动即可。
-
-## some commands used
-```
-$ time ps -ef
-$ strace ps -ef
-$ size libtlpi.a
-$ nm -s libtlpi.a
-$ objdump -t libtlpi.a
-
-//fig_9_4.png -> images/fig_9_4.png
-$ sed -i 's/\w\+.png/images\/&/g' *.md  
-
-//bar1.c -> src/bar1.c
-$ sed -n 's/\w\+.c)/src\/&/p' *.md //test only
-$ sed -i 's/\w\+.c)/src\/&/g' *.md
-
-```
- https://man.linuxde.net/sed
-
 
 # chp3 SYSTEM PROGRAMMING CONCEPTS 
 
@@ -84,12 +65,6 @@ real	0m0.049s
 user	0m0.049s
 sys	0m0.000s
 ```
-# chp4/5 FILE I/O
-
-All system calls for performing I/O refer to open files using a file descriptor, a (usually small) nonnegative integer. File descriptors are used to refer to all types of open files, including pipes, FIFOs, sockets, terminals, devices, and regular files. Each process has its own set of file descriptors.
-alex: 用fd来访问文件的方式，由于没有buffer,编程时一般不直接用，不过OS内部的数据结构是要搞清楚的。
-
-# chp6 PROCESSES
 
 # chp7 MEMORY ALLOCATION
 ## Adjusting the Program Break
@@ -126,8 +101,6 @@ Valgrind 是一个比较好用的 memory leak 检测工具，它是类似虚拟�
  calloc() and realloc()，realloc(） 不太常用。
  alloca() 不太明白为啥不用定义一个局部变量来替代。 
 
-# chp8 USERS AND GROUPS
-这应该算是一种最简单的 Authenticate,authorize 功能了,用  user identifiers (UIDs) and group identifiers (GIDs)。
 
 # chp9 PROCESS CREDENTIALS
 是  chp8 USERS AND GROUPS 的强化。 因为一个文件创建时owner 赋予一套权限，但是运行该文件不一定是owner,所以需要根据运行者的id 的权限定义如下概念
@@ -161,11 +134,11 @@ UID: real=alex (1000); eff=root (0); saved=root (0); fs=root (0);
 GID: real=alex (1000); eff=alex (1000); saved=alex (1000); fs=alex (1000); 
 Supplementary groups (8): adm (4) cdrom (24) sudo (27) dip (30) plugdev (46) lpadmin (116) sambashare (126) alex (1000) 
 ```
-# chp10 TIME
-# chp11 SYSTEM LIMITS AND OPTIONS
-# chp12 SYSTEM AND PROCESS INFORMATION
+
 # chp13 FILE I/O BUFFERING
-这就是标准的 I/O 操作了，理论上修改buffer大小会影响性能，在[log analyzer in C++](../C++/logAnalyzer.md)尝试过，发现自己增大buffer反而降低性能，可能
+chp4/5 FILE I/O 讲的file descriptor, a (usually small) nonnegative integer. File descriptors are used to refer to all types of open files, including pipes, FIFOs, sockets, terminals, devices, and regular files. Each process has its own set of file descriptors. alex: 用fd来访问文件的方式，由于没有buffer,编程时一般不直接用，不过OS内部的数据结构是要搞清楚的。
+
+通过fp访问文件， 是标准的 I/O 操作了，理论上修改buffer大小会影响性能，在[log analyzer in C++](../C++/logAnalyzer.md)尝试过，发现自己增大buffer反而降低性能，可能
 * 由于现在的磁盘本质就是有buffer的，修改kernel I/O 本身就没必要
 * kernel 默认的就是比较优化了。
 
@@ -173,3 +146,8 @@ Supplementary groups (8): adm (4) cdrom (24) sudo (27) dip (30) plugdev (46) lpa
 **to be continued**
 * [chp14-19 FILE SYSTEMS](filesystem.md)
 * [chp20-22 signal](signal.md)
+* [chp24-28 process](process.md)
+* [chp29-33 thread](thread.md)
+* [chp37  daemon](daemon.md)
+* [chp43-48 IPC](IPC.md)
+* [chp56-61 socket](socket.md)

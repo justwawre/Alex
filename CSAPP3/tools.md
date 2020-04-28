@@ -1,5 +1,25 @@
 单独一文，写一下用到的工具
 
+## some commands used
+```
+$ time ps -ef
+$ strace ps -ef
+$ size libtlpi.a
+$ nm -s libtlpi.a
+$ objdump -t libtlpi.a
+
+//fig_9_4.png -> images/fig_9_4.png
+$ sed -i 's/\w\+.png/images\/&/g' *.md  
+
+//bar1.c -> src/bar1.c
+$ sed -n 's/\w\+.c)/src\/&/p' *.md //test only
+$ sed -i 's/\w\+.c)/src\/&/g' *.md
+
+```
+ https://man.linuxde.net/sed
+
+
+
 # objdump
 Can display all of the information in an object file. Its most useful function is disassembling the binary instructions in the .text section.
 
