@@ -1,23 +1,20 @@
 # chp20 SIGNALS: FUNDAMENTAL CONCEPTS
-Signal is a notification to a process (可能来自其他process,也可能来自kernel)that an event has occurred. Signals are sometimes described as software interrupts. Signals are analogous to hardware interrupts in that they interrupt the normal flow of execution of a program; in most cases, it is not possible to predict exactly when a signal will arrive.
+Signal is a notification to a process (可能来自其他process,也可能来自kernel)that an event has occurred. Signals are sometimes described as software interrupts. Signals are analogous to hardware interrupts in that they interrupt the normal flow of execution of a program; in most cases, it is not possible to predict exactly when a signal will arrive.
 
-the usual source of many signals sent to a process is the kernel. 
-* A hardware exception, e.g.  dividing by 0;  inaccessible memory
-* The user typed one of the terminal special characters that generate signals. These characters include the interrupt character (usually Control-C) and the
-suspend character (usually Control-Z) e.g.The abort() function generates a SIGABRT signal for the process,which causes it to dump core and terminate.
-* A software event occurred. 
-
-process -->process的signal 基本是用来进程间同步。
+* the usual source of many signals sent to a process is the kernel. 
+  - A hardware [exceptions](../CSAPP3/exception.md), e.g.  dividing by 0;  inaccessible memory
+  - The user typed one of the terminal special characters that generate signals.e.g. Control-C).
+  - A software event occurred. 
+* process -->process的signal 基本是用来进程间同步。
 
 Signals fall into two broad categories
 * traditional or standard signals, which are used by the kernel to notify processes of events，numbered from 1 to 31.
-* realtime signals, 不在这里讨论
+* realtime signals. alex:传统的signal 认为是不可靠容易丢失的；realtime signals 被设计成可靠/有序，但signal的用途就是传统那几个场景。
 
-
-![ Signal delivery and handler execution](images/TLPI_signal.png)
+Signal delivery and handler execution:
 * 当一个signal 产生时，它通常是处于pending 状态，target process 下次被调度时才会收到；例外是target process就是自己,这种情况下马上执行。
 * 当 process 可以用mask屏蔽某些signal,也可以ignore 某些signal，这都是可以配置的
-
+* signal handler 可以嵌套。
 ##  signal()
 用来设置signal 的 handler
 
@@ -82,12 +79,6 @@ int sigaction(int sig, const struct sigaction *act, struct sigaction *oldact);
  suspends  process 的执行，直到收到某个signal. 注意，它会消耗掉收到的signal.
 
 # chp21 SIGNALS: SIGNAL HANDLERS
-## Designing Signal Handlers
-In general, it is preferable to write simple signal handlers. One important reason for this is to reduce the risk of creating race conditions. Two common designs for signal handlers are the following:
-* The signal handler sets a global flag and exits. The main program periodically checks this flag.
-* The signal handler performs some type of cleanup and then either terminates the process or uses  siglongjmp() to unwind the stack and return control to a predetermined location in the main program.
-
-  
 ## reentrant
 A function is said to be reentrant if it can safely be simultaneously executed by multiple threads of execution in the same process. In this context, “safe” means that the function achieves its expected result, regardless of the state of execution of any other thread of execution.A function may be nonreentrant if it updates global or static data structures. (A function that employs only local variables is guaranteed to be reentrant.)
 
@@ -115,7 +106,14 @@ SYNOPSIS
 [nonreentrant.c](tlpi-dist/signals/nonreentrant.c),书中的例子改了几行，这样执行能看到一些变化
 
 ## async-signal-safe functions
-is one that the implementation guarantees to be safe when called from a signal handler. A function is async-signal-safe either because it is reentrant or because it is not interruptible by a signal handler. 按POSIX.1标准，很多库函数应该是async-signal-safe 类型的，但遗憾的是，man 命令并不显示这些内容。
+is one that the implementation guarantees to be safe when called from a signal handler. A function is async-signal-safe either because it is reentrant or because it is not interruptible by a signal handler. 按POSIX.1标准，很多库函数应该是async-signal-safe 类型的，但遗憾的是，man 命令并不显示函数是否为 async-signal-safe。
+
+## Designing Signal Handlers
+In general, it is preferable to write simple signal handlers. One important reason for this is to reduce the risk of creating race conditions. Two common designs for signal handlers are the following:
+* The signal handler sets a global flag and exits. The main program periodically checks this flag.
+* The signal handler performs some type of cleanup and then either terminates the process or uses  siglongjmp() to unwind the stack and return control to a predetermined location in the main program.
+
+这种处理方式非常类似于[Linux Kernel](../programming/Linux_kernel_reading.md)中interrupt handler 分为top half/bottom half.
 
 由于一个signal 会随时打断main process 的执行，而在signal  handlers 可能修改全局变量，这样就形成了race condition。 In other words, when writing signal handlers, we have two choices:
 * Ensure that the code of the signal handler itself is reentrant and that it calls only async-signal-safe functions.

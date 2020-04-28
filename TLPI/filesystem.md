@@ -16,9 +16,6 @@ nodev	bdev
 
 ![ext2](images/fig_14_2.png)
 
-# chp15 FILE ATTRIBUTES
-
-# chp16 EXTENDED ATTRIBUTES
 
 # chp17 ACCESS CONTROL LISTS
 记得上次在CentOS上，ACL还是需要编译一些东西才能支持，现在这Ubuntu 上是直接支持。
@@ -41,13 +38,13 @@ $ which getfacl
 
 ## A directory
 is stored in the file system in a similar way to a regular file. Two things distinguish a directory from a regular file:
-* A directory is marked with a different file type in its i-node entry。
-* A directory is a file with a special organization. Essentially, it is a table consisting of filenames and i-node numbers (index of i-node table).
+* file type in its i-node entry is directory.
+* Essentially, it is a table consisting of filenames and i-node numbers (index of i-node table).
 
 The i-node table is numbered starting at 1, rather than 0, because 0 in the i-node field of a directory entry indicates that the entry is unused. I-node 1 is
 used to record **bad blocks** in the file system. The **root directory (/)** of a file system is always stored in i-node entry 2 (as shown in Figure 18-1), so that the kernel knows where to start when resolving a pathname.
 
-下图展示如何找到/etc/passwd 对应的datablock 
+下图展示如何按pathname找到文件/etc/passwd 对应的datablock 
 ![Relationship between i-node and directory structures for the file /etc/passwd](images/fig_18_1.png)
 
 ## hard link
@@ -67,8 +64,10 @@ $ ls -li  xyz
 也就是directory 的 table 增加一个entry, 不同的filenames 相同的 i-node numbers.
 
 ## symbolic link
-* directory,如同regular file, table 增加一个entry,指向一个新i-node 
-* 新i-node,类型为 symbolic link:其指向的data block 的内容就是 pathname.
+如创建一个 symbolic link，
+* 对应的directory： table 增加一个entry,指向一个新i-node 
+* 新i-node,类型为 symbolic link:其指向新的data block
+* data block 的文本内容就是symbolic link 指向的 target pathname.
 
 ![ Representation of hard and symbolic links](images/fig_18_2.png)
 
@@ -89,11 +88,9 @@ int read(inotifyFd, buf, BUF_LEN); //读取 events
 example
 ```
 $ touch abc
-
 $ ./demo_inotify abc &
 [1] 399
 Watching abc using wd 1
-
 $ echo "abcdefg" >>abc
 Read 32 bytes from inotify fd
     wd = 1; mask = IN_MODIFY

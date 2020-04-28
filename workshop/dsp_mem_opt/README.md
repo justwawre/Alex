@@ -85,7 +85,7 @@ its asm code show that it need extra instructions
 # reduce global variables' space via stack frame change 
 ![stack_layout](stack_layout.png)
 
-As illustrated above,the local variables ared allocate inside one specific stack frame. so when compiler met a function or code block, stack frame added, space grow; when it met function return or end of code block, stack frome decreased, space decreased. 
+As illustrated above,the local variables ared allocate inside one specific stack frame. so when compiler met a **function or code block**, stack frame added, space grow; when it met function return or end of code block, stack frome decreased, space decreased. 
 so if we tell can put two variables which are located different level of stack frome to stack frame of the the same level, 
  thne stack space can be reused.
 
@@ -141,7 +141,7 @@ example below, after adding two sets of {}, memory can be saved via time mulitpl
 [asm code after compilation](flacc/stack_reuse.s)
 
 after stack reuse, Stack allocation: 16 <br>
-if not, Stack allocation shall be 6*2*2 = 24 words<br>
+if not, Stack allocation shall be 6 * 2 * 2 = 24 words<br>
 so 8 words were saved.
 
 
