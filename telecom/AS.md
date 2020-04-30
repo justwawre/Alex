@@ -10,7 +10,7 @@ The eNB normally transmits many DCI messages per subframe, each using a differen
 
 The intended recipient or recipients of a DCI message are distinguished by use of a different radio network temporary identity (RNTI), which is an identifier used by the UE MAC. This identifier is encoded into the CRC of the message. A UE will be able to successfully decode only those DCI messages that contain an RNTI the UE is expecting to receive.
 
-common RNTI ==>Common search space
+common RNTI ==>Common search space (starting from CCE 0)
 * SI-RNTI and P-RNTI for system information (SI) and paging (P) messages 
 * RA-RNTI for random access
 

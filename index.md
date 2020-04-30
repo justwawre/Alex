@@ -80,7 +80,6 @@ Innovated
         * [log analyzer in C++](C++/logAnalyzer.md)
         * [Design patterns in C++](designPatterns/)
     * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
-        * [fluentPython Code, only part](https://github.com/yc-alex-xu/Alex/tree/master/fluentPython)
         * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
         * [24点游戏的算法与实现](programming/24点游戏的算法与实现.pdf)
     * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)

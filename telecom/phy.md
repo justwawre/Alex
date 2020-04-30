@@ -4,6 +4,8 @@
 ![transport channel mapping](images/transport_channel.png)
 
 # PDCCH
+![pdcch](images/pdcch.png)
+
 It consists of one or more consecutive control channel elements (**CCEs**), where a control channel element corresponds to nine resource element groups (**REGs**).The number of OFDM symbols allocated for the PDCCH is given by the control format indicator (**CFI**) carried on the PCFICH. The CFI can take the values 1, 2, and 3. The PDCCH supports **only the QPSK** modulation scheme.
 
 note： 
@@ -27,6 +29,8 @@ to simplify the decoding process, a PDCCH with a format consisting of n CCEs may
 The number of CCEs aggregated for transmission of a particular PDCCH is known as the **aggregation level** and is determined by the eNodeB according to the channel conditions.
 
 ## DCI
+![position of DCI](images/dl_arch.png)
+
 The downlink control information (DCI) is mapped to the PDCCH in the physical layer.(alex:不同TM mode下, 基站/UE需要的交互的信令不同, 也就是DCI/UCI格式不同.如果定义一个普遍适用的数据结构,就有些字段被空置了. 所以用dci来选取不同的的数据结构, 提高空口信令的数据利用率).
 
 ![tm DCI mapping](images/tm_dci.png)
@@ -44,12 +48,14 @@ e.g.
 * 为了UE 解码方便，加 padding bits
 * 作 rate-matching for the convolutional code； 然后加载到分配的CCE上。
 
-
+一个下行子帧的控制区域由 PCFICH + PHICH + PDCCH + Reference Symbol 组成。 映射顺序：先映射 Reference Symbol，接着映射 PCFICH，然后是 PHICH，其映射的位置与小区配置有关，原则是尽量配置到不同符号不同子载波上。最后对剩下的 REG 将重新格式化，划分 CCE，映射 PDCCH。
 
 # blind decodes of PDCCH
  （alex:对以PDCCH中是否包含给自己的DCI,和它出现在什么位置，这一切UE都是没法事先知道。如果设计协议让UE在确定位置解码，就类似于PBCH扩容，但这样空口的利用率就低了）. To receive DCI messages a UE must perform a large number of blind decodes every subframe. The DCI messages intended for that UE will be decoded successfully, whereas those not intended for that UE will fail the cyclic redundancy code (CRC) check.  盲检 search space 的确定参看 [Access Stratum](AS.md)
 
 # UCI
+![position of DCI](images/ul_arch.png)
+
 Uplink control information (UCI) can be mapped to the PUCCH and PUSCH on the physical layer.
 
 ![uci format](images/uci_format.png)
@@ -73,4 +79,5 @@ The CQI, PMI, PTI, and RI are reported in control-indication fields on either th
 * wide band
 * ue specific
 * eNB selected (via pusch)
+
 
