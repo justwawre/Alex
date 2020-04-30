@@ -1,20 +1,19 @@
-﻿**dsp mem optimization**
+﻿**DSP mem optimization**
 
 *Xu YangChun Aug/21/2019*
 
 # Problem
-The DSP/thread run out of memory due to new feature
+The DSP/thread run out of memory due to new feature. 
 
-# analysis
-The cause is that an new U16 field was added to the strcuture, then more space is needed for the array which allocated statically.
+note:
+* The thread deployed on DSPs via configuration
+* several threads share the DSP in 1 TTI.
 
-the code just for illustration
+# Analysis
+The probllem is caused by that an new U16 field added to the strcuture,  so more space is needed for the array. As illustrated below.
 
 ```c
 /* global variables */
-var1;
-var2;
-
 typedef struct _SeDataS
 {
 	U16 abc;
@@ -22,7 +21,7 @@ typedef struct _SeDataS
 } _SeDataS;
 
 _SeDataS _SchedData[MAX_];
-varm;
+
 
 void _start()//entry point of the thread
 {
@@ -33,64 +32,78 @@ void _start()//entry point of the thread
   funcn();
 }
 ```  
+note:
+* above code just showing the overview of real code
 
-since the dynamic allocated memory (heap ) is not supported in this dsp role(can allocate but can't release) , 
-so the memory optimization limited to satic allocated memory (stack) including the local or global variable for this thread/dsp.
+Just like Linux, the DSP's memory layout can be classified as:
+* data/bss
+* stack
+* heap
+
+but the heap is not supported in this DSP role( GSP can allocate but can't release it) , so the memory optimization is limited to  
+* stack:  where the local variable reside 
+* data/bss: where global variable reside
 
 <!-- pagebreak -->
 # reduce global variables' space via bits field
-The usual way is:changing the normal field in struct to bits field. 
+The usual way is:changing the normal field in struct to bits field, shown as below example 
 
-it is easy to understand, but involve several files, and may need to resolve "address of bits fields" error. Above all,  there is few space left to optimize since the tricks was used many times before,and it has performance penalty. 
+* [bits.c](intel/bits.c)
+* [its asm code](intel/bits.s)
 
-shown as an example 
+It is easy to understand, but 
+* involve several files using the data structure, and
+* may need to resolve "address of bits fields" error. and
+* it has performance penalty. as below asm code show that it will intro extra instructions.
+
+as 
 ```c
 struct bits
 {
-	unsigned short low : 2;
-	unsigned short mid: 10;
-	signed short : 4;
+	unsigned int low : 2;
+	unsigned int mid : 10;
+	unsigned int high : 20;
 };
-unsigned short i = 0x12;
-int main()
-{
-	struct bits b = {-1};//line 10
-	unsigned short xxx;
-	xxx = i;
-	b.mid = 33;
-	xxx = b.mid;
-	return 0;
-}
+b.mid  = 33;
 ```
-its asm code show that it need extra instructions 
+was compiled to
 ```asm
-	mv         *dp(-2), a0h 	// 10 bits.c
-	or         49152, a0h   	// 10
-	mv         a0h, *dp(-2) 	// 10
-	mv         *dp(-2), a0h 	// 10
-	and        49167, a0h   	// 10
-	mv         a0h, *dp(-2) 	// 10
-	mv         #i, r0       	// 12
-	mv         *r0, a0h     	// 12
-	mv         a0h, *dp(-3) 	// 12
-	mv         *dp(-2), a0h 	// 13
-	and        49167, a0h   	// 13
-	addh       528, a0      	// 13
-	mv         a0h, *dp(-2) 	// 13
-	mv         *dp(-2), a0h 	// 14
-	exz        a0, 20, 9, a0h	// 14
-	mv         a0h, *dp(-3) 	// 14
-*/
+movzx	eax, WORD PTR -8[rbp]
+and	ax, -4093  //0XF003   clear bit 2~11
+or	al, -124   //256-124 = 132 = 33<<2
+mov	WORD PTR -8[rbp], ax
 ```
-# reduce global variables' space via stack frame change 
+
+* the biggest problem is, the structure _SeDataS and other were compacted many rounds, so no space left.
+
+
+# reduce local variables' space via stack space reuse
 ![stack_layout](stack_layout.png)
 
-As illustrated above,the local variables ared allocate inside one specific stack frame. so when compiler met a **function or code block**, stack frame added, space grow; when it met function return or end of code block, stack frome decreased, space decreased. 
-so if we tell can put two variables which are located different level of stack frome to stack frame of the the same level, 
- thne stack space can be reused.
+## via splitting function
+As illustrated above,the local variables are allocated inside 1 stack frame. When the stack frame pop out, its space will be reused by the next stack frame pushed. So **dividing 1 function & it local variables into 2**  cause stack reuse and save space. But this way will cause lots code change, not as elegant as I desired.
 
+## via adding code bock
+According C language:
+> Memory for automatic variables is allocated when the code block is entered and freed upon exit. The scope of these variables is local to the block in which > they are declared, as well as any nested blocks.
 
-# solution
+So moving a variable in outer block into a inner block, will lead its space to **be released earlier** and be reused by next blocak at the same level.
+
+## test
+
+The test was under flacc compiler used by the product env.
+
+* [orginal](flacc/stack_not_reuse.c) 
+* [new one: add a code block, and move the varible into it](flacc/stack_reuse.c)
+
+Those 2 files is the same in functional, but the new one can save some space, as checking the [asm file](flacc/stack_reuse.s)
+
+after stack reuse, Stack allocation: 16 ;if not, Stack allocation shall be 6 * 2 * 2 = 24 words;so 8 words were saved.
+
+## solution
+
+Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function e.g. _main(), but its lifetime  is usually as log as the function. So we can add code block, move the varialbe into the new code block, then direct the compiler to reuse its stack space.
+
 ***original code***
 ```c
 void _main()
@@ -131,33 +144,22 @@ void SESCHEDFO_main()
   }
 }
 ```
-***result:memory usage reduced by 26 words ***
 
-## reason behind
-example below, after adding two sets of {}, memory can be saved via time mulitplexing of stack frame
-
-[C code show stack reuse](flacc/stack_reuse.c)
-
-[asm code after compilation](flacc/stack_reuse.s)
-
-after stack reuse, Stack allocation: 16 <br>
-if not, Stack allocation shall be 6 * 2 * 2 = 24 words<br>
-so 8 words were saved.
-
+result reported by build system: memory usage reduced by **26** words
 
 ## The difficulty of this solution is:
-* optimizaiotn is only meaningful in the CriticalPath
+* either ***splitting function*** or ***adding code block*** is only meaningful in the ***CriticalPath***
 * how many space can be save is difficult to calculate
 * no tool to find the CriticalPath
 
-Last sprint, I used git reflog/reset several round to find out the CriticalPath : _main().
+note:
+Here I use the CriticalPath to describe the deepest call stack.Last sprint, I used git reflog/reset several rounds to find out the CriticalPath : _main().
 
-# Anonymous union
-many fieled actually are not used at the same time,e.g. the firt half time abc is used, the later def is used they can share space via union in theory.
+# Anonymous union ?
+Many fields actually are not used at the same time,e.g. at the firt half time ***abc*** is used, the later ***def*** is used. so they can share space via union. but if using named union, it will require lots code changes, the anonymous union is a kind of elegant solution.
 
 ```c
-//abc,def was organized to a union
-typedef struct _SeDataS
+typedef struct _SeDataS//abc,def was organized to a union
 {
 	union
 	{
@@ -165,13 +167,10 @@ typedef struct _SeDataS
 		U16 def;
 	};
 } _SeDataS;	
-//code needn no change
-_SchedData[i].abc = xxx;
+
+_SchedData[i].abc = xxx;//code needn no change
 ```
-If named union, it will require lots code changes.
-
-The problem  is that current compiler don't support it, so it need wait for clang migration.
-
+The ONLY problem is that the current compiler don't support anonymous union.
 
 # Supplements
 Here only list some tricks I use in last sprint,the topic about algorithm change is not covered, an example of removing the big auxiliary Space in the merge sort functionwill discuss next time .
