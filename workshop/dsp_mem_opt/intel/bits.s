@@ -1,14 +1,7 @@
 	.file	"bits.c"
 	.intel_syntax noprefix
 	.text
-	.globl	i
-	.data
-	.align 4
-	.type	i, @object
-	.size	i, 4
-i:
-	.long	18
-	.text
+	.comm	i,4,4
 	.globl	main
 	.type	main, @function
 main:
@@ -19,20 +12,15 @@ main:
 	.cfi_offset 6, -16
 	mov	rbp, rsp
 	.cfi_def_cfa_register 6
-	mov	DWORD PTR -8[rbp], 0
-	movzx	eax, BYTE PTR -8[rbp]
-	or	eax, 3
-	mov	BYTE PTR -8[rbp], al
 	mov	eax, DWORD PTR i[rip]
-	mov	DWORD PTR -4[rbp], eax
+	and	ax, 1023
+	and	ax, 1023
+	lea	edx, 0[0+rax*4]
 	movzx	eax, WORD PTR -8[rbp]
 	and	ax, -4093
-	or	al, -124
+	or	eax, edx
 	mov	WORD PTR -8[rbp], ax
-	movzx	eax, WORD PTR -8[rbp]
-	shr	ax, 2
-	and	ax, 1023
-	movzx	eax, ax
+	mov	eax, DWORD PTR i[rip]
 	mov	DWORD PTR -4[rbp], eax
 	mov	eax, 0
 	pop	rbp
@@ -41,5 +29,5 @@ main:
 	.cfi_endproc
 .LFE0:
 	.size	main, .-main
-	.ident	"GCC: (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0"
+	.ident	"GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0"
 	.section	.note.GNU-stack,"",@progbits

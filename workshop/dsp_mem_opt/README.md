@@ -10,7 +10,7 @@ note:
 * several threads share the DSP in 1 TTI.
 
 # Analysis
-The probllem is caused by that an new U16 field added to the strcuture,  so more space is needed for the array. As illustrated below.
+The probllem is caused by the data strcuture change that an new U16 field is added,  so more DSP memory is needed. As illustrated below.
 
 ```c
 /* global variables */
@@ -52,57 +52,58 @@ The usual way is:changing the normal field in struct to bits field, shown as bel
 * [its asm code](intel/bits.s)
 
 It is easy to understand, but 
-* involve several files using the data structure, and
-* may need to resolve "address of bits fields" error. and
-* it has performance penalty. as below asm code show that it will intro extra instructions.
+* will involve lots files using the data structure, and
+* may need to resolve "address of bits fields" error，and
+* it has performance penalty
 
-as 
+e.g.
 ```c
-struct bits
-{
-	unsigned int low : 2;
-	unsigned int mid : 10;
-	unsigned int high : 20;
-};
-b.mid  = 33;
+	b.bits = i;
+  b.normal = i;
 ```
-was compiled to
+the bits field assignment is compiled to
 ```asm
-movzx	eax, WORD PTR -8[rbp]
-and	ax, -4093  //0XF003   clear bit 2~11
-or	al, -124   //256-124 = 132 = 33<<2
-mov	WORD PTR -8[rbp], ax
+	lea	edx, 0[0+rax*4]
+	movzx	eax, WORD PTR -8[rbp]
+	and	ax, -4093
+	or	eax, edx
+	mov	WORD PTR -8[rbp], ax
 ```
+the assignment to normal field is  compiled to
+```asm
+	mov	eax, DWORD PTR i[rip]
+	mov	DWORD PTR -4[rbp], eax
+```
+* Above all, the biggest problem is, the structure _SeDataS and other were compacted many rounds, so no space left.
 
-* the biggest problem is, the structure _SeDataS and other were compacted many rounds, so no space left.
 
-
-# reduce local variables' space via stack space reuse
+# reduce local variables' space via stack reuse
 ![stack_layout](stack_layout.png)
 
 ## via splitting function
-As illustrated above,the local variables are allocated inside 1 stack frame. When the stack frame pop out, its space will be reused by the next stack frame pushed. So **dividing 1 function & it local variables into 2**  cause stack reuse and save space. But this way will cause lots code change, not as elegant as I desired.
+As illustrated above,the local variables are allocated inside 1 stack frame. When the stack frame pop out, its space will be reused by the next stack frame pushed. So **dividing 1 function & it local variables into 2**  cause stack reuse and save space. But this way will cause lots code change, not so elegant.
 
 ## via adding code bock
 According C language:
-> Memory for automatic variables is allocated when the code block is entered and freed upon exit. The scope of these variables is local to the block in which > they are declared, as well as any nested blocks.
+> Memory for automatic variables is allocated when the code block is entered and freed upon exit. The scope of these variables is local to the block in which they are declared, as well as any nested blocks.
 
-So moving a variable in outer block into a inner block, will lead its space to **be released earlier** and be reused by next blocak at the same level.
+So moving a variable into a code block, will lead its space to **be released earlier** and be reused.
 
 ## test
 
 The test was under flacc compiler used by the product env.
 
-* [orginal](flacc/stack_not_reuse.c) 
-* [new one: add a code block, and move the varible into it](flacc/stack_reuse.c)
+* [adding a code block](flacc/stack_reuse.c)
 
-Those 2 files is the same in functional, but the new one can save some space, as checking the [asm file](flacc/stack_reuse.s)
+checking  from the [asm file](flacc/stack_reuse.s)
 
-after stack reuse, Stack allocation: 16 ;if not, Stack allocation shall be 6 * 2 * 2 = 24 words;so 8 words were saved.
+> Stack allocation: 16
+
+if not, Stack allocation shall be 6 * 2 * 2 = 24 words;so 8 words were saved.
 
 ## solution
 
-Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function e.g. _main(), but its lifetime  is usually as log as the function. So we can add code block, move the varialbe into the new code block, then direct the compiler to reuse its stack space.
+Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function, but its lifetime is usually not as log as the function's. So we can add code block at appropriate place, move such varialbes into it, then direct the compiler to reuse its stack space.
 
 ***original code***
 ```c
@@ -145,7 +146,8 @@ void SESCHEDFO_main()
 }
 ```
 
-result reported by build system: memory usage reduced by **26** words
+result reported by build system: 
+> memory usage reduced by **26** words
 
 ## The difficulty of this solution is:
 * either ***splitting function*** or ***adding code block*** is only meaningful in the ***CriticalPath***
