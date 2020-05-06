@@ -12,23 +12,23 @@ C++11 std::function 是一种通用、多态的函数封装，它的实例可以
 #include <functional>
 
 #include <iostream>
-#include "../toolkit.h"
+#include "toolkit.h"
 using namespace std;
 
-int foo()
+string foo()
 {
-    return 5;
+    return "foo";
 }
 
-int goo()
+string goo()
 {
-    return 6;
+    return "goo";
 }
 
 void func_ptr_test()
 {
     FUNC_HEAD();
-    int (*fcnPtr)() = foo;
+    string (*fcnPtr)() = foo;
     fcnPtr = goo;
     cout << fcnPtr() << endl;
 }
@@ -36,12 +36,12 @@ void func_ptr_test()
 /*
  Introduced in C++11, an alternative method of defining and storing function pointers
  */
-void function_2011_test()
+void function_test()
 {
     FUNC_HEAD();
-    std::function<int()> fcnPtr = foo; // declare function pointer that returns an int and takes no parameters
-    fcnPtr = goo;                      // fcnPtr now points to function goo
-    std::cout << fcnPtr();             // call the function just like normal
+    std::function<string()> fcnPtr = foo;
+    fcnPtr = goo;
+    std::cout << fcnPtr();
     cout << endl;
 }
 
@@ -68,24 +68,24 @@ void function_para_test()
     FUNC_HEAD();
     //  function 包装了一个返回值为int , 参数为int 的函数
     function<int(int)> func = foo2;
+    cout << "func(10)=" << func(10) << endl;
 
-    int important = 10;
+    int i = 10;
     function<int(int)> func_lambda = [&](int value) -> int {
-        return 1 + value + important;
+        return value + i;
     };
-    auto r1 = func(10);
-    auto r2 = func_lambda(10);
+    cout << "func_lambda(10)=" << func_lambda(10) << endl;
 
     // 将参数1 ,2 绑定到函数foo 上， 但是使用std :: placeholders :: _1 来对第一个参数进行占位
     auto bindFoo = bind(foo3, std ::placeholders ::_1, 2, 3);
     // 这时调用bindFoo 时， 只需要提供第一个参数即可
-    auto r3 = bindFoo(1);
+    cout << "bindFoo(1)=" << bindFoo(1) << endl;
 }
 
 int main()
 {
     func_ptr_test();
-    function_2011_test();
+    function_test();
     function_auto_test();
     function_para_test();
     return 0;
