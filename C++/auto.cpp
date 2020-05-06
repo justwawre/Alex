@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../toolkit.h"
+#include "toolkit.h"
 
 using namespace std;
 
@@ -8,8 +8,14 @@ using namespace std;
 template <typename T, typename U>
 auto add3(T x, U y)
 {
-    FUNC_HEAD();
     return x + y;
+}
+
+void auto_test()
+{
+    FUNC_HEAD();
+    cout << "add3(1.0, 2) return " << add3(1.0, 2) << endl;
+    cout << "add3(1.1, 2.2) return " << add3(1.1, 2.2) << endl;
 }
 
 decltype(auto) look_up_a_string()
@@ -38,7 +44,6 @@ int decltype_test()
 
 int main()
 {
-    auto q = add3(1.0, 2);
-    cout << "q: " << q << endl;
+    auto_test();
     decltype_test();
 }

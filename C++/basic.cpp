@@ -1,32 +1,27 @@
 #include <complex>
 #include <iostream>
-#include <set>
-#include <algorithm>
-#include <vector>
 #include <exception>
-#include "../toolkit.h"
+#include "toolkit.h"
 
 using namespace std;
 
-void foo() // function that doesn’t return a value
+void type_arithmetic_test() // function that doesn’t return a value
 {
   FUNC_HEAD();
-  double d = 2.2; // initialize floating-point number
-  int i = 7;      // initialize integer
-  d = d + i;      // assign sum to d
-  i = d * i;      // assign product to i (truncating the double d*i to an int)
 
   double d1 = 2.3;
   double d2{2.3};
-  complex<double> z = 1; // a complex number with double-precision floating-point scalars
+  complex<double> z = 1;
   complex<double> z2{d1, d2};
-  complex<double> z3 = {1, 2}; // the = is optional with { ... }
+  complex<double> z3 = {1, 2};
+  cout << "the complex z,z2,z3:" << z << " " << z2 << " " << z3 << endl;
 
-  auto bb = true;    // a bool
-  auto chch = 'x';   // a char
-  auto ii = 123;     // an int
-  auto dd = 1.2;     // a double
-  auto zz = sqrt(d); // z has the type of whatever sqr t(y) retur ns
+  auto b = true;           // a bool
+  auto ch = 'x';           // a char
+  auto i = 123;            // an int
+  auto d = 1.2;            // a double
+  auto sqr_root = sqrt(d); // z has the type of whatever sqr t(y) retur ns
+  cout << "auto variable:" << b << " " << ch << " " << i << " " << d << " " << sqr_root << " " << z << endl;
 
   auto x = 3;
   auto y = 5;
@@ -37,32 +32,24 @@ void foo() // function that doesn’t return a value
   x *= y; // scaling: x = x*y
   x /= y; // scaling: x = x/y
   x %= y; // x = x%y
-
-
 }
 
-
-void sizes()
+void data_size_test()
 {
   FUNC_HEAD();
+  cout << "size of datatype undder current cpu" << endl;
   cout << sizeof(short) << endl;
-  cout << sizeof(int) << endl;
+  cout << sizeof(int) << endl; //still 4 bytes as 32bit machine
   cout << sizeof(long) << endl;
   cout << sizeof(long long) << endl;
-
   cout << sizeof(float) << endl;
   cout << sizeof(double) << endl;
 
-  int a = 2;
   string b;
-  LINE_NO();
-  cout << &a << "\t" << sizeof(&a) << endl;
-  LINE_NO();
-  cout << &b << "\t" << sizeof(&b) << ":" << sizeof(b) << endl;
+  cout << sizeof(&b) << ":" << sizeof(b) << endl;
 }
 
-
-void find_bias()
+void ds_bias_test()
 {
   typedef struct
   {
@@ -79,8 +66,7 @@ void find_bias()
   cout << bias << endl;
 }
 
-
-void catch_exception()
+void exception_test()
 {
   int x = 1;
   int y = 0;
@@ -97,9 +83,9 @@ void catch_exception()
 
 int main()
 {
-  foo();
-  sizes();
-  find_bias();
-  catch_exception(); //must be last one, because it will abort() the execution
+  type_arithmetic_test();
+  data_size_test();
+  ds_bias_test();
+  exception_test();
   return 0;
 }

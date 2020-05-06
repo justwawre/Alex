@@ -1,10 +1,5 @@
-#include <complex>
 #include <iostream>
-#include <set>
-#include <algorithm>
-#include <vector>
-#include <exception>
-#include "../toolkit.h"
+#include "toolkit.h"
 
 using namespace std;
 
@@ -16,19 +11,24 @@ private:
 public:
     static void set_rate(const double &x)
     {
+        cout << "old rate = " << m_rate << " new rate = " << x << endl;
         m_rate = x;
-        cout << "new rate = " << x << endl;
     }
 };
 double Account::m_rate = 8.0;
 
-void static_method_field()
+void static_test()
 {
     FUNC_HEAD();
     Account a;
     Account::set_rate(5.0);
     a.set_rate(7.0);
 }
+
+/*
+ class a --> class b --> class c
+
+*/
 
 class a
 {
@@ -54,20 +54,21 @@ public:
 };
 
 /* 
-check the order of construction/deconstruction
+check the sequence of construction/deconstruction
+and virtual function
 */
-int virtual_test()
+void virtual_test()
 {
     FUNC_HEAD();
     a *p = new c();
+    cout << "call virtual function via object pointer" << endl;
     p->disp();
-    delete p;
-    return 0;
-}
+    delete p; //must free explicitly
 
-/* 
-the example of friend class
- */
+    a a_object;
+    cout << "call virtual function via object" << endl;
+    a_object.disp();
+}
 
 class StackIter;
 
@@ -146,7 +147,10 @@ bool operator==(const Stack &l, const Stack &r)
     return ans;
 }
 
-int friend_test()
+/* 
+the example of friend class
+ */
+void friend_test()
 {
     FUNC_HEAD();
     Stack s1;
@@ -155,12 +159,12 @@ int friend_test()
     Stack s2(s1), s3(s1); //no copy construction defined, using default one
     s3.pop();
     cout << "s1==s2?: " << (s1 == s2) << endl;
+    /*
+    if not equal, it mean the default copy constuction deep copy the
+       int items[10];
+    */
     cout << "s1==s3?: " << (s1 == s3) << endl;
 }
-
-/*
-operator
- */
 
 struct USCurrency
 {
@@ -184,6 +188,10 @@ ostream &operator<<(ostream &out, const USCurrency &c)
     out << "$" << c.dollars << "." << c.cents;
     return out;
 }
+
+/*
+override the operator  +， <<
+ */
 int operator_test()
 {
     FUNC_HEAD();
@@ -193,11 +201,6 @@ int operator_test()
     cout << c << endl;
     return 0;
 }
-
-/******
- * 
-http://www.stroustrup.com/bstechfaq.htm
-*/
 
 class Empty
 {
@@ -252,6 +255,11 @@ public:
     // ...
 };
 
+/******
+ * 
+http://www.stroustrup.com/bstechfaq.htm
+*/
+
 void empty_class_test()
 {
     FUNC_HEAD();
@@ -266,7 +274,7 @@ void empty_class_test()
 
 int main()
 {
-    static_method_field();
+    static_test();
     virtual_test();
     friend_test();
     operator_test();
