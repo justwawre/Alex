@@ -111,8 +111,26 @@ So scheduler only need care the weight.
       - Radio bearer for DL,
       - LCG for UL
 
+# RNTI during RACH
+Random Access process plays two main roles - establishment of uplink synchronization and establishment of a unique UE ID (C-RNTI) known to both the network and the UE.So Random Access is used not only for initial access, but also after periods of uplink inactivity when uplink sync got lost in LTE_ACTIVE states.
+ 
+![RNTI](images/rnti.png)
+
+* RA-RNTI（ Random Access-RNTI）
+RA-RNTI = msg 1 时Preamble的时频位置对应到PRACH_Config中的索引；理论取值：1~60（0x0001~0x003C）
+使用：eNB回复msg2时 ，在PDCCH上用RA-RNTI加扰，收端UE知道自己之前 Preamble的发送位置，就用RA-RNTI来盲检PDCCH；如有，则说明接入被响应，在依据PDCCH上的指示 去PDSCH上读取RA Response消息（MSG2）。
+
+* T-CRNTI : It stands for Temporary C-RNTI. Mainly used during RACH
+在MSG2里，ENB给用户分配一个T-CRNTI。用于随后的Msg中标识UE，当然UE有C-RNTI也可以不用TC-RNTI，此种情况是，这个用户已经在网络中，并且分配过CRNTI。用户获取T-CRNTI后，会在MSG3传输中使用此RNTI。在正常的竞争随机接入中，msg3是RRC信令，则Msg4的PDCCH用Temporary C-RNTI 加扰， msg4中应当携带48bits的MAC控制元素“UE Contention Resolution Identity”，该控制元素就是msg3的SDU。如果该控制元素和UE保存的msg3的SDU相等，则认为自己的msg3被基站正确接收了，竞争解决完成。
+
+* C-RNTI : It stands for Cell RNTI. Used for the transmission to a specific UE after RACH.C-RNTI并不是一开始就有，而是在用户入网之后基站给入网成功的用户分配的。UE若处于RRC_CONNECTED模式，说明已经分配到了C-RNTI，接入时需要上报；UE若处于IDLE模式，说明还没有C-RNTI；在用户切换的时候，则用户可以将本小区分配的C-RNTI带入下一个小区，则不用再重新分配C-RNTI。
+
+about the attach procedure can check  [Non-Access Stratum](NAS.md)
+
 # Reference
 * internal LTE RRM trainning video
 * 温金辉: 深入理解LTE-A
 * Moray Rumney, LTE and the Evolution to 4G Wireless
+* http://sharetechnote.com/
+
 
