@@ -7,7 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "../toolkit.h"
+#include "toolkit.h"
 
 using namespace std;
 
@@ -139,17 +139,27 @@ constexpr bool Is_arithmetic()
 
 void new_sort(vector<string> &v, forward_list<int> &lst)
 {
-  sort(v);   // sor t the vector
-  sort(lst); // sor t the singly-linked list
+  sort(v);   // sort the vector
+  sort(lst); // sort the singly-linked list
 }
 
 void sort_test()
 {
   FUNC_HEAD();
-
   vector<string> v{"abc", "kkk", "jjj"};
+  cout << "vector before:";
+  for (auto i : v)
+    cout << i << " ";
+  cout << endl;
+
   forward_list<int> lst{7, 8, 1};
   new_sort(v, lst);
+  
+  cout << "vector after:";
+  for (auto i : v)
+    cout << i << " ";
+  cout << endl;
+
 }
 
 /*

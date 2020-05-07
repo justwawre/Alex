@@ -2,14 +2,24 @@
 #include <list>
 #include <vector>
 #include <algorithm>
-#include "../toolkit.h"
+#include "toolkit.h"
 using namespace std;
 
-void test_vec_list()
+template <typename T>
+T sum(const vector<T> &v) //will not modify its argument
+{
+  T sum = 0;
+  for (auto i : v)
+    sum += i;
+  return sum;
+}
+
+void vec_list_test()
 {
   FUNC_HEAD();
   vector<int> v;
   list<int> l;
+
   for (int i = 0; i < 8; i++)
   {
     v.push_back(i);
@@ -26,33 +36,18 @@ void test_vec_list()
 
   list<int>::iterator itl = l.begin();
   // list::iterator中重载了++，只能使用++进行迭代访问。
-  cout << "list:\n";
+  cout << "list:";
   for (; itl != l.end(); itl++)
-    cout << *itl << endl;
-}
+    cout << *itl << " ";
+  cout << endl;
 
-template <typename T>
-T sum(const vector<T> &v) //will not modify its argument
-{
-  T sum = 0;
-  for (auto i : v)
-    sum += i;
-  return sum;
-}
-
-void test_vec_sum()
-{
-  FUNC_HEAD();
-  vector<double> v{1.2, 3.4, 4.5}; // v is not a constant
-  const double s1 = sum(v);        // OK: evaluated at run time
-  cout << s1 << endl;
-  // constexpr double s3 = sum(v); // error : sum(v) not constant expression
+  const int s1 = sum(v); // OK: evaluated at run time
+  cout << "the sum of vector is: " << s1 << endl;
+  // constexpr int s3 = sum(v); // error : sum(v) not constant expression
 }
 
 int main()
 {
-  test_vec_list();
-  test_vec_sum();
-
+  vec_list_test();
   return 0;
 }

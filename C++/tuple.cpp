@@ -15,10 +15,18 @@ std::tuple<double, char, std::string> get_student(int id)
     if (id == 2) return std::make_tuple(1.7, 'D', "Ralph Wiggum");
     throw std::invalid_argument("id");
 }
- 
+
+/*
+std::tuple的一个常见用途是从一个函数返回多个值。
+
+std::tuple是一个模板，允许我们将多个不同类型的成员捆绑成单一对象。每个tuple包含指定数量的成员，但对一个给定的tuple类型，标准库并未限制我们可以定义的成员数量上限。
+
+std::tuple中元素是被紧密地存储的(位于连续的内存区域)，而不是链式结构
+*/
 void  tuple_test()
 {
     FUNC_HEAD();
+    
     auto student0 = get_student(0);
     std::cout << "ID: 0, "
               << "GPA: " << std::get<0>(student0) << ", "
