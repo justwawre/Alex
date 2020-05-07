@@ -54,5 +54,9 @@ WPS，支持PDF。
 ![tbd](images/u_uninstall_foxit.png)
 
 
-# SW dev & blogging
-VS Code
+# VS Code
+## PlantUML
+* install the PlantUML extension
+* sudo apt install default-jre
+* sudo apt install graphviz
+
