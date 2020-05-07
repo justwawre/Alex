@@ -2,9 +2,18 @@
 #include <set>
 #include <bitset>
 #include <algorithm>
-#include "../toolkit.h"
+#include "toolkit.h"
 
 using namespace std;
+
+/*
+首先set，不像map那样是key-value对，它的key与value是相同的。
+STL中的set，用的是红黑树；hash_set，底层用得是hash table。
+红黑树与hash table最大的不同是，红黑树是有序结构，而hash table不是。
+set应该更加被强调理解为“集合”，而集合所涉及的操作并、交、差等，
+即STL提供的如交集set_intersection()、并集set_union()、差集set_difference()和对称差集set_symmetric_difference()，
+都需要进行大量的比较工作，那么使用底层是有序结构的红黑树就十分恰当了，这也是其相对hash结构的优势所在。
+*/
 
 int set_test()
 {
@@ -19,6 +28,7 @@ int set_test()
     iset.insert(55);
 
     set<int>::iterator it;
+    cout << "items of the set： ";
     for (it = iset.begin(); it != iset.end(); it++)
     {
         cout << *it << "\t";

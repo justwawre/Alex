@@ -1,16 +1,13 @@
 #include <iostream>
 #include <memory>
-#include "../toolkit.h"
+#include "toolkit.h"
 using namespace std;
 
-/*
-test_shared_ptr()
- */
 void foo(shared_ptr<int> i)
 {
     (*i)++;
 }
-void test_shared_ptr()
+void shared_ptr_test()
 {
     FUNC_HEAD();
     // auto pointer = new int (10) ; // 非法, 不允许直接赋值
@@ -21,12 +18,7 @@ void test_shared_ptr()
     // 离开作用域前， shared_ptr 会被析构， 从而释放内存
 }
 
-/*
-test_shared_ptr2()
- */
-
-//reset() 来减少一个引用计数???   use_count()来查看一个对象的引用计数。
-void test_shared_ptr2()
+void shared_ptr_reset_test()
 {
     FUNC_HEAD();
     auto pointer = make_shared<int>(10);
@@ -54,9 +46,6 @@ void test_shared_ptr2()
     cout << " pointer3.use_count () = " << pointer3.use_count() << endl; //
 }
 
-/*
-test_shared_ptr3()
- */
 struct A;
 struct B;
 
@@ -78,20 +67,20 @@ struct B
     }
 };
 
-/* 运行结果是A, B 都不会被销毁，这是因为a,b 内部的pointer 同时又引用了a,b，这使得a,b 的引
-用计数均变为了2，而离开作用域时，a,b 智能指针被析构，却只能造成这块区域的引用计数减一， */
-int test_shared_ptr3()
+int shared_ptr2_test()
 {
     FUNC_HEAD();
     auto a = make_shared<A>();
     auto b = make_shared<B>();
-    // a->pointer = b;
-    // b->pointer = a;
-}
+    a->pointer = b;
+    b->pointer = a;
 
-/*
-test_unique_ptr()
- */
+    /* 如果不设置nullptr，A, B 都不会被销毁，这是因为a,b 内部的pointer 同时又引用了b,a，这使得a,b 的引
+用计数均变为了2，而离开作用域时，a,b 智能指针被析构，却只能造成这块区域的引用计数减一， */
+
+    a->pointer = nullptr;
+    b->pointer = nullptr;
+}
 
 struct Foo
 {
@@ -106,7 +95,7 @@ void f(const Foo &)
 }
 
 //unique_ptr 可以移动，但不能拷贝
-int test_unique_ptr()
+int unique_ptr_test()
 {
     FUNC_HEAD();
     unique_ptr<Foo> p1 = make_unique<Foo>();
@@ -136,41 +125,35 @@ int test_unique_ptr()
     // Foo 的实例会在离开作用域时被销毁
 }
 
-/*
-
-test_weak_ptr()
- */
-std::weak_ptr<int> gw;
-
-void observe()
+template <typename T>
+void check_weakptr(weak_ptr<T> &weak_ptr)
 {
-    std::cout << "use_count == " << gw.use_count() << ": ";
-    if (auto spt = gw.lock())
-    { // Has to be copied into a shared_ptr before usage
-        std::cout << *spt << "\n";
+    cout << "use_count == " << weak_ptr.use_count() << ": ";
+    if (auto spt = weak_ptr.lock()) //must copy to a shared_ptr before usage
+    {
+        cout << "the value is " << *spt << "\n";
     }
     else
     {
-        std::cout << "gw is expired\n";
+        cout << "the weak ptr is expired already\n";
     }
 }
 
-void test_weak_ptr()
+void weak_ptr_test()
 {
+    weak_ptr<int> wp;
+
     FUNC_HEAD();
     {
-        auto sp = std::make_shared<int>(42);
-        gw = sp;
-
-        observe();
+        auto sp = std::make_shared<int>(99);
+        wp = sp;
+        cout << "when assigned a shared ptr inside the code block:" << endl;
+        check_weakptr(wp);
     }
-
-    observe();
+    cout << "when exit the code block:" << endl;
+    check_weakptr(wp);
 }
 
-/*
-test_weak_ptr2()
- */
 struct C;
 struct D;
 
@@ -192,7 +175,10 @@ struct D
     }
 };
 
-int test_weak_ptr2()
+/*
+  can compare with shared_ptr2_test()
+*/
+int weak_ptr2_test()
 {
     FUNC_HEAD();
     auto a = make_shared<C>();
@@ -203,15 +189,14 @@ int test_weak_ptr2()
 
 int main()
 {
-    test_shared_ptr();
-    test_shared_ptr2();
+    shared_ptr_test();
+    shared_ptr_reset_test();
+    shared_ptr2_test();
 
-    test_shared_ptr3();
+    unique_ptr_test();
 
-    test_unique_ptr();
-
-    test_weak_ptr();
-    test_weak_ptr2();
+    weak_ptr_test();
+    weak_ptr2_test();
 
     return 0;
 }

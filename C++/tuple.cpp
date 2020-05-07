@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include "../toolkit.h"
+#include "toolkit.h"
 using namespace std;
  
 std::tuple<double, char, std::string> get_student(int id)
@@ -16,7 +16,7 @@ std::tuple<double, char, std::string> get_student(int id)
     throw std::invalid_argument("id");
 }
  
-void  test_tuple()
+void  tuple_test()
 {
     FUNC_HEAD();
     auto student0 = get_student(0);
@@ -44,7 +44,7 @@ void  test_tuple()
 
 int main()
 {
-    test_tuple();
+    tuple_test();
     return 0;
 }
 
