@@ -12,9 +12,32 @@ Personal review
 * acceptable  "channel delay spread" due to "inter OFDM symbol interference",  decided by CP length
 
 # Why in LTE the SSS is transmitted before the PSS?
-beside carrying PCI info, the PSS/SSS has other function as to detect the CP length/subframe synchronize. Although the SSS seem transmitted a symbol earlier, for PCI decode, Still the PSS is decoded firstly.
-
 ![tbd](images/DL.png)
+
+Three major synchronization requirements can be identified in the LTE system:
+1. Symbol and frame timing acquisition, by which the correct symbol start position is determined, for example to set the Discrete Fourier Transform (DFT) window position;
+2. Carrier frequency synchronization, which is required to reduce or eliminate the effect of frequency errors1 arising from a mismatch of the local oscillators between the transmitter and the receiver, as well as the Doppler shift caused by any UE motion;
+3. Sampling clock synchronization
+
+so PSS/SSS is designed as:
+* 在FDD小区内，PSS总是位于slot #0和slot #10 的最后一个OFDM符号上，使得UE在不考虑循环前缀（CP）长度下获得slot边界定时；SSS直接位于PSS之前；
+* In a TDD cell, the PSS is located in the 3rd symbol of the 3rd and 13th slots(Alex:DwPTS), while the SSS is located three symbols earlier(alex: end of the D subframe，这样无论是FDD还是TDD，SSS都在子帧0和5上传输);
+
+
+Synchronization and Cell Search：
+
+* 一般来说应该UE先对可能存在小区的频率范围内测量小区信号强度，据此找到一个可能存在小区的中心频点；note:[RSSI](https://www.sharetechnote.com/html/Handbook_LTE_RSSI.html) 
+* 然后在这个中心频点周围收PSS，这两个信号和系统带宽没有限制，配置是固定的，而且信号本身以5ms为周期重复，并且是ZC序列，具有很强的相关性，因此可以直接检测并接收到，据此可以得到小区Id，同时得到小区定时的5ms边界；（UE不知道解出的PSS是radio frame 中的第一个还是第二个）
+* LTE中，SSS的设计有其特别之处：2个SSS（SSS1位于子帧0，SSS2位于子帧5）的值来源于168个可选值的集合，在同一个小区中，SSS2与SSS1使用相同的2个m-sequence，不同的是，在SSS2中，这2个sequence（X和Y）在频域上交换了一下位置。通过尝试解码SSS，UE就能确定这是TDD还是FD，解出来的是SSS1还是2就能确定radio frame 的边界。
+
+* 5ms边界得到后，根据PBCH的时频位置，使用滑窗方法盲检测，一旦发现CRC校验结果正确，则说明当前滑动窗就是10ms的帧边界，并且可以根据PBCH的内容得到系统帧号和带宽信息，以及PHICH的配置；
+至此，UE实现了和eNB的定时同步。
+
+![LTE_TDD_SubFrameConfig](images/LTE_TDD_SubFrameConfig_Switching_01.png)
+
+![LTE_TDD_SubFrameConfig](images/LTE_TDD_specialframe.png)
+
+alex: 正是因为PSS检测时，频率/时间未知，所以为了减少解码的effort, PSS设计只有3个取值，对应三种不同的Zadoff-Chu序列
 
 # HARQ when UL TTI bundling
 it is quite special
