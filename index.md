@@ -7,14 +7,13 @@ Good at system analyzing & problem solving. <br>
 **Sr SW engineer:  Tieto   2018.12- present** <br>
 Ericsson LTE eNB baseband R&D assignment.
 * Develop the MAC layer SW on multi-core platform, using git/gerrit,
-* Develop the [tools](C++/logAnalyzer.md) for tester volunteerly
-* Support other team's development via LTE spec/Code understanding
-* workshop for GZ team [dsp memory optimization](workshop/dsp_mem_opt/)
+* Develop the [Log analyzer tool](C++/logAnalyzer.md) for tester volunteerly
+* Support Redhawak Simulator's development via LTE spec/Code understanding
+* Workshop for GZ team [dsp memory optimization](workshop/dsp_mem_opt/)
 
 **LTE tech support:      Nokia   2009-2018.7**<br>
 Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, including indistinct e2e/KPI/HW or SW issue.
 * Propose solution, coordinate teams to reproduce,fix issue, verify solution and draft root cause analysis report. 
-* Acted as lead engineer/trial manager, turn many projects from failure to sucess
 * build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
 
 **SW engineer/Scrum master: Radio platform, Nokia    2006-2009**<br>

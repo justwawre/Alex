@@ -26,3 +26,5 @@ is an acronym which stands for the following design principles (and their abbrev
 * [Design Patterns for Humans](https://pushmind.org/2017/07/31/design-patterns-for-humans/).
 * Dmitri Nesteruk, Design Patterns in Modern C++: Reusable Approaches for Object-Oriented
 Software Design, apress
+* https://refactoring.guru/design-patterns
+
