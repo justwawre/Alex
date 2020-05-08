@@ -3,6 +3,29 @@
 
 using namespace std;
 
+struct human
+{
+    string name;
+
+private:
+    int age;
+};
+
+class man : public human
+{
+public:
+    bool married;
+};
+void struct_class_test()
+{
+    FUNC_HEAD();
+    human *h = new man();
+    h->name = "John";
+    man *m = (man *)h;
+    m->married = false;
+    cout << "name: " << m->name << " married: " << m->married << endl;
+}
+
 class Account
 {
 private:
@@ -274,6 +297,7 @@ void empty_class_test()
 
 int main()
 {
+    struct_class_test();
     static_test();
     virtual_test();
     friend_test();

@@ -18,6 +18,9 @@ constexpr int fibonacci(const int n)
 void const_test()
 {
     FUNC_HEAD();
+    constexpr const int i1 = 5;
+    constexpr int i2 = 5;
+    static constexpr int i3 = 5;
     const int dmv = 17;
     int var = 17;
     constexpr double max1 = 1.4 * dmv;
@@ -43,16 +46,24 @@ auto print_type_info(const T &t)
     }
 }
 
+int a = 5.2;
+int b(5.2);
+auto d = int(5.2);
+
 void type_info_test()
 {
     FUNC_HEAD();
     cout << print_type_info(5) << endl;
     cout << print_type_info(3.14) << endl;
 }
-
+#include <string.h>
 int main()
 {
     const_test();
     type_info_test();
+    const char *s = "Hello\0Hi";
+
+    cout << strlen(s) << " " << sizeof(s);
+
     return 0;
 }

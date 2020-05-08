@@ -139,6 +139,11 @@ void check_weakptr(weak_ptr<T> &weak_ptr)
     }
 }
 
+/*
+weak_ptr 允许你共享但不拥有某对象，一旦最末一个拥有该对象的智能指针失去了所有权，任何 weak_ptr 都会自动成空（empty）
+因此，在 default 和 copy 构造函数之外，weak_ptr 只提供 “接受一个 shared_ptr” 的构造函数。
+*/
+
 void weak_ptr_test()
 {
     weak_ptr<int> wp;
@@ -176,7 +181,8 @@ struct D
 };
 
 /*
-  can compare with shared_ptr2_test()
+打破环状引用（cycles of references，两个其实已经没有被使用的对象彼此互指，使之看似还在 “被使用” 的状态）的问题
+In contrast to shared_ptr2_test()
 */
 int weak_ptr2_test()
 {
