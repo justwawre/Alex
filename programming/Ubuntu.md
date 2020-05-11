@@ -48,6 +48,9 @@ https://linux.wps.com/
 ## foxit pdf reader
 https://www.foxitsoftware.com/pdf-reader/
 
+## tmux
+multi-tab
+
 # VS Code
 ## PlantUML support
 * install the PlantUML extension
