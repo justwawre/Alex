@@ -18,5 +18,11 @@ $ man g++
 
 ````
 
-# 
+#  dump the class layout
+
+```
+$ g++ -fdump-class-hierarch Container.h  //the file where class is defined
+$ cat Container.h.002t.class 
+
+```
 
