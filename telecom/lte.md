@@ -7,7 +7,7 @@ Personal review
    ![tbd](images/frame_2.png)
 
  * Random access phase
-   - preamble  detection windows size decided by  Preach format
+   - preamble  detection windows size decided by  Preach format & Ncs.
    - TA command,  its value was detected by eNB during RA phase, in theory, its value will limit the cell size.
 * acceptable  "channel delay spread" due to "inter OFDM symbol interference",  decided by CP length
 
@@ -16,12 +16,12 @@ Personal review
 
 Three major synchronization requirements can be identified in the LTE system:
 1. Symbol and frame timing acquisition, by which the correct symbol start position is determined, for example to set the Discrete Fourier Transform (DFT) window position;
-2. Carrier frequency synchronization, which is required to reduce or eliminate the effect of frequency errors1 arising from a mismatch of the local oscillators between the transmitter and the receiver, as well as the Doppler shift caused by any UE motion;
+2. Carrier frequency synchronization, which is required to reduce or eliminate the effect of frequency errors arising from a mismatch of the local oscillators between the transmitter and the receiver, as well as the Doppler shift caused by any UE motion;
 3. Sampling clock synchronization
 
 so PSS/SSS is designed as:
 * 在FDD小区内，PSS总是位于slot #0和slot #10 的最后一个OFDM符号上，使得UE在不考虑循环前缀（CP）长度下获得slot边界定时；SSS直接位于PSS之前；
-* In a TDD cell, the PSS is located in the 3rd symbol of the 3rd and 13th slots(Alex:DwPTS), while the SSS is located three symbols earlier(alex: end of the D subframe，这样无论是FDD还是TDD，SSS都在子帧0和5上传输);
+* In a TDD cell, the PSS is located in the 3rd symbol of DwPTS, while the SSS is located three symbols earlier(alex: end of the first Downlink subframe，这样无论是FDD还是TDD，SSS都在子帧0和5上传输);
 
 
 Synchronization and Cell Search：
@@ -63,8 +63,15 @@ In UL, retransmissions are either triggered by the PDCCH (adaptive), or by a rec
 * If adaptive retransmission, the UE uses the resources which are assigned by the PDCCH.
 
 # UL scheduling
-   * via SR/BSR, classified by LCG
+   * via SR & BSR, classified by LCG 
+   
+   UE通过SR告诉eNodeB是否需要上行资源以便用于UL-SCH传输，但并不会告诉eNodeB有多少上行数据需要发送（这是通过BSR上报的）,只有处于RRC_CONNECTED态且保持上行同步的UE才会发送SR；且SR只能用于请求新传数据（而不是重传数据）的UL-SCH资源。SR的周期是通过IE：SchedulingRequestConfig的sr-ConfigIndex字段配置的。      由于SR资源是UE专用且由eNodeB分配的，因此SR资源与UE一一对应且eNodeB知道具体的对应关系。也就是说，UE在发送SR信息时，并不需要指定自己的ID（C-RNTI），eNodeB通过SR资源的位置，就知道是哪个UE请求上行资源。SR资源是通过IE：SchedulingRequestConfig的sr-PUCCH-ResourceIndex字段配置的。   UE在某些情况下可能没有SR资源。
+
+   - 场景一：从36.331可以看出，SchedulingRequestConfig是一个UE级的可选的IE（optional），默认为release。如果 eNodeB不给某UE配置SR（这取决于不同厂商的实现），则该UE只能通过随机接入过程来获取UL grant（在RAR中分配）。是否配置SR主要影响用户面的延迟，并不影响上行传输的功能！   
+   - 场景二：UE在获得初始同步以后，随着时间的推移，由于信道情况的改变或者UE（以及eNodeB）的时钟漂移，UE可能重新变为失步状态。为此eNodeB会周期性的为UE发送TA命令，指导UE进行上行的同步，并且eNodeB为每个UE配置了一个Time Alignment Timer，规定了TA的有效期，为此eNodeB需要在UE的能力和系统的开销之间进行折中。UE在每次接收到eNodeB的TA命令后，都将此定时器重置为零。在Time Alignment Timer超时以后，如果UE未能收到任何的TA命令，那么UE认为上行已经失步，此时UE不能再进行任何的上行数据传输，而必须通过随机接入的过程来对上行的TA进行重新初始化。当UE丢失了上行同步，它也会释放SR资源，如果此时有上行数据要发送，也需要触发随机接入过程。
+
    * explicit granted via PDCCH or implicit grant e.g. IUA (SPS of interval 1/2/4ms)
+   * RAR of RACH process
 
    ![tbd](images/ul_scheduling.png)
 

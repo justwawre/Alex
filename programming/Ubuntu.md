@@ -60,3 +60,7 @@ multi-tab
 ## Python 3 support
 ## Golang support
 
+## hotkey
+   F11
+   
+
