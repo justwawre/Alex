@@ -57,7 +57,7 @@ Innovated
     * [Non-Access Stratum](telecom/NAS.md)
     * [SAE](telecom/SAE.md)
     * [LTE advanced](telecom/lte_a.md)
-    * [LTE 接入过程中的安全机制](telecom/LTE_RACH_security.pdf)
+    * [LTE 接入过程中的安全机制](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
     * [Open RAN](telecom/oran.md)
     * [5G study](telecom/5g.md)
 
@@ -87,7 +87,6 @@ Innovated
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
     * [Catalyst swtiches setup](support/Catalyst_swtiches_setup.md)
     * [k8s under minikube](https://github.com/yc-alex-xu/Alex/tree/master/k8s)
-    * [Cisco 设备日志转储的故障排除](support/Cisco_log_dump.pdf)
 * Workshop
     * [dsp memory optimization 2019](workshop/dsp_mem_opt/)
 
