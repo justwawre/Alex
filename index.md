@@ -78,7 +78,6 @@ Innovated
         * [Design patterns in C++](designPatterns/)
     * [Python 3 practise](https://github.com/yc-alex-xu/Alex/tree/master/Python3)
         * [tcp/ip troubleshooting via scapy](https://github.com/yc-alex-xu/Alex/tree/master/scapy)  
-        * [24点游戏的算法与实现](programming/24点游戏的算法与实现.pdf)
     * [GO practise](https://github.com/yc-alex-xu/Alex/tree/master/golang)
 * Dev/test support
     * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
