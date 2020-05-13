@@ -1,23 +1,23 @@
 **About me** <br>
-A C/C++ developer in telecom/SW industry,<br>
+A C/C++ developer in telecom/SW industry, familiar with multi-CPU/multi-core platform<br>
 interested in distributed computing,e.g. K8s/Python/Golang<br>
 Good at system analyzing & problem solving. <br>
 
 
 **Sr SW engineer,           Tieto             Dec 2018.12-May 2020** <br>
 Ericsson LTE eNB baseband R&D assignment.
-* Develop the MAC layer SW on multi-core platform, using git/gerrit,
+* MAC SW maintenance on multi-core platform, using git/gerrit,
 * Develop the [Log analyzer tool](C++/logAnalyzer.md) for tester volunteerly
-* Support Redhawak Simulator's development via LTE spec/Code understanding
-* Workshop for GZ team [dsp memory optimization](workshop/dsp_mem_opt/)
+* Support Redhawak Simulator's development
+* Workshop for other team [dsp memory optimization](workshop/dsp_mem_opt/)
 
 **LTE tech Specialist,      Nokia             Sep 2009-Jul 2018**<br>
-Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, including indistinct e2e/KPI/HW or SW issue.
+Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, e.g. e2e/KPI/HW or SW issue.
 * Propose solution, coordinate teams to reproduce,fix issue, verify solution and draft root cause analysis report. 
-* build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
+* Build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
 
 **SW Specialist,            Nokia             Jul 2006-Aug 2009**<br>
-Developing Radio platform using C/C++/SDL under DMX/Chorous/Linux OS
+Developing Multi-CPU Radio platform using C/C++/SDL under DMX/Chorous/Linux OS
 * Acted as scrum master and chief content owner.
 * Delivered the SDL class training 
 
