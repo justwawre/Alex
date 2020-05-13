@@ -10,7 +10,10 @@ $ gcc -v
 gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
 
 ```
-# zombie issue
+## std
+Mainly using C11 standard
+
+##  zombie issue
 It don't work under WSL,the child process's pcb seem be released by WSL. 
 
 Under Ubuntu it work.
