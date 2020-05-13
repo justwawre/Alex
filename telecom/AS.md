@@ -52,8 +52,8 @@ The random access procedure enables the UE to establish initial contact with the
 * during the handover procedure.
 
 Random access can be
-* contention-based or 
-* non-contention-based. 
+* [contention-based](http://sharetechnote.com/html/RACH_LTE.html#PRACH_on_Handover_Contention) or 
+* [non-contention-based](http://sharetechnote.com/html/RACH_LTE.html#PRACH_on_Handover_NonContention). 
 For the contention-based procedure, the physical random access channel (PRACH) preamble is chosen by the UE from a set of preambles whose configuration is broadcast in the SI messages. Since there is a possibility of two UEs choosing the same preamble at the same time, there are a few subsequent 
 steps to allow the network to uniquely identify each UE. In contrast, for non-contention based random access, the eNB MAC assigns a dedicated preamble to each UE, which allows the UE to be uniquely identified from the start of the procedure.
 
