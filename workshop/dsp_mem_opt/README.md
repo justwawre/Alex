@@ -58,8 +58,8 @@ It is easy to understand, but
 
 e.g.
 ```c
-	b.bits = i;
-  b.normal = i;
+b.bits = i;
+b.normal = i;
 ```
 the bits field assignment is compiled to
 ```asm
