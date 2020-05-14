@@ -42,3 +42,4 @@ http://www.man7.org/tlpi/
 * [chp37  daemon](daemon.md)
 * [chp43-48 IPC](IPC.md)
 * [chp56-61 socket](socket.md)
+* [static & dynamic lib under Linux](../programming/static_dynamic_lib.md)

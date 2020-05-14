@@ -63,20 +63,16 @@ Innovated
 
 * Programming
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
-        * [staic of C](CSAPP3/static_of_C.md)
-        * [strong & weak symbol during linking](CSAPP3/strong_weak.md)
-        * [static & dynamic linking](CSAPP3/CSAPP_lib.md)
-        * [exceptions](CSAPP3/exception.md)
-        * [virtual memory](CSAPP3/vm.md)        
-        * [tools](CSAPP3/tools.md)
     * [The Linux Programming Interface](TLPI/)
-        * [static & dynamic lib under Linux](programming/static_dynamic_lib.md)
+
     * [Linux Kernel](programming/Linux_kernel_reading.md)
     * [Design patterns in C++](designPatterns/)
         * [log analyzer in C++](C++/logAnalyzer.md)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO practise](golang/)
     * [Redis](redis/)
+    * [tools](CSAPP3/tools.md)
+
 * Dev/test support
     * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
     * [git/gerrit ](programming/git_gerrit.md)
