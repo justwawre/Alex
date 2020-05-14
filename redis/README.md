@@ -36,8 +36,8 @@ OK
 127.0.0.1:6379> 
 ```
 
-# use Redis as databse
-[DB](DB.md)
+# As NoSQL databse
+[NoSQL databse](DB.md)
 
 # Programming with Redis
 [Programming](Programming.md)

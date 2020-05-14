@@ -64,10 +64,9 @@ Innovated
 * Programming
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
     * [The Linux Programming Interface](TLPI/)
-
     * [Linux Kernel](programming/Linux_kernel_reading.md)
     * [Design patterns in C++](designPatterns/)
-        * [log analyzer in C++](C++/logAnalyzer.md)
+    * [log analyzer in C++](C++/logAnalyzer.md)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO practise](golang/)
     * [Redis](redis/)
@@ -77,8 +76,7 @@ Innovated
     * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
-    * [Catalyst swtiches setup](support/Catalyst_swtiches_setup.md)
-    * [k8s under minikube](k8s/)
+    * [k8s](k8s/)
 * Workshop
     * [dsp memory optimization 2019](workshop/dsp_mem_opt/)
 
