@@ -1,11 +1,13 @@
-Redis 6.0 带来的主要变化：
+# Targets
+* practise the Linux/C programming via code reading,including tcp/ip, epoll()
+* mastering the Redis
+* integraed it into k8s env
 
+# standalone configuration 
+Redis 6.0 带来的主要变化：
 * 提供了众多的新模块（modules）API
 * 提供了客户端缓存功能
 * 多线程 I/O 能力 (内部的执行逻辑依旧是单线程?)
-
-# install & config 
-    https://redis.io/
 
 ## install
 ```

@@ -58,12 +58,12 @@ Innovated
 * Programming
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
     * [The Linux Programming Interface](TLPI/)
+    * [Redis](redis/)
     * [Linux Kernel](programming/Linux_kernel_reading.md)
     * [Design patterns in C++](designPatterns/)
     * [log analyzer in C++](C++/logAnalyzer.md)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO practise](golang/)
-    * [Redis](redis/)
     * [tools](CSAPP3/tools.md)
 
 * Dev/test support
