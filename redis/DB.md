@@ -12,13 +12,12 @@ NoSQL database 可以看成是一个JSON文件可以表示的类型。 Redis 数
 * MongoDB 存附加文档，如图片，文档
 * Redis 缓存热点数据。
 
-
-# 操作
+# 支持的数据类型及操作
 关系数据的操作命令，也就是SQL命令都是集合命令： 投影，选择，交。
-Redis 类似informix 等数据库，访问rowset 的方式，对一某一row, 操作key/value, 它的key 往往来自关系型数据库
 
-## 支持的数据类型
-* string: 相当于excel中的表格，可以存任何转化成string的数据类型。
+Redis 类似informix 等数据库，访问rowset 的方式，对一某一row, 操作key/value, 它的key 往往来自关系型数据库
+## string
+相当于excel中的表格，可以存任何转化成string的数据类型。扩展操作： 设置数据有效时间
 ```
 >set user:id:78:blog 22
 OK
@@ -31,9 +30,7 @@ OK
 "{name:john,blog:22,fans:88}"
 
 ```
-扩展操作： 设置数据有效时间
-
-* hash
+## hash
 ```
 > hmset user name john blog 22 fans 88
 OK
@@ -67,8 +64,8 @@ OK
 8) "male"
 
 ```
-* list
-多个数据，用双向链表表示，有序
+## list
+多个数据，用双向链表表示，有序。 扩展操作： blpop/brpop  (Alex: block & wait some time, 类似select()操作)
 ```
 > lpush student john smith
 (integer) 2
@@ -90,9 +87,8 @@ OK
 2) "mary"
 
 ```
-扩展操作： blpop/brpop  (Alex: block & wait some time, 类似select()操作)
-* set
-内部储存为hash表的key部分。
+## set
+内部储存为hash表的key部分。扩展操作： 标准的集合运算sunion/sinter/sdiff
 ```
 > sadd set a b c d e
 (integer) 5
@@ -112,10 +108,8 @@ OK
 3) "b"
 4) "e"
 ```
-扩展操作： 标准的集合运算sunion/sinter/sdiff
-
-* sorted_set
-set 中增加 score 属性 (Alex:类似调度算法中的weight)
+## sorted_set
+set 中增加 score 属性 
 ```
 > zadd height 170 john  180 smith 160 kate 165 mary
 (integer) 4
@@ -135,20 +129,18 @@ set 中增加 score 属性 (Alex:类似调度算法中的weight)
 8) "180"
 > zrem height kate
 (integer) 1
+> zrevrank height mary
+(integer) 2
+> zrank height mary
+(integer) 0
 
 ```
 
-## summary
-kV pair 是非常常用的库，过去有很多库用来解析配置文件，也就是将 configuration file --> KV pairs in memory.
+# summary
+kV pair 是非常常用的数据结构，过去有很多库用来解析配置文件，也就是将 configuration file --> KV pairs in memory.
 Redis 的创新就是
 * 从KV pair lib --> service, 
 * configuraiton file -->rational database
 * 更丰富的value 数据类型
 
 
-
-# 
- Redis master-slave and Redis cluster modes
-
-
-# 

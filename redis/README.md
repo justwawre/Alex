@@ -1,7 +1,8 @@
 # Targets
 * practise the Linux/C programming via code reading,including tcp/ip, epoll()
-* mastering the Redis
-* integraed it into k8s env
+* mastering the Redis as NoSQL DB
+* integraed it into k8s env, 
+* try Redis as publish/subscribe message system
 
 # standalone configuration 
 Redis 6.0 带来的主要变化：
@@ -46,3 +47,6 @@ OK
 
 # Source code reading
 [source](.md)
+
+# deployed in K8S
+[k8s deployment](../k8s)
