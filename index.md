@@ -50,13 +50,7 @@ Innovated
 
 **Blog**
 * Telecom
-    * [lte overview](telecom/lte.md)
-    * [Physical Layer](telecom/phy.md)
-    * [TM mode](telecom/tm_mode.md)
-    * [Access Stratum](telecom/AS.md)
-    * [Non-Access Stratum](telecom/NAS.md)
-    * [SAE](telecom/SAE.md)
-    * [LTE advanced](telecom/lte_a.md)
+    * [LTE](telecom/lte.md)
     * [LTE 接入过程中的安全机制](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
     * [Open RAN](telecom/oran.md)
     * [5G study](telecom/5g.md)
