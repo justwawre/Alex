@@ -1,4 +1,4 @@
-# git
+# git setup
 ```
 $ cd src
 $ git init

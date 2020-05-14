@@ -9,7 +9,7 @@ a docker system in Linux is comprised of
 * daemon,  client<->daemon 是c/s 关系, docker daemon 也称 docker engine.
 * libcontainer, 对container 进行管理.
 
-## build ship run:
+## build/ship/run
 * image发布者: commit , push
 * ship; dockhub 作为registry
 * image使用者: pull, run
@@ -23,12 +23,12 @@ alex: image : 静态的一个包,是一个定制的rootfs, 并且unionfs是分�
 e.g.
 
 ```bash
-$docker images
+$ sudo docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 hello-world         latest              4ab4c602aa5e        2 weeks ago         1.84kB
 redis               latest              e1a73233e3be        2 weeks ago         83.4MB
 
-$docker ps -a
+$ sudo docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                    PORTS               NAMES
 ad86114d2c0a        redis               "docker-entrypoint.s…"   23 seconds ago      Up 22 seconds             6379/tcp            tender_dijkstra
 6713d16fa7dc        redis               "docker-entrypoint.s…"   2 hours ago         Up 2 hours                6379/tcp            eager_elbakyan
@@ -44,7 +44,7 @@ ad86114d2c0a        redis               "docker-entrypoint.s…"   23 seconds ag
 
 Volume两种方式创建：
 
-①容器中使用主机的某个目录，可以通过-v参数指定（注：注意冒号前后的内容）
+① 容器中使用主机的某个目录，可以通过-v参数指定（注：注意冒号前后的内容）
 
 docker run -v /host/path:/some/path ···
 
@@ -52,21 +52,21 @@ docker run -v /host/path:/some/path ···
 
 相当于linux的link命令，让宿主机的文件或者文件夹，与容器共享
 
-②在dockerfile中指定VOLUME /path
+② 在dockerfile中指定VOLUME /path
 
 ```bash
-$docker volume create --driver local docker_data
+$ sudo docker volume create --driver local docker_data
 docker_data
 $ls 
 
-$docker volume list
+$ sudo docker volume list
 DRIVER              VOLUME NAME
 local               282b44bd7ca333ccf9384492553164f24d53ff2281028e03c59c4e42fe5e5e38
 local               63eb620ecae717c9f5224d4e79ee4f3331b67eae1fa4c452f0736cf09b097417
 local               a581185c117e4fe3db9de8fabcd02bc9e760dfd0aa58adbc54b91d7ade06db53
 local               docker_data
 
-$docker volume rm docker_data 
+$ sudo docker volume rm docker_data 
 docker_data
 
 ```
@@ -77,13 +77,13 @@ alex: Linux 在网络栈中引入网络命名空间，将独立的网络协议�
 以两个container在运行为例，通过bridge实现了互通。
 
 ```bash
-[alex@~]$docker network ls
+$ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 07aac6be8b5c        bridge              bridge              local
 7c26b74fdab4        host                host                local
 b4cb21683a90        none                null                local
 
-[alex@~]$docker network inspect bridge 
+$ docker network inspect bridge 
 
         "Containers": {
             "92481f287dfb242bf120f7ee6a1749ab6a7998d2fb3e7887b7e363a5a809645d": {
@@ -186,21 +186,21 @@ e.g.
 以Alpine Linux image 为基础创建自己的image.
 
 ```bash
-$docker pull alpine  
-$docker run -it alpine
-[alex@~]$docker ps -a
+$ sudo docker pull alpine  
+$ sudo docker run -it alpine
+$ docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                         PORTS               NAMES
 fed93ceadb76        alpine              "/bin/sh"                About an hour ago   Up 22 seconds                                      trusting_murdock
-$docker exec -it trusting_murdock  sh
+$ sudo docker exec -it trusting_murdock  sh
 ```
 在container中做些改动,如生成一个文本文件 ,容器实际会在Image上增加一个读写文件层，我们可以将已经运行的容器通过docker comit生成新的镜像：
 
 ```bash
-$docker commit  trusting_murdock  alpine_alex
-$docker images
+$ sudo docker commit  trusting_murdock  alpine_alex
+$ sudo docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine_alex         latest              fddcc73fc820        7 seconds ago       5.71MB
-$docker run -it --name alpine  alpine_alex 
+$ sudo docker run -it --name alpine  alpine_alex 
 ```
 可以看到生成的文本文件在新的container 中.
 
@@ -212,7 +212,7 @@ $docker run -it --name alpine  alpine_alex
 
 
 # push
-将 commit 的image发布到[Docker Hub](https://hub.docker.com/)，由于国内防火墙问题，不可行。
+将 commit 的image发布到[Docker Hub](https://hub.docker.com/)，pc由于国内防火墙问题，不可行; 在云计算公司那儿可以。
 
 
 

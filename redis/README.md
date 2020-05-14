@@ -29,7 +29,7 @@ $ make
 ```
 $ src/redis-server
 ```
-## test
+## client
 ```
 $ src/redis-cli
 127.0.0.1:6379> set name alex
@@ -46,7 +46,7 @@ OK
 [Programming](Programming.md)
 
 # Source code reading
-[source](.md)
+[source](source.md)
 
 # access redis in docker/k8s
 [redis in docker](../k8s/docker.md)
