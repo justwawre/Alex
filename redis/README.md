@@ -4,10 +4,9 @@ Redis 6.0 带来的主要变化：
 * 提供了客户端缓存功能
 * 多线程 I/O 能力 (内部的执行逻辑依旧是单线程?)
 
-https://redis.io/
-
-
 # install & config 
+    https://redis.io/
+
 ## install
 ```
 $ uname -a
