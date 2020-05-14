@@ -133,15 +133,17 @@ $ sudo add-apt-repository \
 $ sudo apt-get install docker-ce
 $ sudo apt-get install docker-ce --fix-missing
 
-
-
 ```
 ## check status
 
 ```bash
 $ sudo systemctl status docker
-$ docker -v 
+docker.service - Docker Application Container Engine
+   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-05-15 07:05:59 CST; 11min ago
 
+$ docker -v 
+Docker version 19.03.8, build afacb8b7f0
 ```
 
 if uninstall
@@ -154,8 +156,8 @@ $ sudo apt-get purge docker-ce
 默认情况下，Docker从[Docker Hub](https://hub.docker.com/)中提取这些镜像
 
 ```bash
-$ docker search redis
-$ docker pull redis:6.0.1
+$ sudo docker search redis
+$ sudo docker pull redis:6.0.1
 
 $ sudo docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE

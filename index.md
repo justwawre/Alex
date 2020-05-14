@@ -62,15 +62,15 @@ Innovated
     * [Design patterns in C++](designPatterns/)
     * [log analyzer in C++](C++/logAnalyzer.md)
     * [tcp/ip troubleshooting via scapy](scapy/)  
-    * [GO practise](golang/)
-    * [k8s/docker pracitse](k8s/)
-    * [tools](CSAPP3/tools.md)
+    * [GO](golang/)
+    * [docker/k8s](k8s/)
+    * [tool/cmd](CSAPP3/tools.md)
 * Dev/test support
-    * [Ubuntu 18.04 LTS setup](programming/Ubuntu.md)
+    * [Ubuntu](programming/Ubuntu.md)
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
 * Workshop
-    * [dsp memory optimization 2019](workshop/dsp_mem_opt/)
+    * [dsp memory optimization](workshop/dsp_mem_opt/)
 
 
 **Contact:**  

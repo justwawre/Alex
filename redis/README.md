@@ -48,5 +48,5 @@ OK
 # Source code reading
 [source](.md)
 
-# deployed in K8S
-[k8s deployment](../k8s)
+# access redis in docker/k8s
+[redis in docker](../k8s/docker.md)
