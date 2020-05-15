@@ -3,7 +3,7 @@ A C/C++ developer in telecom/SW industry, familiar with multi-CPU/multi-core pla
 interested in distributed computing,e.g. K8s/Python/Golang<br>
 Good at system analyzing & problem solving. <br>
 
-# Work experience
+## Work experience
 **Sr SW engineer,           Tieto             Dec 2018.12-May 2020** <br>
 Ericsson LTE eNB baseband R&D assignment.
 * MAC SW maintenance on multi-core platform, using git/gerrit,
@@ -44,11 +44,11 @@ Innovated
 * a cost calculation system using the excel and oo4o(Oracle).
 * a cash flow statement feature via book keeping tag.
 
-# Education
+## Education
 * Beijing University of Posts&Telecoms  master of CS    2002 – 2005
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
-# Blog
+## Blog
 * Telecom
     * [LTE](telecom/lte.md)
     * [LTE 接入过程中的安全机制](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
