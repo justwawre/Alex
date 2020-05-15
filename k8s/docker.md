@@ -159,6 +159,9 @@ $ sudo apt-get purge docker-ce
 * docker logs
 * docker attach
 
+# manage volume
+* docker volume
+
 # commit
 对Container 修改后，可以用 docker commit 命令永久话，就是创建一个新image.
 
