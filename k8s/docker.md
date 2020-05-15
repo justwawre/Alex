@@ -2,6 +2,7 @@
 * [the linux kernel to support docker](netLec7.pdf)
 * [home page of docker](https://docs.docker.com/get-docker/)
 
+
 docker 只是记录一个执行环境,如python所需要的所有库文件, 不记录状态,如需要则关联到数据卷（Volumes）和挂载主机目录（Bind mount）. Docker 使用 Google 公司推出的 Go 语言进行开发实现，基于 Linux 内核的 cgroup，namespace，以及 AUFS类的 Union FS等技术，对进程进行封装隔离，属于 操作系统层面的虚拟化技术。
 
 a docker system in Linux is comprised of
@@ -9,12 +10,12 @@ a docker system in Linux is comprised of
 * daemon,  client<->daemon 是c/s 关系, docker daemon 也称 docker engine.
 * libcontainer, 对container 进行管理.
 
-## build/ship/run
+# build/ship/run
 * image发布者: commit , push
 * ship; dockhub 作为registry
 * image使用者: pull, run
 
-## 镜像（Image）和容器（Container）的关系，
+# 镜像（Image）和容器（Container）的关系，
 
 alex: 容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的 命名空间。因此容器可以拥有自己的 root文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。这种特性使得容器封装的应用比直接在宿主运行更加安全。也因为这种隔离的特性，很多人初学 Docker 时常常会混淆容器和虚拟机。
 
@@ -37,7 +38,7 @@ ad86114d2c0a        redis               "docker-entrypoint.s…"   23 seconds ag
 ```
 可见镜像（Image）和容器（Container）的关系就类似可执行文件和process的关系。
 
-## 数据卷（Volume）
+# 数据卷（Volume）
 按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者绑定宿主（host computer or host VM）目录，在这些位置的读写会跳过容器存储层，直接对宿主（或网络存储）发生读写，其性能和稳定性更高。
 
 数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器删除或者重新运行之后，数据却不会丢失。
@@ -70,7 +71,7 @@ docker_data
 
 ```
 
-## container间路由
+# container间路由
 alex: Linux 在网络栈中引入网络命名空间，将独立的网络协议栈隔离到不同的命令空间中，彼此间无法通信；Docker 利用这一特性，实现不容器间的网络隔离，并且引入 Veth 设备对来实现在不同网络命名空间的通信。Linux 系统包含一个完整的路由功能，当 IP 层在处理数据发送或转发的时候，会使用路由表来决定发往哪里。
 
 以两个container在运行为例，通过bridge实现了互通。
@@ -103,34 +104,13 @@ $ sudo docker network inspect bridge
 ```
 
 # install docker Community Edition 
+* [offical guide](https://docs.docker.com/engine/install/ubuntu/)
 
 Docker Community Edition (CE) is ideal for developers and small teams looking to get started with Docker and experimenting with container-based apps.
 
 ```bash
 $ uname -a
 Linux minipc 5.3.0-51-generic #44~18.04.2-Ubuntu SMP Thu Apr 23 14:27:18 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-
-$ sudo apt-get remove docker docker-engine docker.io
-
-$ sudo apt-get update
-
-$  sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-$ sudo apt-key fingerprint 0EBFCD88
-
-$ sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-
-$ sudo apt-get install docker-ce
-$ sudo apt-get install docker-ce --fix-missing
 
 ```
 ## check status
