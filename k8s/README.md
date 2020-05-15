@@ -11,4 +11,5 @@ This is a deployment for K8S,tested under minikube;including ingres + database.
 
 # steps
 * [docker](docker.md)
+* [run redis in docker](docker_redis.md)
 * [k8s ](minikube.md)

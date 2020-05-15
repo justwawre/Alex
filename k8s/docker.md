@@ -57,7 +57,6 @@ docker run -v /host/path:/some/path ···
 ```bash
 $ sudo docker volume create --driver local docker_data
 docker_data
-$ls 
 
 $ sudo docker volume list
 DRIVER              VOLUME NAME
@@ -77,13 +76,13 @@ alex: Linux 在网络栈中引入网络命名空间，将独立的网络协议�
 以两个container在运行为例，通过bridge实现了互通。
 
 ```bash
-$ docker network ls
+$ sudo docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 07aac6be8b5c        bridge              bridge              local
 7c26b74fdab4        host                host                local
 b4cb21683a90        none                null                local
 
-$ docker network inspect bridge 
+$ sudo docker network inspect bridge 
 
         "Containers": {
             "92481f287dfb242bf120f7ee6a1749ab6a7998d2fb3e7887b7e363a5a809645d": {
@@ -152,24 +151,6 @@ if uninstall
 $ sudo apt-get purge docker-ce
 ```
 
-# pull Redis image
-默认情况下，Docker从[Docker Hub](https://hub.docker.com/)中提取这些镜像
-
-```bash
-$ sudo docker search redis
-$ sudo docker pull redis:6.0.1
-
-$ sudo docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-
-```
-# run image
-
-```bash
-$ docker run -it redis
-
-```
-
 # manager container
 
 * docker ps
@@ -209,13 +190,6 @@ $ sudo docker run -it --name alpine  alpine_alex
 如何从头生成一个镜像呢？我们可以通过docker build来进行。首先我们创建一个Dockerfile,我理解,就是就某个working directory 的内容打包
 
 
-
-
 # push
 将 commit 的image发布到[Docker Hub](https://hub.docker.com/)，pc由于国内防火墙问题，不可行; 在云计算公司那儿可以。
-
-
-
-
-https://zhuanlan.zhihu.com/p/46963069
 

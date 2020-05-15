@@ -4,11 +4,7 @@
 * integraed it into k8s env, 
 * try Redis as publish/subscribe message system
 
-# standalone configuration 
-Redis 6.0 带来的主要变化：
-* 提供了众多的新模块（modules）API
-* 提供了客户端缓存功能
-* 多线程 I/O 能力 (内部的执行逻辑依旧是单线程?)
+# Redis in Linux 
 
 ## install
 ```
@@ -39,8 +35,10 @@ OK
 127.0.0.1:6379> 
 ```
 
-# As NoSQL databse
-[NoSQL databse](DB.md)
+[databse operation](DB.md)
+
+# Redis in docker
+[redis in docker](../k8s/docker_redis.md)
 
 # Programming with Redis
 [Programming](Programming.md)
@@ -48,5 +46,3 @@ OK
 # Source code reading
 [source](source.md)
 
-# access redis in docker/k8s
-[redis in docker](../k8s/docker.md)

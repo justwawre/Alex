@@ -54,7 +54,7 @@ Innovated
     * [LTE 接入过程中的安全机制](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
     * [Open RAN](telecom/oran.md)
     * [5G study](telecom/5g.md)
-* Programming
+* Dev
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
     * [The Linux Programming Interface](TLPI/)
     * [Redis](redis/)
@@ -65,7 +65,7 @@ Innovated
     * [GO](golang/)
     * [docker/k8s](k8s/)
     * [tool/cmd](CSAPP3/tools.md)
-* Dev/test support
+* Misc
     * [Ubuntu](programming/Ubuntu.md)
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
