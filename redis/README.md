@@ -34,15 +34,9 @@ OK
 "alex"
 127.0.0.1:6379> 
 ```
-
-[databse operation](DB.md)
-
-# Redis in docker
-[redis in docker](../k8s/docker_redis.md)
-
-# Programming with Redis
-[Programming](Programming.md)
-
-# Source code reading
-[source](source.md)
+# More
+* [databse operation](DB.md)
+* [redis in docker](../k8s/docker_redis.md)
+* [Programming with Redis](Programming.md)
+* [Source code reading](source.md)
 
