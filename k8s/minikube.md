@@ -37,22 +37,15 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 
 ```
 
-## generate github personal token: k8s
-https://github.com/settings/tokens
+## generate github personal token
+https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
 
-assign rigtht:   read:packages Download packages from github package registry
+copy token, paste to file  ~/TOKEN.txt
+
 
 ## GitHub Docker Registry login
 ```bash
-$  docker login https://docker.pkg.github.com
-Username: <github 用户名>
-Password: 
-WARNING! Your password will be stored unencrypted in /home/alex/.docker/config.json.
-Configure a credential helper to remove this warning. See
-https://docs.docker.com/engine/reference/commandline/login/#credentials-store
-
-Login Succeeded
-
+$ cat ~/TOKEN.txt | docker login https://docker.pkg.github.com -u yc-alex-xu --password-stdin
 ```
 
 # install over Docker driver
@@ -70,9 +63,10 @@ Preparing to unpack minikube_latest_amd64.deb ...
 Unpacking minikube (1.10.1) ...
 Setting up minikube (1.10.1) ...
 
-$ minikube start --driver=docker
+$ minikube start --driver=docker 
 
 ```
 
 failed as https://github.com/kubernetes/minikube/issues/8160
+
 
