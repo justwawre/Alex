@@ -66,7 +66,6 @@ Innovated
     * [docker/k8s](k8s/)
     * [tool/cmd](CSAPP3/tools.md)
 * Misc
-    * [Ubuntu](programming/Ubuntu.md)
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
 * Workshop
