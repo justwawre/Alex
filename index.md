@@ -57,17 +57,16 @@ Innovated
 * Dev
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
     * [The Linux Programming Interface](TLPI/)
-    * [Redis](redis/)
     * [Linux Kernel](programming/Linux_kernel_reading.md)
     * [Design patterns in C++](designPatterns/)
-    * [log analyzer in C++](C++/logAnalyzer.md)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO](golang/)
-    * [docker/k8s](k8s/)
-    * [tool/cmd](CSAPP3/tools.md)
+    * [Redis](redis/)
 * Misc
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
+    * [docker/k8s](k8s/)
+    * [tool/cmd](CSAPP3/tools.md)
 * Workshop
     * [dsp memory optimization](workshop/dsp_mem_opt/)
 

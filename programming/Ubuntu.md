@@ -26,10 +26,17 @@ $
 ![tbd](images/u_repo.png)
 
 ## chinese input
-* sudo apt install fcitx-bin
-* https://pinyin.sogou.com/linux/?r=pinyin
+```bash
+$ sudo apt-get remove ibus
+$ sudo apt install fcitx-bin
+```
+https://pinyin.sogou.com/linux/?r=pinyin
 
 安装好了之后，打开Language Support，将ibus改成fcitx，重启，点击右上角小键盘-设置，调整一下输入法顺序，将搜狗移到第一个。添加完成之后，可用Ctrl+shift进行中英文的切换 
+
+note:
+
+在搜狗输入法的图标上面右键点击配置当前输入法,打开配置当前输入法,会发现现在搜狗输入法排在第一位，现在我们将英语输入法放在第一位,此时再切换输入法就会发现，现在已经没有乱码输入的模式了.
 
 
 # tools
