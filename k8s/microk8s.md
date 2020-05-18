@@ -15,12 +15,27 @@ https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s
 
 ``` bash
 $ sudo snap remove microk8s
-$ microk8s.start
-$ sudo snap alias microk8s.kubectl kubectl
-$ microk8s.enable dns dashboard storage ingress
+
+sudo snap install microk8s --classic 
+
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+su - $USER
+
+microk8s kubectl get services
+alias kubectl='microk8s kubectl'
+microk8s enable dns storage
+microk8s start
+
+microk8s enable dashboard
+microk8s enable ingress
+kubectl proxy --accept-hosts=.* --address=0.0.0.0 & 
+
 $ token=$(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
-$ microk8s.kubectl -n kube-system describe secret $token
-$ microk8s.stop
+$ kubectl -n kube-system describe secret $token
+
+http://10.152.183.1 :8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
 ```
 # daily usage
 
@@ -28,13 +43,11 @@ $ microk8s.stop
 kubectl cluster-info
 kubectl get nodes
 kubectl get pods
-microk8s.docker ps
-microk8s.status
 kubectl get all --all-namespaces
-microk8s.enable dashboard dns
+
 
 kubectl get pods -n kube-system
-kubectl get pods --namespace=kube-system -o json |grep messag  //找出missing images
+kubectl get pods --all-namespaces -o json |grep messag  //找出missing images
 
 
 kubectl delete pod <pod name> -n kube-system --grace-period=0 --force
@@ -44,11 +57,12 @@ kubectl cluster-info
 kubectl get services // get the url: https://10.152.183.1:443
 kubectl get all --all-namespaces
 
+kubectl get svc -A
 
 
 ```
 # gfw issue
-里并没有安装最新版本，为什么呢？因为新版没有microk8s.docker命令。如果没有这个命令。必须使用代理方式，下载镜像！
+[Working with locally built images without a registry](https://microk8s.io/docs/registry-images)
 
 ``` bash
 ./alimirror.sh
@@ -63,4 +77,9 @@ note:
 无需翻墙即可获取墙外镜像的小技巧。利用docker hub的自动构建。从github获取dockerfile来构建镜像。
 如 mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 中的 mirrorgooglecontainers 就是 docker hub id.
 
-# abc
+# the docker inside the microk8s
+```bash
+microk8s ctr images lis
+microk8s ctr containers list
+
+```
