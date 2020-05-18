@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/alex/k8s/mysql"
+    path: "/home/alex/data/mysql"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
