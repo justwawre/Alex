@@ -40,15 +40,15 @@ http://10.152.183.1 :8001/api/v1/namespaces/kube-system/services/https:kubernete
 # daily usage
 
 ```bash
+$ kubectl version
+
 kubectl cluster-info
 kubectl get nodes
 kubectl get pods
 kubectl get all --all-namespaces
 
 
-kubectl get pods -n kube-system
-kubectl get pods -A -o json |grep messag  //找出missing images
-
+kubectl describe pod --all-namespaces  //any error message?
 
 kubectl delete pod <pod name> -n kube-system --grace-period=0 --force
 
@@ -104,4 +104,19 @@ users:
   user:
     password: dDV6WnhYS0d1RnBTbmNJeGk0V0JYaUo3WUJiQkNTcWdwSEh4bDFoUjJDMD0K
     username: admin
+```
+
+
+# access dashboard
+```bash
+$ kubectl get pods -A
+NAMESPACE     NAME                                              READY   STATUS              RESTARTS   AGE
+kube-system   dashboard-metrics-scraper-db65b9c6f-v79rd         1/1     Running             0          5m24s
+
+$ kubectl describe pod/dashboard-metrics-scraper-db65b9c6f-v79rd --namespace kube-system 
+
+    Port:           8000/TCP
+    Host Port:      0/TCP
+$ kubectl port-forward --namespace=kube-system --address=0.0.0.0 pod/dashboard-metrics-scraper-db65b9c6f-v79rd 8000:8000
+
 ```

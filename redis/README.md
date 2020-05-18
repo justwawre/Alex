@@ -37,6 +37,7 @@ OK
 # More
 * [databse operation](DB.md)
 * [redis in docker](../k8s/docker_redis.md)
+* [redis in k8s](../k8s/k8s_redis.md)
 * [Programming with Redis](Programming.md)
 * [Source code reading](source.md)
 
