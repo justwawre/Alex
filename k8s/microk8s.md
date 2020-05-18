@@ -47,16 +47,14 @@ kubectl get all --all-namespaces
 
 
 kubectl get pods -n kube-system
-kubectl get pods --all-namespaces -o json |grep messag  //找出missing images
+kubectl get pods -A -o json |grep messag  //找出missing images
 
 
 kubectl delete pod <pod name> -n kube-system --grace-period=0 --force
 
 
 kubectl cluster-info
-kubectl get services // get the url: https://10.152.183.1:443
-kubectl get all --all-namespaces
-
+kubectl get services // get the url: https://10.152.183.1:443/api/v1/namespaces/kube-system/services/
 kubectl get svc -A
 
 
@@ -82,4 +80,28 @@ note:
 microk8s ctr images lis
 microk8s ctr containers list
 
+```
+# password
+
+```bash
+$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://127.0.0.1:16443
+  name: microk8s-cluster
+contexts:
+- context:
+    cluster: microk8s-cluster
+    user: admin
+  name: microk8s
+current-context: microk8s
+kind: Config
+preferences: {}
+users:
+- name: admin
+  user:
+    password: dDV6WnhYS0d1RnBTbmNJeGk0V0JYaUo3WUJiQkNTcWdwSEh4bDFoUjJDMD0K
+    username: admin
 ```
