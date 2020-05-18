@@ -30,7 +30,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: nginx
-        image: nginx:1.14.0
+        image: nginx
         ports:
         - containerPort: 80
           name: web
@@ -41,6 +41,6 @@ spec:
       - name: www
         hostPath:
         # directory location on host
-          path: /home/alex/k8s/nginx
+          path: /home/alex/data/nginx
 
 

@@ -10,4 +10,5 @@
 * [K8s/minikub](minikube.md)
 * [K8s/microk8s](microk8s.md)
 * [redis in k8s cluster](k8s_redis.md)
-* [mySQL in k8s cluster](k8s_sql.md)
+* [MySQL in k8s cluster](k8s_sql.md)
+* [Ngix in k8s](k8s_ngix.md)
