@@ -91,3 +91,23 @@ https://docs.docker.com/docker-hub/builds/
 
 https://microk8s.io/docs/troubleshooting
 
+
+# 目前configure的不足
+
+Kubernetes is an open source container cluster manager. The main components are the following:
+
+1. etcd
+2. Kubernetes master
+3. Service proxy
+4. kubelet
+
+etcd is a simple, secure, fast and reliable distributed key-value store.
+
+Kubernetes master exposes the Kubernetes API using which containers are run on nodes to handle tasks.
+
+kubelet is an agent that runs on each node to monitor the containers running on the node, restarting them if required to keep the replication level.
+
+A service proxy runs on each node to provide the Kubernetes service interface for clients. A service is an abstraction for the logical set of pods represented by the service, and a service selector is used to select the pods represented by the service. The service proxy routes the client traffic to a matching pod. Labels are used to match a service with a pod。
+
+可以看出目前etcd 是没有的，它是分布式计算中一致性算法中比较红的内容，不过目前配置主要为软件开发服务，就不把microk8s配置成muliti node 模式，etcd 就没用了。
+
