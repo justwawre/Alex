@@ -17,6 +17,9 @@ configmap/redis-config created
 $ kubectl create -f redis-deployment.yaml 
 deployment.apps/redis created
 
+$ kubectl delete deployment redis
+
+
 ```
 
 # access redis inside k8s
