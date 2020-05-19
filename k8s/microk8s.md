@@ -53,32 +53,29 @@ $ kubectl proxy --accept-hosts=.* --address=0.0.0.0 &
 [1] 30964
 $ token=$(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
 $ kubectl -n kube-system describe secret $token
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6InBkbmMtRHB5dTlvUWxwSlowYVNSVmhjdkVHLUtadHJ6QUpidUtMMjI0NncifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLXZtZmM5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmNTk4YmRhYy0yZTQ0LTQ2NGYtYjlhNS1jZDllMjlhNWQ4NTEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.FkxA14bZjCf4uEocfRCgQw6igZGWfbqc8JF5RTtUPE6i5tUSYOGO2WGSiC5kHBr62EJjQ1DMZFVqZvRM7M24zNgIiJfXAkdLO2mUkmv2Veo-qPKPnzsVDUjfZW2woYnLv0jpMJNWpfk1PW8tP3dzbjNsFu1JxLp-uO3wgaEhFEJxG4boFGtnRVRNulQx6R__FDSjW4EuHxgxmFJ3fVY55PG5-oQzHW39RrhDx1DUmfIwVe-GuZ4Hdbw3h33SulajDfdSTZKxfdzx1KmXu6PXT4x_lwIvvGbxDyMIfoUROPBZALZcG_8jBUl-6ljEqq9c0zmzpUvmy2Hza5QbQA_8OA
 ```
-now can access 
-
-http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+now can access: http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 
 ![dashboard](images/k8s_dashboard.png)
 
-# get image inside gfw 
-[Working with locally built images without a registry](https://microk8s.io/docs/registry-images)
-
-``` bash
-./alimirror.sh
-```
+# get image behind gfw 
 reference:
 
-https://ieevee.com/tech/2017/04/07/k8s-mirror.html
-https://docs.docker.com/docker-hub/builds/
+* [Working with locally built images without a registry](https://microk8s.io/docs/registry-images)
+* [guide in Chinese](https://segmentfault.com/a/1190000019534913)
 
-further: 
-
-无需翻墙即可获取墙外镜像的小技巧。利用docker hub的自动构建。从github获取dockerfile来构建镜像。
-如 mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 中的 mirrorgooglecontainers 就是 docker hub id.
-
-## the docker system inside the microk8s
 ```bash
 microk8s ctr images lis
 microk8s ctr containers list
 
 ```
+my script: alimirror.sh
+
+## further 
+
+无需翻墙即可获取墙外镜像的小技巧。利用docker hub的自动构建。从github获取dockerfile来构建镜像。
+如 mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 中的 mirrorgooglecontainers 就是 docker hub id.
+https://ieevee.com/tech/2017/04/07/k8s-mirror.html
+https://docs.docker.com/docker-hub/builds/
+
