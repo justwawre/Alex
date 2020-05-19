@@ -26,13 +26,13 @@ clusterrolebinding.rbac.authorization.k8s.io/microk8s-hostpath created
 Storage will be available soon
 ```
 
-# create storage class micro
+# create storage class
 既然microk8s 已经自带storage class microk8s-hostpath，直接用它也可以,不过为了不要与microk8s耦合太多，还是自己创建了[local class](storage.yaml)
 ```bash
 $ kubectl apply -f storage.yaml 
 storageclass.storage.k8s.io/local created
 ```
-# change MySQL to use storage class micro
+# use new storage class
 [new yaml](mysql/mysql-pv.yaml)
 
 ```bash
