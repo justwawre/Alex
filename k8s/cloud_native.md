@@ -16,10 +16,6 @@ docker :
 
 只是记录一个执行环境,如python所需要的所有库文件, 不记录状态,如需要则关联到数据卷（Volumes）和挂载主机目录（Bind mount）. Docker 使用 Google 公司推出的 Go 语言进行开发实现，基于 Linux 内核的 cgroup，namespace，以及 AUFS类的 Union FS等技术，对进程进行封装隔离，属于 操作系统层面的虚拟化技术。
 
-ref: 
-* [the linux kernel to support docker](http://www.haifux.org/lectures/299/netLec7.pdf) 
-* [MicroServices] (https://timber.io/blog/docker-and-the-rise-of-microservices/)
-
 docker 里面只有rootfs, 没有 kernel, 它当然不需要跟虚拟机里的guest os 一样 boot 一遍.
 
 
