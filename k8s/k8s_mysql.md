@@ -57,7 +57,7 @@ mysql> INSERT INTO Catalog VALUES('1','Oracle Magazine','Oracle Publishing','Nov
 
 ```bash
 $ sudo apt-get install mysql-client
-$ sudo apt-get install libmysqlclient-dev
+$ sudo apt-get install libmysqlclient-dev //C开发用库，  -lmsqlclient
 ```
 
 ## access
