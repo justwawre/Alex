@@ -16,7 +16,7 @@ spec:
         app: "mysql-app"
     spec:
       containers:
-      - image: mysql:5.7.23
+      - image: docker.io/mysql:8.0.20
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD 
