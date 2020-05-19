@@ -1,26 +1,11 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: mysql-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 0.2Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/home/alex/data/mysql"
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
 spec:
-  storageClassName: manual
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 0.2Gi
+      storage: 0.5Gi
