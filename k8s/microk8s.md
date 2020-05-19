@@ -27,38 +27,41 @@ alias kubectl='microk8s kubectl'
 microk8s enable dns storage
 microk8s start
 
-microk8s enable dashboard
-microk8s enable ingress
-kubectl proxy --accept-hosts=.* --address=0.0.0.0 & 
+```
+# dashboard issue
 
+``` bash
+$ microk8s enable dashboard
+$ kubectl describe pod --all-namespaces  //any error message?
+$ kubectl get deploy -A
+NAMESPACE     NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system   dashboard-metrics-scraper        1/1     1            1           70m
+kube-system   heapster-v1.5.2                  1/1     1            1           70m
+kube-system   hostpath-provisioner             1/1     1            1           15h
+kube-system   kubernetes-dashboard             1/1     1            1           70m
+kube-system   monitoring-influxdb-grafana-v4   1/1     1            1           70m
+
+$  kubectl edit deploy kubernetes-dashboard -n kube-system //note 1
+
+```
+note 1:
+
+发现 image kubernetesui/dashboard:v2.0.0-rc5 pulling 失败,按 https://github.com/kubernetes/dashboard/releases 提示失败。
+root cause 还是网络问题。在hosts文件加上：199.232.4.133 raw.githubusercontent.com 解决。
+
+# access dashboard
+```bash
+$ kubectl proxy --accept-hosts=.* --address=0.0.0.0 & 
+[1] 30964
 $ token=$(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
 $ kubectl -n kube-system describe secret $token
-
-http://10.152.183.1 :8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
-
 ```
-# daily usage
+now can access 
 
-```bash
-$ kubectl version
+http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 
-kubectl cluster-info
-kubectl get nodes
-kubectl get pods
-kubectl get all --all-namespaces
+![dashboard](images/k8s_dashboard.png)
 
-
-kubectl describe pod --all-namespaces  //any error message?
-
-kubectl delete pod <pod name> -n kube-system --grace-period=0 --force
-
-
-kubectl cluster-info
-kubectl get services // get the url: https://10.152.183.1:443/api/v1/namespaces/kube-system/services/
-kubectl get svc -A
-
-
-```
 # gfw issue
 [Working with locally built images without a registry](https://microk8s.io/docs/registry-images)
 
@@ -75,48 +78,9 @@ note:
 无需翻墙即可获取墙外镜像的小技巧。利用docker hub的自动构建。从github获取dockerfile来构建镜像。
 如 mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 中的 mirrorgooglecontainers 就是 docker hub id.
 
-# the docker inside the microk8s
+# the docker system inside the microk8s
 ```bash
 microk8s ctr images lis
 microk8s ctr containers list
-
-```
-# password
-
-```bash
-$ kubectl config view
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: DATA+OMITTED
-    server: https://127.0.0.1:16443
-  name: microk8s-cluster
-contexts:
-- context:
-    cluster: microk8s-cluster
-    user: admin
-  name: microk8s
-current-context: microk8s
-kind: Config
-preferences: {}
-users:
-- name: admin
-  user:
-    password: dDV6WnhYS0d1RnBTbmNJeGk0V0JYaUo3WUJiQkNTcWdwSEh4bDFoUjJDMD0K
-    username: admin
-```
-
-
-# access dashboard
-```bash
-$ kubectl get pods -A
-NAMESPACE     NAME                                              READY   STATUS              RESTARTS   AGE
-kube-system   dashboard-metrics-scraper-db65b9c6f-v79rd         1/1     Running             0          5m24s
-
-$ kubectl describe pod/dashboard-metrics-scraper-db65b9c6f-v79rd --namespace kube-system 
-
-    Port:           8000/TCP
-    Host Port:      0/TCP
-$ kubectl port-forward --namespace=kube-system --address=0.0.0.0 pod/dashboard-metrics-scraper-db65b9c6f-v79rd 8000:8000
 
 ```
