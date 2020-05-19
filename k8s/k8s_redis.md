@@ -17,7 +17,6 @@ $ kubectl delete deployment redis
 
 ```
 $ docker pull redis
-
 docker.io/library/redis:latest
 $ microk8s ctr images  pull docker.io/redis:latest
 ```
@@ -32,6 +31,5 @@ $ src/redis-cli -h 10.152.183.183
 10.152.183.183:6379> get name
 "john"
 10.152.183.183:6379> 
-
 ```
 note: 10.152.183.183 是 redis 这个service 的 ip address.
