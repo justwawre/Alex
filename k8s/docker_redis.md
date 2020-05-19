@@ -7,49 +7,20 @@ $ sudo docker pull redis:6.0.1
 1:M 15 May 2020 00:17:51.519 * Ready to accept connections
 
 $ sudo docker images
-[sudo] password for alex: 
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 redis               6.0.1               f9b990972689        12 days ago         104MB
 $ sudo docker run -it redis
 Unable to find image 'redis:latest' locally
 latest: Pulling from library/redis
-^[Digest: sha256:584db7c588cd6d1e0a97bcf67c49016d4f19320b614e07049404bea1d681965e
-Status: Downloaded newer image for redis:latest
-^[1:C 15 May 2020 00:17:51.515 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-1:C 15 May 2020 00:17:51.515 # Redis version=6.0.1, bits=64, commit=00000000, modified=0, pid=1, just started
-1:C 15 May 2020 00:17:51.515 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
-                _._                                                  
-           _.-``__ ''-._                                             
-      _.-``    `.  `_.  ''-._           Redis 6.0.1 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                   
- (    '      ,       .-`  | `,    )     Running in standalone mode
- |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
- |    `-._   `._    /     _.-'    |     PID: 1
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           http://redis.io        
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
-
-1:M 15 May 2020 00:17:51.518 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
-1:M 15 May 2020 00:17:51.518 # Server initialized
-1:M 15 May 2020 00:17:51.518 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
-1:M 15 May 2020 00:17:51.518 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+....
 1:M 15 May 2020 00:17:51.519 * Ready to accept connections
 
-
 $ sudo docker images
-[sudo] password for alex: 
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 redis               6.0.1               f9b990972689        12 days ago         104MB
 redis               latest              f9b990972689        12 days ago         104MB
 ```
-看来TAG很重要，即使同一内容，TAG不同，也要两个image.
+看来TAG很重要，即使同一image ID，也要用TAG区分.
 
 # check image
 
@@ -84,7 +55,7 @@ Get its ip
 
 ```bash
 $ sudo docker ps
-[sudo] password for alex: 
+ 
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 181f88bd0f2a        redis               "docker-entrypoint.s…"   15 seconds ago      Up 13 seconds       6379/tcp            upbeat_hopper
 $ sudo docker inspect 181f88bd0f2a
@@ -173,7 +144,6 @@ docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 65  bytes 8979 (8.9 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-
 $ route
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
@@ -183,7 +153,6 @@ link-local      0.0.0.0         255.255.0.0     U     1000   0        0 wlp2s0
 192.168.3.0     0.0.0.0         255.255.255.0   U     600    0        0 wlp2s0
 
 $ sudo docker network inspect bridge 
-
 ```
 Linux 在网络栈中引入网络命名空间，将独立的网络协议栈隔离到不同的命令空间中，彼此间无法通信；Docker 利用这一特性，实现不容器间的网络隔离，并且引入 Veth 设备对来实现在不同网络命名空间的通信。Linux 系统包含一个完整的路由功能，当 IP 层在处理数据发送或转发的时候，会使用路由表来决定发往哪里。
 
@@ -198,7 +167,6 @@ OK
 172.17.0.2:6379> get name
 "john"
 172.17.0.2:6379> 
-
 ```
 
 # check process
@@ -234,49 +202,20 @@ id 999 应该是比较特殊。容器的实质是进程，但与直接在宿主�
 # stop redis container
 ```bash
 $ sudo docker ps
-[sudo] password for alex: 
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 36e5bd9e0276        redis               "docker-entrypoint.s…"   2 hours ago         Up 2 hours          6379/tcp            thirsty_hugle
 $ sudo docker stop 36e5bd9e0276
 36e5bd9e0276
-$ sudo docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-$ sudo docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-redis               6.0.1               f9b990972689        13 days ago         104MB
-redis               latest              f9b990972689        13 days ago         104MB
-
 ```
 
 # sudo issue
 saving time of "sudo" typing.
 
 ```bash
-$ cat /etc/group
-alex:x:1000:
-sambashare:x:126:alex
-docker:x:127:
-```
-可以看到新增的group:docker.
-
-```bash
 $ id
 uid=1000(alex) gid=1000(alex) groups=1000(alex),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
-
-$ sudo gpasswd  cdrom -d alex
-Removing user alex from group cdrom
-
-$ sudo gpasswd  docker -a alex
-Adding user alex to group docker
-
-$ id
-uid=1000(alex) gid=1000(alex) groups=1000(alex),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
-$ 
-
-```
-after reboot
-
-```bash
+$ sudo usermod -a -G docker $USER
+$ su - $USER
 $ id
 uid=1000(alex) gid=1000(alex) groups=1000(alex),4(adm),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare),127(docker)
 $ docker images
@@ -287,10 +226,7 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 $ docker run -it redis
 ```
-
-
 # remove unused container
-
 ```bash
 $ docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
@@ -300,27 +236,16 @@ aaa9a0826e78        redis               "docker-entrypoint.s…"   7 minutes ago
 
 $ docker rm aaa9a0826e78
 aaa9a0826e78
-
 $ docker rm 181f88bd0f2a
 181f88bd0f2a
-
 $ docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                   PORTS               NAMES
 36e5bd9e0276        redis               "docker-entrypoint.s…"   3 hours ago         Exited (0) 2 hours ago                       thirsty_hugle
 $ 
 ```
 
-
 # attach the redis container
-
 ```bash
-$ docker ps -a
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
-36e5bd9e0276        redis               "docker-entrypoint.s…"   3 hours ago         Exited (0) 22 seconds ago                       thirsty_hugle
-
-$ docker start 36e5bd9e0276
-36e5bd9e0276
-
 $ docker attach --help
 
 Usage:	docker attach [OPTIONS] CONTAINER
@@ -331,15 +256,4 @@ Options:
       --detach-keys string   Override the key sequence for detaching a container
       --no-stdin             Do not attach STDIN
       --sig-proxy            Proxy all received signals to the process (default true)
-
-$ docker attach 36e5bd9e0276
-
-^C1:signal-handler (1589514440) Received SIGINT scheduling shutdown...
-1:M 15 May 2020 03:47:20.102 # User requested shutdown...
-1:M 15 May 2020 03:47:20.102 * Saving the final RDB snapshot before exiting.
-1:M 15 May 2020 03:47:20.106 * DB saved on disk
-1:M 15 May 2020 03:47:20.106 # Redis is now ready to exit, bye bye...
-
 ```
-^C 后container就stop了，看来这个container就根本不带shell.
-
