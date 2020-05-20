@@ -170,12 +170,10 @@ $ sudo docker run -it --name alpine  alpine_alex
 
 # docker build
 
-如何从头生成一个镜像呢？我们可以通过docker build来进行。首先我们创建一个Dockerfile.
+如何从头生成一个镜像呢？我们可以通过docker build来进行。example:
 
-```bash
-$ docker build -f DockerFile -t ubuntu:1.1 .
-```
 * [build golang dev env in image](../golang/go_docker.md)
+
 # export container
 ```bash
 $ docker export --help
