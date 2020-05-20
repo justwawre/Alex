@@ -14,3 +14,6 @@
     gcc -g  -O0 scope.c -o scope.exe
 
 ```
+# script sample
+
+ [hello](hello.sh)

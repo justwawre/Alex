@@ -1,7 +1,3 @@
-**About me** <br>
-A C/C++ developer in telecom/SW industry, familiar with multi-CPU/multi-core platform<br>
-interested in distributed computing,e.g. K8s/Python/Golang<br>
-Good at system analyzing & problem solving. <br>
 
 ## Work experience
 **Sr SW engineer,           Tieto             Dec 2018.12-May 2020** <br>
@@ -57,7 +53,7 @@ Innovated
 * Dev
     * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
     * [The Linux Programming Interface](TLPI/)
-    * [Linux Kernel](programming/Linux_kernel_reading.md)
+    * [Linux Kernel](programming/linux_kernel.md)
     * [Design patterns in C++](designPatterns/)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO](golang/)
