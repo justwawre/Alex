@@ -4,16 +4,6 @@ ref:  https://kubernetes.io/docs/concepts/storage/storage-classes/
 
 # enable storage
 ```bash
-$ microk8s disable storage
-Disabling default storage
-deployment.apps "hostpath-provisioner" deleted
-storageclass.storage.k8s.io "microk8s-hostpath" deleted
-serviceaccount "microk8s-hostpath" deleted
-clusterrole.rbac.authorization.k8s.io "microk8s-hostpath" deleted
-clusterrolebinding.rbac.authorization.k8s.io "microk8s-hostpath" deleted
-Storage removed
-Remove PVC storage at /var/snap/microk8s/common/default-storage ? (Y/N): y
-Storage space reclaimed
 $ microk8s enable storage
 Enabling default storage class
 deployment.apps/hostpath-provisioner created
