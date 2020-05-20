@@ -1,32 +1,12 @@
 # Dockerfile
-create subfolder app: Here is source of files which be copied to the building docker image.
-create [Dockerfile](Dockerfile)
+create subfolder prod;
+create [Dockerfile under prod](prod/Dockerfile)
 
 # build
 ```bash
+$ cd prod
 $ docker build -t hello:1.0 .
-Sending build context to Docker daemon  9.728kB
-Step 1/6 : FROM golang
- ---> 7e5e8028e8ec
-Step 2/6 : MAINTAINER Alex
- ---> Using cache
- ---> 6b9ec9ca5cc2
-Step 3/6 : RUN go get -u github.com/astaxie/beego
- ---> Using cache
- ---> 77867e2948a0
-Step 4/6 : RUN go get -u github.com/beego/bee
- ---> Using cache
- ---> 6cb2ad5a16c7
-Step 5/6 : EXPOSE 8080
- ---> Running in 5be7522b1097
-Removing intermediate container 5be7522b1097
- ---> 2820abf0aea2
-Step 6/6 : CMD ["bee", "run"]
- ---> Running in f6ffbb68333b
-Removing intermediate container f6ffbb68333b
- ---> 786010540979
-Successfully built 786010540979
-Successfully tagged hello:1.0
+
 ```
 # check the new image
 ```bash
