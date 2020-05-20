@@ -28,7 +28,7 @@ spec:
         - containerPort: 3306
         volumeMounts:
         - name: mysql-persistent-storage
-          mountPath: /mysql
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:  

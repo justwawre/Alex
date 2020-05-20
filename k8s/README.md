@@ -12,4 +12,5 @@
 * [redis in k8s cluster](k8s_redis.md)
 * [MySQL in k8s cluster](k8s_mysql.md)
 * [StorageClass in k8s cluster](k8s_storage.md)
+* [Persistent of k8s cluster](k8s_persistent.md)
 * [k8s cluster work](k8s_work.md)

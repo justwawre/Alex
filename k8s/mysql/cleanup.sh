@@ -1,9 +1,7 @@
 #!/bin/sh
-kubectl delete secret mysql-pass
-kubectl delete deployment -l app=mysql-app
-kubectl delete service -l app=mysql-app
+kubectl delete -f mysql-secret.yaml 
+kubectl delete -f mysql-deployment.yaml
+kubectl delete -f mysql-service.yaml 
 kubectl delete pvc mysql-pv-claim
-#kubectl delete pv mysql-pv-volume
-
-
+kubectl delete pv mysql-pv-volume
 

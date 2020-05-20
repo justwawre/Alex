@@ -37,9 +37,27 @@ $ kubectl apply -f mysql-pv.yaml
 persistentvolumeclaim/mysql-pv-claim created
 ```
 # summary
-comparing with [storageClassName: manual](mysql-pv-old.yaml)，[new yaml](mysql/mysql-pv.yaml) don't reate PV(Persistent Volumes) mnaually,only PVC(Persistent Volume Claims).
+comparing with 
+* [storageClassName: manual](mysql-pv-old.yaml)，
+* [new yaml](mysql/mysql-pv.yaml)
 
-# test
-按[MySQL in k8s cluster](k8s_mysql.md)操作，不过在 step:exec inside pod 与 step:access MySQL outside k8s 之间删掉当前的pod，让它recreate. 数据还是丢了。
+The benefit of storage is: no need to create PV(Persistent Volumes) mnaually,as they will generating automatically.
+![PV created via storage](images/pv_local.png)
+
+but the benefit also harm the flexibility of configuration, so decide to disable it.
+
+```bash
+$ microk8s disable storage
+Disabling default storage
+deployment.apps "hostpath-provisioner" deleted
+storageclass.storage.k8s.io "microk8s-hostpath" deleted
+serviceaccount "microk8s-hostpath" deleted
+clusterrole.rbac.authorization.k8s.io "microk8s-hostpath" deleted
+clusterrolebinding.rbac.authorization.k8s.io "microk8s-hostpath" deleted
+Storage removed
+Remove PVC storage at /var/snap/microk8s/common/default-storage ? (Y/N): y
+Storage space reclaimed
+```
+
 
 
