@@ -1,8 +1,6 @@
-storage: Create a default storage class which allocates storage from a host directory.实际此前也在用，如[MySQL old deployment](mysql-pv-old.yaml) 中用到：
-
+storage: Create a default storage class which allocates storage from a host directory.
 ref:  https://kubernetes.io/docs/concepts/storage/storage-classes/
 
-Storage Classes allow a k8s administrator to categorize storage resources, e.g. “fast” vs “slow”. Storage classes specify a provisioner to use when instantiating volumes. MicroK8s activates the microk8s.io/hostpath storage provisioner when the Storage addon has been enabled.
 
 # enable storage
 ```bash
@@ -33,15 +31,13 @@ $ kubectl apply -f storage.yaml
 storageclass.storage.k8s.io/local created
 ```
 # use new storage class
-[new yaml](mysql/mysql-pv.yaml)
 
 ```bash
 $ kubectl apply -f mysql-pv.yaml
 persistentvolumeclaim/mysql-pv-claim created
 ```
-# 作用
-过去配置storageClassName: manual, 需要创建PV(Persistent Volumes),使用这个的话，光写PVC(Persistent Volume Claims)即可。
-
+# summary
+comparing with [storageClassName: manual](mysql-pv-old.yaml)，[new yaml](mysql/mysql-pv.yaml) don't reate PV(Persistent Volumes) mnaually,only PVC(Persistent Volume Claims).
 
 # test
 按[MySQL in k8s cluster](k8s_mysql.md)操作，不过在 step:exec inside pod 与 step:access MySQL outside k8s 之间删掉当前的pod，让它recreate. 数据还是丢了。

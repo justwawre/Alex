@@ -5,11 +5,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: redis
   template:
     metadata:
       labels:
-        app: nginx
+        app: redis
     spec:
       containers:
       - name: redis
@@ -20,16 +20,10 @@ spec:
         resources:
           limits:
             cpu: "0.1"
-        volumeMounts:
-        - name: redis-storage
-          mountPath: /data/
-        - mountPath: /redis-master
-          name: config
       volumes:
-      - name: redis-storage
-        hostPath:
-        # directory location on host
-          path: /home/alex/data/redis
+      - name: redis-persistent-storage
+        persistentVolumeClaim:  
+          claimName: redis-pv-claim 
       - name: config
         configMap:
           name: redis-config
