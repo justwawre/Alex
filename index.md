@@ -66,7 +66,7 @@ Innovated
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
     * [docker/k8s](k8s/)
-    * [tool/cmd](CSAPP3/tools.md)
+    * [tool/cmd](programming/tools.md)
 * Workshop
     * [dsp memory optimization](workshop/dsp_mem_opt/)
 
