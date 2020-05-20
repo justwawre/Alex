@@ -34,12 +34,12 @@ OK
 "alex"
 127.0.0.1:6379> 
 ```
-# More
-* [databse operation](DB.md)
+* [Run in Linux](redis_Linux.md)
+* [databse operation](redis_db.md)
 * [redis in docker](../k8s/docker_redis.md)
 * [redis in k8s](../k8s/k8s_redis.md)
-* [Programming with Redis](Programming.md)
-* [Source code reading](source.md)
+* [Dev with Redis](redis_dev.md)
+* [Source code reading](redis_code.md)
 
 # ref
 * [一文揭秘单线程的Redis为什么这么快?](https://zhuanlan.zhihu.com/p/57089960)

@@ -61,7 +61,7 @@ Innovated
     * [Design patterns in C++](designPatterns/)
     * [tcp/ip troubleshooting via scapy](scapy/)  
     * [GO](golang/)
-    * [Redis](redis/)
+    * [Redis](programming/redis.md)
 * Misc
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)

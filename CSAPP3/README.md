@@ -7,5 +7,3 @@
 * [exceptions](exception.md)
 * [virtual memory](vm.md)    
 
-# code
-http://csapp.cs.cmu.edu/3e/code.html
