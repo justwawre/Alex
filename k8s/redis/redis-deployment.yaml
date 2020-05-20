@@ -5,11 +5,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: redis
+      app: redis-app
   template:
     metadata:
       labels:
-        app: redis
+        app: redis-app
     spec:
       containers:
       - name: redis
@@ -17,6 +17,9 @@ spec:
         env:
         ports:
         - containerPort: 6379
+        volumeMounts:
+        - name: redis-persistent-storage
+          mountPath: /data
         resources:
           limits:
             cpu: "0.1"

@@ -6,7 +6,7 @@ keep DB's data not lose during POD restarting/recreating.
 
  so change the PV's reclaim policy to "Retain"
 
-# test
+# MySQL POD restart
 
 the test steps is just like [MySQL in k8s cluster](k8s_mysql.md). but between
 * exec inside pod 
@@ -16,3 +16,5 @@ to recrate the POD by scaling down the deployment's POD to 0.
 
 ![sacle down to zero, restart pod](images/scale_down_0.png)
 
+# Redis POD restart
+it will too.
