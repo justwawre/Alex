@@ -18,18 +18,20 @@ clear/delete 删除断点
 ## execute
 ```
 call <函数名> 
-breadk 8  设置断点
+break     设置断点
 run       开始重新运行
 next      单步执行
-step: finish: 下一步进入一个函数内部/执行到函数的return
-continue: 继续运行被调试的程序。
+step      单步进入;如果其后输入finish 表示执行到函数的return
+skip      在step时跳过一些不想关注的函数或者某个文件的代码  
+continue  继续运行被调试的程序。
+until     继续运行到指定位置
 ```
 ## check
 ```
 print <变量名>
 print <变量名>=<new value>   set 一个变量
 backtrace
-l        列出上下文代码
+list <linenumber/fuction name/c file name/>        列出代码
 info             一大堆子命令,可以
 disassemble <函数名> 
 
@@ -66,15 +68,16 @@ $1 = 0x400620 "abcde"
 ## stdin 重定向
 一般执行时
 ```
-./a.out < input.txt
+./a.out  [arg list] < input.txt
 ```
 gdb 则
 ```
-gdb a.out <arg list>
-(gdb) r <input.txt
+gdb a.out [arg list]
+(gdb) r < input.txt
 ```
 
 # 多文件调试/coredump
+## preparation
 ```
 #compile
 gcc -g *.c 
@@ -86,8 +89,10 @@ ulimit -a
 #run
 $ ./a.out
 Segmentation fault (core dumped)
+```
+## debug
 
-#start the debug when core dump happened
+```
 $gdb a.out core.9074 
 
 #check the source files list
@@ -138,12 +143,13 @@ $1 = (node_t *) 0x0
 
 
 # gdb attach
+to debug the running process
+
 ```
 $ ./a.out &
 [1] 160
 
 $ su       #otherwise attach failure
-
 
 # gdb attach 160
 
@@ -163,8 +169,6 @@ $ su       #otherwise attach failure
 Breakpoint 1 at 0x7f38bc200659: file loop_sleep.c, line 6.
 (gdb) continue
 
-
-
 (gdb) finish
 Run till exit from #0  0x00007f38bbae49a4 in __GI___nanosleep (requested_time=requested_time@entry=0x7fffc6a3a170, remaining=remaining@entry=0x7fffc6a3a170)
     at ../sysdeps/unix/sysv/linux/nanosleep.c:28
@@ -181,10 +185,42 @@ Value returned is $5 = 0
 (gdb) print i
 $6 = 30
 
-
 (gdb) clear
 Deleted breakpoint 1
 (gdb) c
 
 ```
+## if debug info missing in running process
+Runnig process a.out was complied without -g, then comipile a gdb version of a.out, e.g. "hello" firstly.
+```bash
+# gdb hello <pid>
+```
+or
 
+```bash
+# gdb hello
+(gdb)attach <pid>
+```
+or 
+```bash
+# gdb attach 160
+(gdb) file hello
+```
+
+# tui
+带上这参数，就有点gui味道了。
+```bash
+$ gdb a.out -tui
+
+```
+![tui](images/gdb_tui.png)
+
+# multi-thread 
+
+```bash
+set pagination off
+set logging file threads.txt
+set logging on
+thread apply all bt
+set logging off
+```

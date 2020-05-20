@@ -41,3 +41,5 @@ OK
 * [Programming with Redis](Programming.md)
 * [Source code reading](source.md)
 
+# ref
+* [一文揭秘单线程的Redis为什么这么快?](https://zhuanlan.zhihu.com/p/57089960)

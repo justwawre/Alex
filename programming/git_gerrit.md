@@ -45,3 +45,4 @@ Jenkins
 
 ## reference
 * google: git/gerrit presentation
+* [如何优雅地使用Git？](https://www.zhihu.com/question/20866683/answer/711725573)
