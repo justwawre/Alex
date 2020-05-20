@@ -170,8 +170,36 @@ $ sudo docker run -it --name alpine  alpine_alex
 
 # docker build
 
-如何从头生成一个镜像呢？我们可以通过docker build来进行。首先我们创建一个Dockerfile,我理解,就是就某个working directory 的内容打包
+如何从头生成一个镜像呢？我们可以通过docker build来进行。首先我们创建一个Dockerfile.
 
+```bash
+$ docker build -f DockerFile -t ubuntu:1.1 .
+```
+* [build golang dev env in image](../golang/go_docker.md)
+# export container
+```bash
+$ docker export --help
+
+Usage:	docker export [OPTIONS] CONTAINER
+
+Export a container's filesystem as a tar archive
+$ sudo docker export <id> > myUbuntu.tar
+```
+# create image from file
+Using docker rm, docker rmi to delete image/container
+```bash
+$ docker import --help
+
+Usage:	docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
+
+Import the contents from a tarball to create a filesystem image
+
+Options:
+  -c, --change list      Apply Dockerfile instruction to the created image
+  -m, --message string   Set commit message for imported image
+$ cat myUbuntu.tar | docker import - ubuntu:1.1
+
+```
 
 # push
 将 commit 的image发布到[Docker Hub](https://hub.docker.com/)，pc由于国内防火墙问题，不可行; 在云计算公司那儿可以。
