@@ -1,5 +1,0 @@
-pause:3.1
-heapster-amd64:v1.5.2
-heapster-influxdb-amd64:v1.3.3
-heapster-grafana-amd64:v4.4.3
-kubernetes-dashboard-amd64:v1.8.3

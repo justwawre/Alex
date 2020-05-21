@@ -16,3 +16,4 @@
 * [docker:VSCode](../golang/docker_VSCode.md)
 * [k8s:Visual Studio Code Kubernetes Tools](../golang/k8s_VSCode.md) 
 * [k8s:deploy own app](../golang/k8s_app.md)
+* [all setting/script](https://github.com/yc-alex-xu/microk8s)
