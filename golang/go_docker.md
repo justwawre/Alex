@@ -1,8 +1,11 @@
-# Dockerfile
-create subfolder app: Here is source of files which be copied to the building docker image.
-create [Dockerfile](Dockerfile)
+# Target
+Save time to build up env needed for SW Dev & test. And whole team can share the same env.
 
-# build
+# Preparation
+* create subfolder app: Here is source of files which be copied to the building docker image.
+* create Dockerfile
+
+# Build
 ```bash
 $ docker build -t hello:1.0 .
 Sending build context to Docker daemon  9.728kB
@@ -28,11 +31,14 @@ Removing intermediate container f6ffbb68333b
 Successfully built 786010540979
 Successfully tagged hello:1.0
 ```
-# check the new image
+# Check the image
 ```bash
 $ docker images
 REPOSITORY                                             TAG                 IMAGE ID            CREATED             SIZE
 hello                                                  1.0                 786010540979        42 seconds ago      867MB
+redis                                                  latest              987b78fc9e38        2 days ago          104MB
+golang                                                 latest              7e5e8028e8ec        4 days ago          810MB
+mysql                                                  8.0.20              94dff5fab37f        5 days ago          541MB
 
 ```
 # run
@@ -64,6 +70,7 @@ e.g. 修改了main.go　后有
 2020/05/20 15:30:54 SUCCESS  ▶ 0008 './app' is running...
 2020/05/20 15:30:54.600 [I] [asm_amd64.s:1373]  http server Running on http://:8080
 ```
+# Test
 Now app can be accessed via:  http://localhost:8080/sum/4/5
 
 
