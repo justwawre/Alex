@@ -13,4 +13,6 @@
 * [MySQL in k8s cluster](k8s_mysql.md)
 * [StorageClass in k8s cluster](k8s_storage.md)
 * [Persistent of k8s cluster](k8s_persistent.md)
-* [k8s cluster work](k8s_work.md)
+* [docker:VSCode](../golang/docker_VSCode.md)
+* [k8s:Visual Studio Code Kubernetes Tools](../golang/k8s_VSCode.md) 
+* [k8s:deploy own app](../golang/k8s_app.md)
