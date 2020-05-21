@@ -1,19 +1,10 @@
-
- snap包是一个应用程序容器 - 您可以将其想象为Docker容器的轻量级版本。它使用了许多相同的底层技术进行隔离，而没有网络隔离的所有开销。最终结果是一种超越任何一个发行版的包格式，因为快照可以安装在大多数Linux操作系统上，同时还利用原子更新，升级失败回滚以及来自用户主机的软件限制级别等功能。
-
-
 # install
-
 version: 1.18/stable:
-
-1. https://snapcraft.io/microk8s
-
-2. https://www.jianshu.com/p/02fd2540fab2
-
+> The upcoming release of v1.14 Kubernetes will mark the MicroK8s switch to Containerd and enhanced security.
+也就是这一版本，没有内置的docker,而是Containerd。
 
 # Start
-
-https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s
+[quick start](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s)
 
 ``` bash
 $ sudo snap remove microk8s
@@ -26,7 +17,6 @@ $ microk8s enable dns
 $ microk8s start
 ```
 # dashboard issue
-
 ``` bash
 $ microk8s enable dashboard
 $ kubectl describe pod --all-namespaces  //any error message?
@@ -60,40 +50,29 @@ note:
 * authenticate 用的是token, 而不是更复杂的Role-based access control (RBAC)。
 
 # get image behind gfw 
-reference:
+According to
 * [Working with locally built images without a registry](https://microk8s.io/docs/registry-images)
 * [guide in Chinese](https://segmentfault.com/a/1190000019534913)
 
 ```bash
-microk8s ctr images lis
-microk8s ctr containers list
+$ ./alimirror.sh
+$ microk8s ctr images list
+$ microk8s ctr containers list
 ```
-my script: alimirror.sh
-
 ## further 
 无需翻墙即可获取墙外镜像的小技巧。利用docker hub的自动构建。从github获取dockerfile来构建镜像。如 mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 中的 mirrorgooglecontainers 就是 docker hub id.
 
 https://ieevee.com/tech/2017/04/07/k8s-mirror.html
 https://docs.docker.com/docker-hub/builds/
 
-# troubleshooting
-https://microk8s.io/docs/troubleshooting
-
 # 目前configure的不足
 Kubernetes is an open source container cluster manager. The main components are the following:
 
-1. etcd
-2. Kubernetes master
-3. Service proxy
-4. kubelet
+1. etcd: a simple, secure, fast and reliable distributed key-value store.
+2. Kubernetes master:exposes the Kubernetes API using which containers are run on nodes to handle tasks.
+3. Service proxy: A service proxy runs on each node to provide the Kubernetes service interface for clients. A service is an abstraction for the logical set of pods represented by the service, and a service selector is used to select the pods represented by the service. The service proxy routes the client traffic to a matching pod. Labels are used to match a service with a pod。
+4. kubelet:  an agent that runs on each node to monitor the containers running on the node, restarting them if required to keep the replication level.
 
-etcd is a simple, secure, fast and reliable distributed key-value store.
-
-Kubernetes master exposes the Kubernetes API using which containers are run on nodes to handle tasks.
-
-kubelet is an agent that runs on each node to monitor the containers running on the node, restarting them if required to keep the replication level.
-
-A service proxy runs on each node to provide the Kubernetes service interface for clients. A service is an abstraction for the logical set of pods represented by the service, and a service selector is used to select the pods represented by the service. The service proxy routes the client traffic to a matching pod. Labels are used to match a service with a pod。
 
 可以看出目前etcd 是没有的，它是分布式计算中一致性算法中比较红的内容，不过目前配置主要为软件开发服务，就不把microk8s配置成muliti node 模式，etcd 就没用了。
 
