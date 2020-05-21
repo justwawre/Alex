@@ -1,5 +1,6 @@
 
 * [beego framework](https://github.com/astaxie/beego)   
+* [linux:golang dev env](go_linux.md)
 * [docker:golang dev env](go_docker.md)
 * [docker:VSCode](docker_VSCode.md)
 * [k8s:Visual Studio Code Kubernetes Tools](k8s_VSCode.md) 
