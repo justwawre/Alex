@@ -14,6 +14,16 @@
     gcc -g  -O0 scope.c -o scope.exe
 
 ```
+# change fileformat via VI
+```
+:set ff
+:set ff=unix
+```
 # script sample
-
- [hello](hello.sh)
+```bash
+$ ./hello.sh xu
+Hello, alex xu 
+How to address you? Mr./Ms.
+Mr.
+Thanks, Mr. xu! 
+```

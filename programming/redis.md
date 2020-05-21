@@ -6,9 +6,8 @@
 
 
 * [Run in Linux](redis_linux.md)
+* [redis in docker/k8s](../k8s/)
 * [databse operation](redis_db.md)
-* [redis in docker](../k8s/docker_redis.md)
-* [redis in k8s](../k8s/k8s_redis.md)
 * [Dev with Redis](redis_dev.md)
 * [Source code reading](redis_code.md)
 

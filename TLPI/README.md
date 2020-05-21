@@ -20,9 +20,9 @@ $ mount      //To list the currently mounted file systems
 ```
 sudo apt-get install libacl1-dev  libcap-dev libselinux-dev
 ```
-## download source code
+## source code
 
-http://www.man7.org/tlpi/
+[home page](http://www.man7.org/tlpi/)
 
 
 ## build
@@ -39,7 +39,5 @@ http://www.man7.org/tlpi/
 * [chp20-22 signal](signal.md)
 * [chp3,7,9 24-28 process](process.md)
 * [chp29-33 thread](thread.md)
-* [chp37  daemon](daemon.md)
 * [chp43-48 IPC](IPC.md)
-* [chp56-61 socket](socket.md)
 * [static & dynamic lib under Linux](../programming/static_dynamic_lib.md)
