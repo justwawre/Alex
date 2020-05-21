@@ -1,11 +1,5 @@
-# CI/CD
-No time for CI/CD now.
-* [publish docker image](https://help.github.com/cn/actions/language-and-framework-guides/publishing-docker-images)
-* [用 GitHub Action 构建一套 CI/CD 系统](https://cloud.tencent.com/developer/article/1624786)
-
 # Deploy product as an image
-It a few differnt from  [docker:golang dev env](go_docker.md), since it needn't image to recompilation with code change. 
-the detail can check [Dockerfile in github](https://github.com/yc-alex-xu/go)
+It a little different from [Dev env](go_docker.md), since it needn't image to recompilation with code change. 
 
 ```bash
 $ docker build -t hello_prod:1.0 .
@@ -53,3 +47,9 @@ app
 2020/05/21 07:33:51.408 [I] [asm_amd64.s:1373]  http server Running on http://:8080
 
 ```
+
+# CI/CD
+No time now.
+* [publish docker image](https://help.github.com/cn/actions/language-and-framework-guides/publishing-docker-images)
+* [用 GitHub Action 构建一套 CI/CD 系统](https://cloud.tencent.com/developer/article/1624786)
+
