@@ -3,7 +3,7 @@ No time for CI/CD now.
 * [publish docker image](https://help.github.com/cn/actions/language-and-framework-guides/publishing-docker-images)
 * [用 GitHub Action 构建一套 CI/CD 系统](https://cloud.tencent.com/developer/article/1624786)
 
-# Deploy as image
+# Deploy product as an image
 It a few differnt from  [docker:golang dev env](go_docker.md), since it needn't image to recompilation with code change. 
 the detail can check [Dockerfile in github](https://github.com/yc-alex-xu/go)
 

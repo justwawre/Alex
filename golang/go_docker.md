@@ -41,7 +41,7 @@ golang                                                 latest              7e5e8
 mysql                                                  8.0.20              94dff5fab37f        5 days ago          541MB
 
 ```
-# run
+# Run
 ```bash
 $ docker run -it --rm --name hello -p 8080:8080 \
 >    -v /home/alex/base/Alex/golang/app:/go/src/app -w /go/src/app hello:1.0
@@ -61,9 +61,9 @@ app
 2020/05/20 15:21:11.545 [D] [server.go:2807]  |     172.17.0.1| 404 |    356.852µs| nomatch| GET      /  
 2020/05/20 15:21:11.685 [D] [server.go:2807]  |     172.17.0.1| 404 |    300.755µs| nomatch| GET      /favicon.ico
 ```
-note:
+# Dev & build
 
-因为启动container时用了 -v 的映射，所以本地修改的程序/其他文件，就会影响到container.e.g. 修改了main.go 或html有
+因为启动container时用了 -v 的映射，所以本地修改的程序/其他文件，container就会自动重新build.
 ```
 2020/05/20 15:30:54 SUCCESS  ▶ 0006 Built Successfully!
 2020/05/20 15:30:54 INFO     ▶ 0007 Restarting 'app'...

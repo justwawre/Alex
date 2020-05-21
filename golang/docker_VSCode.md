@@ -2,8 +2,8 @@
 
 Working with containers inside the VS Code.
 
-# ref
+# Ref
 [VSCode guide](https://code.visualstudio.com/docs/containers/overview)
 
-# steps
+# Steps
 
