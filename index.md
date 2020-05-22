@@ -56,16 +56,15 @@ Innovated
     * [Linux Kernel](programming/linux_kernel.md)
     * [Design patterns in C++](designPatterns/)
     * [tcp/ip troubleshooting via scapy](scapy/)  
-    * [GO](golang/)
-    * [Redis](programming/redis.md)
 * Misc
     * [git/gerrit ](programming/git_gerrit.md)
     * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
-    * [docker/k8s](k8s/)
     * [tool/cmd](programming/tools.md)
-* Workshop
-    * [dsp memory optimization](workshop/dsp_mem_opt/)
+## Workshop
+* [dsp memory optimization](workshop/dsp_mem_opt/)
 
+## Demo
+* [A web app devloped by Go,running on K8S](demo/go_k8s.md)
 
 **Contact:**  
 _xuyc@sina.com_ 
