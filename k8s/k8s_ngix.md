@@ -1,9 +1,9 @@
 
-```bash
+# install
 
-$ kubectl create -f deployment.yaml 
-service/nginx created
-statefulset.apps/web created
+```bash
+$./quay.sh
+$ microk8s enable ingress
 
 
 ```
