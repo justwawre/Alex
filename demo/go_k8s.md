@@ -5,7 +5,8 @@ A web system
 * deployed in k8s
 * loose coupling with Redis/Mysql
 
-# 
+# Manage cluster via dashboard
+![dashboard](images/dashboard.png)
 
 # Code & configuration
 * [Source code](https://github.com/yc-alex-xu/go)
