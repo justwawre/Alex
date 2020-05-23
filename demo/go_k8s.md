@@ -3,14 +3,10 @@ A web system
 * developed by Go language
 * delivered as docker image
 * deployed in k8s
-* using Redis/Mysql
-* nginx
+* loose coupling with Redis/Mysql
 
-# admin in k8s
+# 
 
-
-# demo
-
-# source
-* [Go code](https://github.com/yc-alex-xu/go)
+# Code & configuration
+* [Source code](https://github.com/yc-alex-xu/go)
 * [K8S deployment](https://github.com/yc-alex-xu/microk8s)

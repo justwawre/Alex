@@ -11,6 +11,7 @@ Ericsson LTE eNB baseband R&D assignment.
 Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, e.g. e2e/KPI/HW or SW issue.
 * Propose solution, coordinate teams to reproduce,fix issue, verify solution and draft root cause analysis report. 
 * Build the testbed including channel emulator/eNB/transport/EPC emulator/VoIP server/IPSec gateway.
+* [publish a article](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
 
 **SW Specialist,            Nokia             Jul 2006-Aug 2009**<br>
 Developing Multi-CPU Radio platform using C/C++/SDL under DMX/Chorous/Linux OS
@@ -44,28 +45,9 @@ Innovated
 * Beijing University of Posts&Telecoms  master of CS    2002 – 2005
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
-## Blog
-* Telecom
-    * [LTE](telecom/lte.md)
-    * [LTE 接入过程中的安全机制](http://www.wanfangdata.com.cn/details/detail.do?_type=perio&id=ydtx201116011)
-    * [Open RAN](telecom/oran.md)
-    * [5G study](telecom/5g.md)
-* Dev
-    * [Computer Systems: A Programmer's Perspective, 3/E](CSAPP3/)
-    * [The Linux Programming Interface](TLPI/)
-    * [Linux Kernel](programming/linux_kernel.md)
-    * [Design patterns in C++](designPatterns/)
-    * [tcp/ip troubleshooting via scapy](scapy/)  
-* Misc
-    * [git/gerrit ](programming/git_gerrit.md)
-    * [llvm/clang/lldb](programming/llvm_clang_lldb.md)
-    * [tool/cmd](programming/tools.md)
-
-## Workshop
-* [dsp memory optimization](workshop/dsp_mem_opt/)
-
 ## Demo
-* [A web app devloped by Go,running on K8S](demo/go_k8s.md)
+
+[App devloped by Go,running on K8S,using Redis/MySQL](demo/go_k8s.md)
 
 **Contact:**  
 _xuyc@sina.com_ 
