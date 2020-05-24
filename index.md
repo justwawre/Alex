@@ -3,7 +3,7 @@
 **Sr SW engineer,           Tieto             Dec 2018.12-May 2020** <br>
 Ericsson LTE eNB baseband R&D assignment.
 * MAC SW maintenance on multi-core platform, using git/gerrit,
-* Develop the [Log analyzer tool](C++/logAnalyzer.md) for tester volunteerly
+* Develop the [Log analyzer tool](workshop/logAnalyzer/logAnalyzer.md) for tester volunteerly
 * Support Redhawak Simulator's development
 * Workshop for other team [dsp memory optimization](workshop/dsp_mem_opt/)
 
