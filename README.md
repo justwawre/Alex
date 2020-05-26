@@ -45,7 +45,7 @@ Innovated
 * Beijing University of Posts&Telecoms  master of CS    2002 – 2005
 * Xi’an Jiaotong university             Bachelor of CS  1990-1994
 
-## Demo
+## Current/personal project
 
 [App devloped by Go,running on K8S,using Redis/MySQL](demo/go_k8s.md)
 
