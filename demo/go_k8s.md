@@ -10,4 +10,5 @@ A web system
 
 # Code & configuration
 * [Source code](https://github.com/yc-alex-xu/go)
+* [image in dockub](https://hub.docker.com/repository/docker/justware/myapp)
 * [K8S deployment](https://github.com/yc-alex-xu/microk8s)
