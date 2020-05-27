@@ -3,9 +3,9 @@
 **Sr SW engineer,           Tieto             Dec 2018.12-May 2020** <br>
 Ericsson LTE eNB baseband R&D assignment.
 * MAC SW maintenance on multi-core platform, using git/gerrit,
-* Develop the [Log analyzer tool](workshop/logAnalyzer/logAnalyzer.md) for tester volunteerly
+* Develop the [Log analyzer tool](work/logAnalyzer/logAnalyzer.md) for tester volunteerly
 * Support Redhawak Simulator's development
-* Workshop for other team [dsp memory optimization](workshop/dsp_mem_opt/)
+* Workshop for other team [dsp memory optimization](work/dsp_mem_opt/)
 
 **LTE tech Specialist,      Nokia             Sep 2009-Jul 2018**<br>
 Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, e.g. e2e/KPI/HW or SW issue.
@@ -47,7 +47,7 @@ Innovated
 
 ## Current/personal project
 
-[App devloped by Go,running on K8S,using Redis/MySQL](demo/go_k8s.md)
+[App devloped by Go,running on K8S,using Redis/MySQL](work/go_k8s.md)
 
 **Contact:**  
 _xuyc@sina.com_ 

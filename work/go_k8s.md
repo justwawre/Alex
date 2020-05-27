@@ -9,6 +9,6 @@ A web system
 ![dashboard](images/dashboard.png)
 
 # Code & configuration
-* [Source code](https://github.com/yc-alex-xu/go)
+* [Source code](https://github.com/yc-alex-xu/Alex/go)
 * [image in dockub](https://hub.docker.com/repository/docker/justware/myapp)
-* [K8S deployment](https://github.com/yc-alex-xu/microk8s)
+* [K8S deployment](https://github.com/yc-alex-xu/Alex/microk8s)
