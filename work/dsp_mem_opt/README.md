@@ -174,6 +174,9 @@ _SchedData[i].abc = xxx;//code needn no change
 ```
 The ONLY problem is that the current compiler don't support anonymous union.
 
+# further
+Some global variables' space can be saved via sharing space in time like stack reuse, but it need deliberate design.
+
 # Supplements
 Here only list some tricks I use in last sprint,the topic about algorithm change is not covered, an example of removing the big auxiliary Space in the merge sort functionwill discuss next time .
 
