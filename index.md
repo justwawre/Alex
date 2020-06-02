@@ -4,8 +4,10 @@
 Ericsson LTE eNB baseband R&D assignment.
 * MAC SW maintenance on multi-core platform, using git/gerrit,
 * Develop the [Log analyzer tool](work/logAnalyzer/logAnalyzer.md) for tester volunteerly
+* HARQ transmission related performance counter design
 * Support Redhawak Simulator's development
 * Workshop for other team [dsp memory optimization](work/dsp_mem_opt/)
+
 
 **LTE tech Specialist,      Nokia             Sep 2009-Jul 2018**<br>
 Analyzed & solved  the the escalated issues from tier 1/tier 2 engineer, e.g. e2e/KPI/HW or SW issue.
