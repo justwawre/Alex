@@ -17,7 +17,7 @@ The probllem is caused by the data strcuture change that an new U16 field is add
 typedef struct _SeDataS
 {
 	U16 abc;
-	U16 def; //added in the project
+	U16 def; //added in the sprint
 } _SeDataS;
 
 _SeDataS _SchedData[MAX_];
@@ -178,7 +178,7 @@ The ONLY problem is that the current compiler don't support anonymous union.
 Some global variables' space can be saved via sharing space in time like stack reuse, but it need deliberate design.
 
 # Supplements
-Here only list some tricks I use in last sprint,the topic about algorithm change is not covered, an example of removing the big auxiliary Space in the merge sort functionwill discuss next time .
+Here only list some tricks I use in last sprint,the topic about algorithm change is not covered, an example of removing the big auxiliary Space in the merge sort function will discuss next time .
 
 
 
