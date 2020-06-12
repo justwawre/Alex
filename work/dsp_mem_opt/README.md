@@ -103,7 +103,7 @@ if not, Stack allocation shall be 6 * 2 * 2 = 24 words;so 8 words were saved.
 
 ## solution
 
-Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function, but its lifetime is usually not as log as the function's. So we can add code block at appropriate place, move such varialbes into it, then direct the compiler to reuse its stack space.
+Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function, but some's lifetime is not as log as the function's. So we can move thme into a code block then reduce its scope, and at end of code block their stack space can be reused again.
 
 ***original code***
 ```c
@@ -150,6 +150,8 @@ result reported by build system:
 > memory usage reduced by **26** words
 
 ## The difficulty of this solution is:
+
+
 * either ***splitting function*** or ***adding code block*** is only meaningful in the ***CriticalPath***
 * how many space can be save is difficult to calculate
 * no tool to find the CriticalPath
@@ -157,7 +159,7 @@ result reported by build system:
 note:
 Here I use the CriticalPath to describe the deepest call stack.Last sprint, I used git reflog/reset several rounds to find out the CriticalPath : _main().
 
-# Anonymous union ?
+# Anonymous union in future
 Many fields actually are not used at the same time,e.g. at the firt half time ***abc*** is used, the later ***def*** is used. so they can share space via union. but if using named union, it will require lots code changes, the anonymous union is a kind of elegant solution.
 
 ```c
@@ -174,11 +176,8 @@ _SchedData[i].abc = xxx;//code needn no change
 ```
 The ONLY problem is that the current compiler don't support anonymous union.
 
-# further
-Some global variables' space can be saved via sharing space in time like stack reuse, but it need deliberate design.
 
-# Supplements
-Here only list some tricks I use in last sprint,the topic about algorithm change is not covered, an example of removing the big auxiliary Space in the merge sort function will discuss next time .
+
 
 
 
