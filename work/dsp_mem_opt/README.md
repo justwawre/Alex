@@ -103,7 +103,7 @@ if not, Stack allocation shall be 6 * 2 * 2 = 24 words;so 8 words were saved.
 
 ## solution
 
-Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function, but some's lifetime is not as log as the function's. So we can move thme into a code block then reduce its scope, and at end of code block their stack space can be reused again.
+Since the legacy code not written according to C99 style, so the local variables are declared at the begining of the function, but some's lifetime is not as log as the function's. So we can move thme into a code block then reduce its lifetime via limiting its scope , and at end of code block their stack space can be reused again.
 
 ***original code***
 ```c
