@@ -131,7 +131,7 @@ void SESCHEDFO_main()
 
  while(expr)
   {
-    {/adding 1 stack framed via the {}
+    {//adding 1 stack framed via the {}
     _traceS trace;
     Succeeded =
         _assignSpectrumToSe(

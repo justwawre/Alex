@@ -18,7 +18,7 @@ Regex was abandoned because it run slower than using string::find() for pattern 
 
 Vector was used to store a list of info appear before info needed appear, but it is found needless when running the verification tools, so was abandoned too.
 
-The key of Map is "bbUeRef", a data structure correspond to it  will be compared.
+The key of Map is "bbUeRef", id of scheduling entity will be compared.
 
 ### tool for log statistics
 During the full load test, lots message were lost. It is quite difficult for tester to do statistics then to find out why mesage was lost just using Linux commands. so I wrote the tool for tester.
